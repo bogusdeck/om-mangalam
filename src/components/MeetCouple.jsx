@@ -5,16 +5,16 @@ import { shaadiAudio } from '../utils/audio';
 import { ShaadiButton } from './ui';
 
 export default function MeetCouple() {
-  const [akritiLikes, setAkritiLikes] = useState(999);
-  const [tanishLikes, setTanishLikes] = useState(404);
+  const [meganLikes, setMeganLikes] = useState(999);
+  const [bradLikes, setBradLikes] = useState(404);
   const [activeEffect, setActiveEffect] = useState(null);
 
   const triggerHearts = (person) => {
     shaadiAudio.playPop();
     shaadiAudio.playCelebrationFanfare();
     
-    if (person === 'akriti') setAkritiLikes(prev => prev + 1);
-    if (person === 'tanish') setTanishLikes(prev => prev + 1);
+    if (person === 'megan') setMeganLikes(prev => prev + 1);
+    if (person === 'brad') setBradLikes(prev => prev + 1);
 
     setActiveEffect(person);
     setTimeout(() => setActiveEffect(null), 1200);
@@ -45,7 +45,7 @@ export default function MeetCouple() {
       {/* Two Decorative Portrait Frames Container */}
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12 px-4">
         
-        {/* THE BRIDE: AKRITI */}
+        {/* THE BRIDE: MEGAN FOX */}
         <div className="relative group">
           <div className="indian-border-gold bg-red-900 rounded-3xl p-6 shadow-2xl relative velvet-bg transform group-hover:-translate-y-2 transition-transform duration-300">
             
@@ -57,18 +57,18 @@ export default function MeetCouple() {
             {/* Portrait Frame */}
             <div className="mt-4 relative border-8 border-amber-400 rounded-2xl overflow-hidden shadow-inner bg-gradient-to-t from-pink-900 to-amber-900 aspect-square flex flex-col items-center justify-center p-6">
               
-              {/* Retro Illustrated Placeholder Graphic for Akriti */}
+              {/* Retro Illustrated Placeholder Graphic for Megan Fox */}
               <div className="relative text-center">
                 <div className="text-8xl sm:text-9xl mb-2 animate-bounce">
                   👰🏻‍♀️
                 </div>
                 <div className="bg-amber-400 text-red-950 font-yatra text-2xl px-4 py-1 rounded-md border-2 border-red-900 shadow inline-block">
-                  AKRITI
+                  MEGAN FOX
                 </div>
               </div>
 
               {/* Heart Burst Animated Overlay */}
-              {activeEffect === 'akriti' && (
+              {activeEffect === 'megan' && (
                 <div className="absolute inset-0 bg-pink-500/30 flex items-center justify-center backdrop-blur-xs animate-ping">
                   <span className="text-8xl">💖</span>
                 </div>
@@ -98,18 +98,18 @@ export default function MeetCouple() {
                 size="md"
                 fullWidth
                 playSound={false}
-                onClick={() => triggerHearts('akriti')}
+                onClick={() => triggerHearts('megan')}
                 iconLeft={<Heart className="w-5 h-5 fill-current animate-pulse text-yellow-300" />}
                 iconRight={<Sparkles className="w-5 h-5 text-yellow-300" />}
               >
-                SEND BLESSINGS ({akritiLikes})
+                SEND BLESSINGS ({meganLikes})
               </ShaadiButton>
             </div>
 
           </div>
         </div>
 
-        {/* THE GROOM: TANISH */}
+        {/* THE GROOM: BRAD PITT */}
         <div className="relative group">
           <div className="indian-border-gold bg-red-900 rounded-3xl p-6 shadow-2xl relative velvet-bg transform group-hover:-translate-y-2 transition-transform duration-300">
             
@@ -121,18 +121,18 @@ export default function MeetCouple() {
             {/* Portrait Frame */}
             <div className="mt-4 relative border-8 border-amber-400 rounded-2xl overflow-hidden shadow-inner bg-gradient-to-t from-orange-900 to-amber-900 aspect-square flex flex-col items-center justify-center p-6">
               
-              {/* Retro Illustrated Placeholder Graphic for Tanish */}
+              {/* Retro Illustrated Placeholder Graphic for Brad Pitt */}
               <div className="relative text-center">
                 <div className="text-8xl sm:text-9xl mb-2 animate-bounce">
                   🤵🏻‍♂️
                 </div>
                 <div className="bg-amber-400 text-red-950 font-yatra text-2xl px-4 py-1 rounded-md border-2 border-red-900 shadow inline-block">
-                  TANISH
+                  BRAD PITT
                 </div>
               </div>
 
               {/* Heart Burst Animated Overlay */}
-              {activeEffect === 'tanish' && (
+              {activeEffect === 'brad' && (
                 <div className="absolute inset-0 bg-yellow-500/30 flex items-center justify-center backdrop-blur-xs animate-ping">
                   <span className="text-8xl">💥</span>
                 </div>
@@ -153,7 +153,7 @@ export default function MeetCouple() {
               <div className="bg-red-950/80 p-4 rounded-xl border border-amber-500/40 text-xs sm:text-sm text-amber-100 text-left space-y-1 font-poppins">
                 <p>🍗 <strong>Superpower:</strong> Finishing Paneer Tikka in 4 seconds</p>
                 <p>🎮 <strong>Weakness:</strong> Saying "Haji Papa" to everything</p>
-                <p>📜 <strong>Verdict:</strong> Will now ask Akriti for permission for everything</p>
+                <p>📜 <strong>Verdict:</strong> Will now ask Megan for permission for everything</p>
               </div>
 
               {/* Interactive Heart Explosion Button */}
@@ -162,11 +162,11 @@ export default function MeetCouple() {
                 size="md"
                 fullWidth
                 playSound={false}
-                onClick={() => triggerHearts('tanish')}
+                onClick={() => triggerHearts('brad')}
                 iconLeft={<Heart className="w-5 h-5 fill-current animate-pulse text-red-900" />}
                 iconRight={<Zap className="w-5 h-5 text-red-900" />}
               >
-                SALUTE TANISH ({tanishLikes})
+                SALUTE BRAD ({bradLikes})
               </ShaadiButton>
             </div>
 

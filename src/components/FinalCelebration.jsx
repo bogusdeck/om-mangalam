@@ -79,9 +79,9 @@ export default function FinalCelebration() {
           {/* Couple Signoff */}
           <div className="my-10 py-6 bg-red-950/80 rounded-2xl border-2 border-amber-400">
             <div className="text-4xl sm:text-6xl font-yatra gold-gradient-text flex items-center justify-center gap-4">
-              <span>AKRITI</span>
+              <span>MEGAN</span>
               <span className="text-red-500 animate-ping">❤️</span>
-              <span>TANISH</span>
+              <span>BRAD</span>
             </div>
             <p className="text-amber-300 font-rozha text-xl sm:text-2xl mt-3 italic">
               “FOREVER & UNFORTUNATELY TOGETHER”
@@ -102,7 +102,7 @@ export default function FinalCelebration() {
 
           {/* Bottom Copyright Joke */}
           <div className="mt-12 pt-6 border-t-2 border-dashed border-amber-400/50 text-xs font-pixel text-amber-300">
-            © 1998-2026 AKRITI & TANISH SHAADI INC. ALL RIGHTS RESERVED. NO REFUNDS ON GIFTS.
+            © 1998-2026 MEGAN FOX & BRAD PITT SHAADI INC. ALL RIGHTS RESERVED. NO REFUNDS ON GIFTS.
           </div>
 
         </div>

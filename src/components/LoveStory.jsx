@@ -18,7 +18,7 @@ export default function LoveStory() {
     {
       year: '2018',
       title: 'THE FIRST ENCOUNTER',
-      desc: 'First meeting at a coffee shop. Tanish ordered Espresso to sound sophisticated, then added 5 spoons of sugar.',
+      desc: 'First meeting at a coffee shop. Brad ordered Espresso to sound sophisticated, then added 5 spoons of sugar.',
       badge: '☕ EYE CONTACT',
       icon: '👀'
     },

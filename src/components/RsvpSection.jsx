@@ -56,7 +56,7 @@ export default function RsvpSection() {
         <SectionHeader
           badge="★ FINAL HEADCOUNT PROCEDURE ★"
           title="AB BAHANE MAT BANANA."
-          subtitle="Will you grace Akriti & Tanish’s wedding with your presence?"
+          subtitle="Will you grace Megan Fox & Brad Pitt’s wedding with your presence?"
         />
 
         {/* RSVP Card Frame */}

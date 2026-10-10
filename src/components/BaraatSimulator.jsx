@@ -74,7 +74,7 @@ export default function BaraatSimulator() {
         <SectionHeader
           badge="🚨 INTERACTIVE BARAAT SIMULATOR 🚨"
           title="THE BARAAT IS COMING!"
-          subtitle="Control the noise, speed, and money throwing of Tanish’s grand entry"
+          subtitle="Control the noise, speed, and money throwing of Brad’s grand entry"
         />
 
         {/* Baraat Simulator Display Screen */}
@@ -139,7 +139,7 @@ export default function BaraatSimulator() {
                   BHAI BAS KAR. DULHA GIR JAYEGA!
                 </h3>
                 <p className="text-amber-100 font-pixel text-xs sm:text-sm mt-2">
-                  Tanish has fallen off the ghodi due to extreme Naagin dance speed!
+                  Brad has fallen off the ghodi due to extreme Naagin dance speed!
                 </p>
                 <ShaadiButton
                   onClick={handleReset}

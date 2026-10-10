@@ -174,15 +174,60 @@
   box-shadow: 0 0 0 4px #eab308, 0 0 0 7px #78350f;
 }
 
-/* Custom Scrollbar 90s Style */
+/* Completely hide native and custom scrollbars across all browsers while keeping scrolling fully functional */
+html, body, * {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+*::-webkit-scrollbar,
 ::-webkit-scrollbar {
-  width: 14px;
+  display: none; /* Chrome, Safari, Opera */
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
 }
-::-webkit-scrollbar-track {
-  background: #4a0000;
+
+/* Realistic Fabric Movement Animations for Curtain Strips */
+@keyframes curtainBreezeLeft {
+  0%, 100% {
+    transform: rotate(0deg) skewX(0deg) scaleY(1);
+  }
+  25% {
+    transform: rotate(0.45deg) skewX(0.3deg) scaleY(1.002);
+  }
+  50% {
+    transform: rotate(-0.4deg) skewX(-0.35deg) scaleY(0.998);
+  }
+  75% {
+    transform: rotate(0.25deg) skewX(0.2deg) scaleY(1.001);
+  }
 }
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(#ffd700, #ff4500);
-  border: 2px solid #800000;
-  border-radius: 4px;
+
+@keyframes curtainBreezeRight {
+  0%, 100% {
+    transform: rotate(0deg) skewX(0deg) scaleY(1);
+  }
+  25% {
+    transform: rotate(-0.45deg) skewX(-0.3deg) scaleY(1.002);
+  }
+  50% {
+    transform: rotate(0.4deg) skewX(0.35deg) scaleY(0.998);
+  }
+  75% {
+    transform: rotate(-0.25deg) skewX(-0.2deg) scaleY(1.001);
+  }
+}
+
+.curtain-strip {
+  transform-origin: top center;
+  will-change: transform;
+}
+
+.curtain-sway-left {
+  animation: curtainBreezeLeft 5.5s ease-in-out infinite;
+}
+
+.curtain-sway-right {
+  animation: curtainBreezeRight 5.8s ease-in-out infinite;
 }

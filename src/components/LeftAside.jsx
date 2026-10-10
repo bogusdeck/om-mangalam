@@ -16,11 +16,11 @@ export default function LeftAside({ isMuted, setIsMuted }) {
         href="#opening"
         onClick={() => shaadiAudio.playPop()}
         className="bg-gradient-to-r from-red-950 via-red-900 to-red-950 text-amber-300 px-4 py-2 rounded-2xl border-4 border-amber-400 shadow-2xl flex items-center gap-2 hover:scale-105 transition-all group cursor-pointer"
-        title="Akriti & Tanish — Shubh Vivah"
+        title="Megan Fox & Brad Pitt — Shubh Vivah"
       >
         <span className="text-xl group-hover:rotate-12 transition-transform">🪔</span>
         <span className="font-yatra text-xl sm:text-2xl gold-gradient-text tracking-widest font-bold">
-          A <span className="text-red-500 text-lg sm:text-xl inline-block animate-ping">❤️</span> T
+          M <span className="text-red-500 text-lg sm:text-xl inline-block animate-ping">❤️</span> B
         </span>
       </a>
 

@@ -38,11 +38,11 @@ export default function App() {
       {/* Retro 90s Marquee Ticker Footer */}
       <footer className="bg-amber-400 text-red-950 font-pixel text-xs py-2 border-t-4 border-red-900 overflow-hidden font-bold">
         <div className="whitespace-nowrap animate-marquee flex gap-8">
-          <span>✨ AKRITI WEDS TANISH — 18th NOVEMBER 2026 ✨</span>
+          <span>✨ MEGAN FOX WEDS BRAD PITT — 18th NOVEMBER 2026 ✨</span>
           <span>🪔 100% UNLIMITED PANEER GUARANTEED 🪔</span>
           <span>💃 NAAGIN DANCE PERMISSION GRANTED 💃</span>
           <span>🌺 BRING GIFTS & DANCING SKILLS 🌺</span>
-          <span>✨ AKRITI WEDS TANISH — 18th NOVEMBER 2026 ✨</span>
+          <span>✨ MEGAN FOX WEDS BRAD PITT — 18th NOVEMBER 2026 ✨</span>
         </div>
       </footer>
 

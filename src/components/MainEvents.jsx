@@ -60,7 +60,7 @@ export default function MainEvents() {
       date: '18th November 2026',
       time: '8:00 PM ONWARDS',
       dressCode: 'Traditional Royal Indian Wear',
-      desc: 'The official 7 vows around the holy fire where Tanish & Akriti sign away their remaining single status forever.',
+      desc: 'The official 7 vows around the holy fire where Brad & Megan sign away their remaining single status forever.',
       bg: 'from-red-950 to-amber-900'
     },
     {

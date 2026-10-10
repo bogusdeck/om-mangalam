@@ -45,9 +45,9 @@ export default function InvitationCard() {
         {/* The Couple Names */}
         <div className="my-8 py-6 bg-gradient-to-r from-red-900/40 via-amber-500/20 to-red-900/40 rounded-2xl border-2 border-amber-400/60 shadow-inner">
           <div className="text-3xl sm:text-5xl md:text-6xl font-yatra gold-gradient-text flex flex-wrap items-center justify-center gap-3 sm:gap-6">
-            <span className="hover:scale-110 transition-transform inline-block">AKRITI</span>
+            <span className="hover:scale-110 transition-transform inline-block">MEGAN FOX</span>
             <span className="text-red-500 text-3xl sm:text-5xl animate-ping">❤️</span>
-            <span className="hover:scale-110 transition-transform inline-block">TANISH</span>
+            <span className="hover:scale-110 transition-transform inline-block">BRAD PITT</span>
           </div>
           <p className="text-amber-300 font-script text-2xl sm:text-3xl mt-3">
             are officially tying the knot (and taking all the gifts)!

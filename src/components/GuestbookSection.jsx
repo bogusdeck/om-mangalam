@@ -86,7 +86,7 @@ export default function GuestbookSection() {
         <SectionHeader
           badge="★ DIGITAL GUESTBOOK & BLESSINGS WALL ★"
           title="APNA AASHIRWAD CHHOD KE JAANA"
-          subtitle="Leave a message for Akriti & Tanish (or demand a party)"
+          subtitle="Leave a message for Megan & Brad (or demand a party)"
         />
 
         {/* Input Form Card */}

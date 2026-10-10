@@ -29,7 +29,7 @@ export default function FamilySection() {
       role: "GROOM'S MOM",
       name: 'Anita Verma',
       title: 'Future CEO of “Beta, Bahu Ko Bolna…”',
-      quote: '“Tanish couldn’t even find his socks yesterday.”',
+      quote: '“Brad couldn’t even find his socks yesterday.”',
       avatar: '👩🏻',
       stats: 'Jewelry Weight: 4.8 kg',
       side: 'groom'

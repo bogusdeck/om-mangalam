@@ -47,7 +47,7 @@ export default function HeaderNav({
           className="flex items-center gap-2 text-amber-300 hover:text-amber-100 font-yatra text-xl md:text-2xl tracking-wide group"
         >
           <span className="text-2xl group-hover:rotate-180 transition-transform duration-500">🪔</span>
-          <span className="gold-gradient-text drop-shadow">AKRITI ❤️ TANISH</span>
+          <span className="gold-gradient-text drop-shadow">MEGAN FOX ❤️ BRAD PITT</span>
           <span className="bg-amber-400 text-red-950 text-xs px-2 py-0.5 rounded font-pixel font-bold hidden sm:inline-block border border-red-800">
             EST. 2026
           </span>

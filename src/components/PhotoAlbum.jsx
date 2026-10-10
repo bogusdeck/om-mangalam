@@ -33,7 +33,7 @@ export default function PhotoAlbum() {
       caption: '“Zero filter, 100% confidence.”',
       frameStyle: 'floral',
       emoji: '🌸 💑🏻 🌺',
-      sub: 'Traditional outfit trial day (Tanish complained about the sherwani itch).'
+      sub: 'Traditional outfit trial day (Brad complained about the sherwani itch).'
     },
     {
       id: 5,
@@ -93,7 +93,7 @@ export default function PhotoAlbum() {
                   {photo.emoji}
                 </span>
                 <span className="text-amber-300 font-script text-2xl mt-4">
-                  Akriti & Tanish
+                  Megan & Brad
                 </span>
               </div>
 
