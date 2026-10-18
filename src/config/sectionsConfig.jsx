@@ -20,12 +20,12 @@ import FinalCelebration from '../components/FinalCelebration';
  * Toggle any section on/off with `enabled: true / false` or change the order here!
  */
 export const sectionsConfig = [
-  {
-    id: 'curtains',
-    name: 'Opening Curtains',
-    Component: OpeningCurtain,
-    enabled: true,
-  },
+  // {
+  //   id: 'curtains',
+  //   name: 'Opening Curtains',
+  //   Component: OpeningCurtain,
+  //   enabled: true,
+  // },
   {
     id: 'hero',
     name: 'Vedic Mandap Hero Scene',
