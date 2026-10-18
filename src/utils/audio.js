@@ -3,7 +3,8 @@
 class ShaadiAudioEngine {
   constructor() {
     this.ctx = null;
-    this.muted = false;
+    // Audio muted by default for development (will be re-enabled later)
+    this.muted = true;
     this.bgmPlaying = false;
     this.bgmTimer = null;
   }
@@ -189,6 +190,7 @@ class ShaadiAudioEngine {
   }
 
   startBGM() {
+    if (this.muted) return;
     if (this.bgmPlaying) return;
     this.init();
     this.bgmPlaying = true;

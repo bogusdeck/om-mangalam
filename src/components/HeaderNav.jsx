@@ -13,7 +13,8 @@ export default function HeaderNav({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
-    { label: '🏠 Swagat', href: '#opening' },
+    { label: '🪔 Mandap', href: '#opening' },
+    { label: '📜 Card', href: '#invitation' },
     { label: '❤️ Couple', href: '#couple' },
     { label: '📖 Love Story', href: '#lovestory' },
     { label: '👨‍👩‍👧 Family', href: '#family' },

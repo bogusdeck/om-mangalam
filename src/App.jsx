@@ -12,19 +12,19 @@ export default function App() {
   return (
     <div className="relative min-h-screen bg-red-950 text-amber-100 font-poppins overflow-x-hidden">
       
-      {/* 90s Shaadi Loading Screen */}
-      {isLoading && (
+      {/* 90s Shaadi Loading Screen (Commented out per request) */}
+      {/* {isLoading && (
         <LoadingScreen onComplete={() => setIsLoading(false)} />
-      )}
+      )} */}
 
-      {/* Floating Marigold Petal Rain */}
-      {marigoldRain && <MarigoldRain />}
+      {/* Floating Marigold Petal Rain (Commented out during development) */}
+      {/* {marigoldRain && <MarigoldRain />} */}
 
-      {/* Left Aside Couple Initials & Sound Toggle */}
-      <LeftAside
+      {/* Left Aside Couple Initials & Sound Toggle (Commented out per request) */}
+      {/* <LeftAside
         isMuted={isMuted}
         setIsMuted={setIsMuted}
-      />
+      /> */}
 
       {/* Main Interactive Sections Journey */}
       <main className="relative">

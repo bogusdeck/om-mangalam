@@ -127,7 +127,8 @@ export default function OpeningCurtain({
   leftStrips: customLeftStrips,
   rightStrips: customRightStrips,
 }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [curtainsOpen, setCurtainsOpen] = useState(false);
+  const [bannerOpen, setBannerOpen] = useState(false);
   const [isFullyDismissed, setIsFullyDismissed] = useState(false);
 
   // Automatically adjust number of strips to keep pleat widths slender on widescreen
@@ -137,11 +138,12 @@ export default function OpeningCurtain({
   const rightStrips = customRightStrips || generateCurtainStrips(responsiveCount, 'right');
 
   const handleOpenCurtains = () => {
-    if (isOpen) return;
+    if (curtainsOpen || bannerOpen) return;
 
-    shaadiAudio.playDramaticHit();
-    shaadiAudio.playCelebrationFanfare();
-    shaadiAudio.startBGM();
+    // Audio disabled for development per user request (will be re-enabled later)
+    // shaadiAudio.playDramaticHit();
+    // shaadiAudio.playCelebrationFanfare();
+    // shaadiAudio.startBGM();
 
     // Trigger marigold & festive confetti shower
     confetti({
@@ -151,20 +153,32 @@ export default function OpeningCurtain({
       origin: { y: 0.55 },
     });
 
-    setIsOpen(true);
-    if (onOpenChange) onOpenChange(true);
+    // Step 1: Left and right curtains sweep away first
+    setCurtainsOpen(true);
 
+    // Step 2: Once curtains have parted, head banner moves up
+    setTimeout(() => {
+      setBannerOpen(true);
+    }, 1300);
+
+    // Step 3: Full dismissal after banner finishes rising
     setTimeout(() => {
       setIsFullyDismissed(true);
-    }, 2000);
+      if (onOpenChange) onOpenChange(true);
+    }, 2300);
   };
 
   const handleToggleBack = (e) => {
     e.stopPropagation();
     shaadiAudio.playPop();
     setIsFullyDismissed(false);
-    setIsOpen(false);
-    if (onOpenChange) onOpenChange(false);
+
+    // Reverse order: banner lowers down first, then curtains draw closed
+    setBannerOpen(false);
+    setTimeout(() => {
+      setCurtainsOpen(false);
+      if (onOpenChange) onOpenChange(false);
+    }, 700);
   };
 
   return (
@@ -177,8 +191,8 @@ export default function OpeningCurtain({
       >
         {/* TOP ORNATE MADHUBANI BANNER (Pelmet / Toran) */}
         <div
-          className={`absolute top-0 left-0 right-0 z-30 transition-transform duration-1000 ease-out select-none pointer-events-none ${
-            isOpen ? '-translate-y-full' : 'translate-y-0'
+          className={`absolute top-0 left-0 right-0 z-30 transition-transform duration-900 ease-in-out select-none pointer-events-none ${
+            bannerOpen ? '-translate-y-full' : 'translate-y-0'
           }`}
           style={{
             filter: 'drop-shadow(0 15px 25px rgba(0, 0, 0, 0.85))',
@@ -187,14 +201,14 @@ export default function OpeningCurtain({
           <img
             src="/assets/madhubani/top_banner.png"
             alt="Madhubani Wedding Toran Banner"
-            className="w-full h-auto object-cover object-top block"
+            className="w-full h-auto block select-none pointer-events-none"
           />
         </div>
 
         {/* LEFT COMPOSITE CURTAIN (Made of repeated, animated strips) */}
         <div
-          className={`absolute top-0 bottom-0 left-0 w-1/2 z-20 flex bg-[#851e18] transition-transform duration-[1700ms] cubic-bezier(0.77, 0, 0.175, 1) ${
-            isOpen ? '-translate-x-full' : 'translate-x-0'
+          className={`absolute top-0 bottom-0 left-0 w-1/2 z-20 flex bg-[#851e18] transition-transform duration-[1500ms] cubic-bezier(0.77, 0, 0.175, 1) ${
+            curtainsOpen ? '-translate-x-full' : 'translate-x-0'
           }`}
           style={{
             filter: 'drop-shadow(10px 0 25px rgba(0, 0, 0, 0.8))',
@@ -207,15 +221,15 @@ export default function OpeningCurtain({
               index={idx}
               totalStrips={leftStrips.length}
               side="left"
-              isCurtainOpen={isOpen}
+              isCurtainOpen={curtainsOpen}
             />
           ))}
         </div>
 
         {/* RIGHT COMPOSITE CURTAIN (Made of repeated, animated strips) */}
         <div
-          className={`absolute top-0 bottom-0 right-0 w-1/2 z-20 flex bg-[#851e18] transition-transform duration-[1700ms] cubic-bezier(0.77, 0, 0.175, 1) ${
-            isOpen ? 'translate-x-full' : 'translate-x-0'
+          className={`absolute top-0 bottom-0 right-0 w-1/2 z-20 flex bg-[#851e18] transition-transform duration-[1500ms] cubic-bezier(0.77, 0, 0.175, 1) ${
+            curtainsOpen ? 'translate-x-full' : 'translate-x-0'
           }`}
           style={{
             filter: 'drop-shadow(-10px 0 25px rgba(0, 0, 0, 0.8))',
@@ -228,13 +242,13 @@ export default function OpeningCurtain({
               index={idx}
               totalStrips={rightStrips.length}
               side="right"
-              isCurtainOpen={isOpen}
+              isCurtainOpen={curtainsOpen}
             />
           ))}
         </div>
 
         {/* BOTTOM CENTER INTERACTIVE BUTTON (Click to Open) */}
-        {!isOpen && (
+        {!curtainsOpen && (
           <div className="absolute bottom-8 sm:bottom-12 left-1/2 -translate-x-1/2 z-40 pointer-events-auto">
             <ShaadiButton
               onClick={handleOpenCurtains}
@@ -249,8 +263,8 @@ export default function OpeningCurtain({
         )}
       </div>
 
-      {/* Floating Button to Re-close Curtains anytime */}
-      {isOpen && (
+      {/* Floating Button to Re-close Curtains anytime (Commented out per user request) */}
+      {/* {bannerOpen && (
         <ShaadiButton
           variant="floating"
           onClick={handleToggleBack}
@@ -260,7 +274,7 @@ export default function OpeningCurtain({
         >
           CLOSE CURTAINS
         </ShaadiButton>
-      )}
+      )} */}
     </>
   );
 }

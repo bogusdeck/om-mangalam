@@ -1,4 +1,5 @@
 import OpeningCurtain from '../components/OpeningCurtain';
+import WeddingHeroSection from '../components/WeddingHeroSection';
 import InvitationCard from '../components/InvitationCard';
 import MeetCouple from '../components/MeetCouple';
 import LoveStory from '../components/LoveStory';
@@ -26,75 +27,81 @@ export const sectionsConfig = [
     enabled: true,
   },
   {
-    id: 'invitation',
-    name: 'Invitation Card',
-    Component: InvitationCard,
+    id: 'hero',
+    name: 'Vedic Mandap Hero Scene',
+    Component: WeddingHeroSection,
     enabled: true,
   },
-  {
-    id: 'couple',
-    name: 'Meet The Couple',
-    Component: MeetCouple,
-    enabled: true,
-  },
-  {
-    id: 'story',
-    name: 'Love Story',
-    Component: LoveStory,
-    enabled: true,
-  },
-  {
-    id: 'family',
-    name: 'Family Blessings',
-    Component: FamilySection,
-    enabled: true,
-  },
-  {
-    id: 'events',
-    name: 'Main Events',
-    Component: MainEvents,
-    enabled: true,
-  },
-  {
-    id: 'baraat',
-    name: 'Baraat Simulator',
-    Component: BaraatSimulator,
-    enabled: true,
-  },
-  {
-    id: 'photos',
-    name: 'Photo Album',
-    Component: PhotoAlbum,
-    enabled: true,
-  },
-  {
-    id: 'venue',
-    name: 'Venue & Directions',
-    Component: VenueSection,
-    enabled: true,
-  },
-  {
-    id: 'food',
-    name: 'Food & Menu',
-    Component: FoodSection,
-    enabled: true,
-  },
-  {
-    id: 'rsvp',
-    name: 'RSVP Form',
-    Component: RsvpSection,
-    enabled: true,
-  },
-  {
-    id: 'guestbook',
-    name: 'Guestbook & Blessings',
-    Component: GuestbookSection,
-    enabled: true,
-  },
-  {
-    id: 'celebration',
-    name: 'Final Celebration & Fireworks',
-    Component: FinalCelebration,
-    enabled: true,
-  },
+  // {
+  //   id: 'invitation',
+  //   name: 'Invitation Card',
+  //   Component: InvitationCard,
+  //   enabled: false,
+  // },
+  // {
+  //   id: 'couple',
+  //   name: 'Meet The Couple',
+  //   Component: MeetCouple,
+  //   enabled: false,
+  // },
+  // {
+  //   id: 'story',
+  //   name: 'Love Story',
+  //   Component: LoveStory,
+  //   enabled: false,
+  // },
+  // {
+  //   id: 'family',
+  //   name: 'Family Blessings',
+  //   Component: FamilySection,
+  //   enabled: false,
+  // },
+  // {
+  //   id: 'events',
+  //   name: 'Main Events',
+  //   Component: MainEvents,
+  //   enabled: false,
+  // },
+  // {
+  //   id: 'baraat',
+  //   name: 'Baraat Simulator',
+  //   Component: BaraatSimulator,
+  //   enabled: false,
+  // },
+  // {
+  //   id: 'photos',
+  //   name: 'Photo Album',
+  //   Component: PhotoAlbum,
+  //   enabled: false,
+  // },
+  // {
+  //   id: 'venue',
+  //   name: 'Venue & Directions',
+  //   Component: VenueSection,
+  //   enabled: false,
+  // },
+  // {
+  //   id: 'food',
+  //   name: 'Food & Menu',
+  //   Component: FoodSection,
+  //   enabled: false,
+  // },
+  // {
+  //   id: 'rsvp',
+  //   name: 'RSVP Form',
+  //   Component: RsvpSection,
+  //   enabled: false,
+  // },
+  // {
+  //   id: 'guestbook',
+  //   name: 'Guestbook & Blessings',
+  //   Component: GuestbookSection,
+  //   enabled: false,
+  // },
+  // {
+  //   id: 'celebration',
+  //   name: 'Final Celebration & Fireworks',
+  //   Component: FinalCelebration,
+  //   enabled: false,
+  // },
 ];
