@@ -1,32 +1,38 @@
 @import "tailwindcss";
 
+@theme {
+  --font-shrikhand: 'Shrikhand', cursive, serif;
+  --font-poppins: 'Poppins', sans-serif;
+  --font-heading: 'Shrikhand', cursive, serif;
+  --font-body: 'Poppins', sans-serif;
+}
+
 @layer base {
   body {
     font-family: 'Poppins', sans-serif;
   }
   
-  h1, h2, .font-yatra {
-    font-family: 'Yatra One', cursive;
+  /* Shrikhand for Headings */
+  h1, h2, h3, h4, h5, h6,
+  .font-shrikhand,
+  .font-heading,
+  .font-yatra,
+  .font-rozha,
+  .font-cinzel,
+  .font-teko {
+    font-family: 'Shrikhand', cursive, serif;
   }
   
-  .font-rozha {
-    font-family: 'Rozha One', serif;
-  }
-
-  .font-teko {
-    font-family: 'Teko', sans-serif;
-  }
-
+  /* Poppins for Small Text & Body */
+  p, small, label, button, input, textarea,
+  .font-poppins,
+  .font-body,
   .font-pixel {
-    font-family: 'Press Start 2P', monospace;
+    font-family: 'Poppins', sans-serif;
   }
 
   .font-script {
     font-family: 'Great Vibes', cursive;
-  }
-
-  .font-cinzel {
-    font-family: 'Cinzel Decorative', serif;
   }
 }
 
@@ -291,3 +297,81 @@ html, body, * {
 .animate-smoke {
   animation: smokeFloat 3s ease-out infinite;
 }
+
+/* Royal Elephant Auspicious Roar & Trumpet Animation */
+@keyframes elephantRoarLeft {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+  15% {
+    /* Rear back onto hind legs with front legs lifting */
+    transform: translateY(-16px) rotate(-10deg) scale(1.08);
+  }
+  32% {
+    /* Full majestic rearing trumpet, trunk pointing high */
+    transform: translateY(-28px) rotate(-16deg) scale(1.15);
+  }
+  45% {
+    /* Trumpet vibrato / roar shake */
+    transform: translateY(-30px) rotate(-13deg) scale(1.15);
+  }
+  60% {
+    /* Trumpet vibrato / roar shake */
+    transform: translateY(-26px) rotate(-16deg) scale(1.14);
+  }
+  75% {
+    /* Beginning descent */
+    transform: translateY(-12px) rotate(-6deg) scale(1.07);
+  }
+  88% {
+    /* Ground-shaking powerful foot stomp */
+    transform: translateY(5px) rotate(1deg) scale(1.03);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+}
+
+@keyframes elephantRoarRight {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+  15% {
+    /* Rear back onto hind legs (mirrored) */
+    transform: translateY(-16px) rotate(10deg) scale(1.08);
+  }
+  32% {
+    /* Full majestic rearing trumpet */
+    transform: translateY(-28px) rotate(16deg) scale(1.15);
+  }
+  45% {
+    /* Trumpet vibrato / roar shake */
+    transform: translateY(-30px) rotate(13deg) scale(1.15);
+  }
+  60% {
+    /* Trumpet vibrato / roar shake */
+    transform: translateY(-26px) rotate(16deg) scale(1.14);
+  }
+  75% {
+    /* Beginning descent */
+    transform: translateY(-12px) rotate(6deg) scale(1.07);
+  }
+  88% {
+    /* Ground-shaking foot stomp */
+    transform: translateY(5px) rotate(-1deg) scale(1.03);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+}
+
+.animate-elephant-roar-left {
+  animation: elephantRoarLeft 1.25s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  transform-origin: bottom left;
+}
+
+.animate-elephant-roar-right {
+  animation: elephantRoarRight 1.25s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  transform-origin: bottom right;
+}
+

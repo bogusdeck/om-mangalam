@@ -2,16 +2,23 @@ import React, { useState, useRef, useEffect } from 'react';
 import confetti from 'canvas-confetti';
 import { shaadiAudio } from '../utils/audio';
 import { ShaadiButton } from './ui';
+import { useTheme } from '../context/ThemeContext';
+import { WEDDING_CONFIG } from '../config/weddingConfig';
+import ThemeSwitcher from './ThemeSwitcher';
 
 export default function WeddingHeroSection() {
+  const { themeConfig } = useTheme();
+
   const [samagriCount, setSamagriCount] = useState(0);
   const [toastMessage, setToastMessage] = useState('');
   const [toastVisible, setToastVisible] = useState(false);
   const [ganeshBlessingActive, setGaneshBlessingActive] = useState(false);
   const [activeCharacter, setActiveCharacter] = useState(null);
+  const [roaringElephant, setRoaringElephant] = useState(null);
   const toastTimeoutRef = useRef(null);
   const ganeshTimerRef = useRef(null);
   const activeCharTimerRef = useRef(null);
+  const elephantRoarTimerRef = useRef(null);
 
   const handleCharacterTap = (charId, soundCallback) => {
     if (soundCallback) soundCallback();
@@ -24,6 +31,41 @@ export default function WeddingHeroSection() {
     activeCharTimerRef.current = setTimeout(() => {
       setActiveCharacter(null);
     }, 3000);
+  };
+
+  const handleElephantRoar = (side) => {
+    shaadiAudio.playElephantTrumpet();
+    setRoaringElephant(side);
+
+    if (elephantRoarTimerRef.current) {
+      clearTimeout(elephantRoarTimerRef.current);
+    }
+    elephantRoarTimerRef.current = setTimeout(() => {
+      setRoaringElephant(null);
+    }, 1300);
+
+    // Auspicious celebratory sparks bursting upwards from the trunk!
+    const originX = side === 'left' ? 0.12 : 0.88;
+    confetti({
+      particleCount: 35,
+      spread: 60,
+      startVelocity: 26,
+      origin: { x: originX, y: 0.82 },
+      colors: ['#FFD700', '#FFA500', '#FF4500', '#FFF8DC'],
+    });
+
+    setToastMessage(
+      side === 'left'
+        ? '🐘 TRUUUUMP! Vadhu Paksh Gajraj roars auspicious wedding blessings! 🪔✨'
+        : '🐘 TRUUUUMP! Baraat Gajraj trumpets royal festive joy! 🪔✨'
+    );
+    setToastVisible(true);
+    if (toastTimeoutRef.current) {
+      clearTimeout(toastTimeoutRef.current);
+    }
+    toastTimeoutRef.current = setTimeout(() => {
+      setToastVisible(false);
+    }, 2500);
   };
 
   const handleOfferSamagri = () => {
@@ -81,7 +123,7 @@ export default function WeddingHeroSection() {
     }, 2000);
 
     // Also display blessing message in top toaster
-    setToastMessage('🐘 || ॐ गं गणपतये नमः || Lord Ganesha showers divine blessings upon Megan & Brad! ✨');
+    setToastMessage(`🐘 || ॐ गं गणपतये नमः || Lord Ganesha showers divine blessings upon ${WEDDING_CONFIG.bride.displayName} & ${WEDDING_CONFIG.groom.displayName}! ✨`);
     setToastVisible(true);
 
     if (toastTimeoutRef.current) {
@@ -103,14 +145,20 @@ export default function WeddingHeroSection() {
       if (activeCharTimerRef.current) {
         clearTimeout(activeCharTimerRef.current);
       }
+      if (elephantRoarTimerRef.current) {
+        clearTimeout(elephantRoarTimerRef.current);
+      }
     };
   }, []);
 
   return (
     <section
       id="opening"
-      className="relative h-screen min-h-[580px] max-h-screen bg-gradient-to-b from-red-950 via-[#701015] to-red-950 flex flex-col justify-between items-center px-3 sm:px-6 pt-3 pb-3 overflow-hidden select-none"
+      className={`relative h-screen min-h-[580px] flex flex-col justify-end items-center overflow-hidden select-none transition-colors duration-500 ${themeConfig.bgClass}`}
     >
+      {/* FLOATING THEME PALETTE SWITCHER (Commented out per request - uncomment anytime for live client demos) */}
+      {/* <ThemeSwitcher /> */}
+
       {/* Auspicious Hawan Blessing Toaster (Top Center - visible for 2 seconds) */}
       <div
         className={`fixed top-4 sm:top-6 left-1/2 -translate-x-1/2 z-[100] transition-all duration-300 ease-out pointer-events-none max-w-[90vw] ${
@@ -119,59 +167,206 @@ export default function WeddingHeroSection() {
             : 'opacity-0 -translate-y-4 scale-95'
         }`}
       >
-        <div className="bg-gradient-to-r from-amber-400 via-amber-300 to-amber-400 text-red-950 font-pixel text-[11px] sm:text-sm md:text-base py-2 px-4 sm:px-7 rounded-xl sm:rounded-full border-2 border-red-900 shadow-[0_12px_30px_rgba(0,0,0,0.85)] flex items-center justify-center gap-2 text-center whitespace-normal sm:whitespace-nowrap">
+        <div className="bg-gradient-to-r from-amber-400 via-amber-300 to-amber-400 text-red-950 font-poppins font-semibold text-[11px] sm:text-sm md:text-base py-2 px-4 sm:px-7 rounded-xl sm:rounded-full border-2 border-red-900 shadow-[0_12px_30px_rgba(0,0,0,0.85)] flex items-center justify-center gap-2 text-center whitespace-normal sm:whitespace-nowrap">
           {toastMessage}
         </div>
       </div>
+
       {/* Decorative Ornate Background Wallpaper Texture & Ambient Glow */}
-      <div className="absolute inset-0 opacity-15 pointer-events-none bg-[radial-gradient(#ffd700_1px,transparent_1px)] [background-size:24px_24px]" />
+      <div
+        className={`absolute inset-0 pointer-events-none transition-opacity duration-500 ${themeConfig.dotOpacity}`}
+        style={{
+          backgroundImage: `radial-gradient(${themeConfig.dotColor} 1.2px, transparent 1.2px)`,
+          backgroundSize: '24px 24px',
+        }}
+      />
       
       {/* Warm Mandap Radial Lighting */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[550px] bg-amber-500/15 rounded-full blur-3xl pointer-events-none" />
+      <div
+        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[550px] rounded-full blur-3xl pointer-events-none transition-colors duration-500 ${themeConfig.glowClass}`}
+      />
 
-      {/* SECTION HEADER: Royal Title & Auspicious Invocation */}
-      <div className="relative z-10 text-center max-w-5xl mx-auto space-y-0.5 sm:space-y-1 shrink-0 px-2">
-        <div className="inline-flex items-center gap-2 bg-red-900/90 border-2 border-amber-400/80 px-3 py-0.5 rounded-full shadow-lg text-amber-300 font-pixel text-xs sm:text-sm tracking-wider">
+      {/* AUTHENTIC MADHUBANI ORNATE BORDER FRAME */}
+      <div className="absolute inset-0 z-30 pointer-events-none">
+        {/* Top Border Strip */}
+        <div
+          className="absolute top-0 left-0 right-0 h-[20px] sm:h-[24px] md:h-[28px]"
+          style={{
+            backgroundImage: "url('/assets/madhubani/border.jpeg')",
+            backgroundRepeat: 'repeat-x',
+            backgroundSize: 'auto 100%',
+          }}
+        />
+
+        {/* Bottom Border Strip */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-[20px] sm:h-[24px] md:h-[28px]"
+          style={{
+            backgroundImage: "url('/assets/madhubani/border.jpeg')",
+            backgroundRepeat: 'repeat-x',
+            backgroundSize: 'auto 100%',
+            transform: 'scaleY(-1)',
+          }}
+        />
+
+        {/* Left Border Strip */}
+        <div
+          className="absolute top-0 bottom-0 left-0 w-[20px] sm:w-[24px] md:w-[28px]"
+          style={{
+            backgroundImage: "url('/assets/madhubani/border-vertical.jpg')",
+            backgroundRepeat: 'repeat-y',
+            backgroundSize: '100% auto',
+          }}
+        />
+
+        {/* Right Border Strip */}
+        <div
+          className="absolute top-0 bottom-0 right-0 w-[20px] sm:w-[24px] md:w-[28px]"
+          style={{
+            backgroundImage: "url('/assets/madhubani/border-vertical.jpg')",
+            backgroundRepeat: 'repeat-y',
+            backgroundSize: '100% auto',
+            transform: 'scaleX(-1)',
+          }}
+        />
+
+        {/* 4 Corner Lotus Blocks */}
+        <img
+          src="/assets/madhubani/corner-piece.png"
+          alt="Border Corner"
+          className="absolute top-0 left-0 w-[20px] sm:w-[24px] md:w-[28px] h-[20px] sm:h-[24px] md:h-[28px] object-contain select-none z-35"
+        />
+        <img
+          src="/assets/madhubani/corner-piece.png"
+          alt="Border Corner"
+          className="absolute top-0 right-0 w-[20px] sm:w-[24px] md:w-[28px] h-[20px] sm:h-[24px] md:h-[28px] object-contain select-none z-35 scale-x-[-1]"
+        />
+        <img
+          src="/assets/madhubani/corner-piece.png"
+          alt="Border Corner"
+          className="absolute bottom-0 left-0 w-[20px] sm:w-[24px] md:w-[28px] h-[20px] sm:h-[24px] md:h-[28px] object-contain select-none z-35 scale-y-[-1]"
+        />
+        <img
+          src="/assets/madhubani/corner-piece.png"
+          alt="Border Corner"
+          className="absolute bottom-0 right-0 w-[20px] sm:w-[24px] md:w-[28px] h-[20px] sm:h-[24px] md:h-[28px] object-contain select-none z-35 scale-x-[-1] scale-y-[-1]"
+        />
+      </div>
+
+      {/* SECTION HEADER: Royal Title & Auspicious Invocation with Dynamic Theme Styling */}
+      <div className="absolute top-[26px] sm:top-[28px] md:top-[32px] left-1/2 -translate-x-1/2 z-25 text-center max-w-5xl mx-auto space-y-0.5 sm:space-y-1 px-4 pointer-events-none select-none">
+        <div className={`inline-flex items-center gap-2 px-3.5 py-0.5 rounded-full shadow-lg font-poppins text-[10px] sm:text-xs md:text-sm font-semibold tracking-widest drop-shadow transition-colors duration-500 ${themeConfig.badgeClass}`}>
           <span>🪔</span>
-          <span>|| ॐ श्री गणेशाय नमः ||</span>
+          <span>{WEDDING_CONFIG.invocation}</span>
           <span>🪔</span>
         </div>
 
-        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-yatra gold-gradient-text tracking-wider drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)] whitespace-nowrap flex items-center justify-center gap-2 sm:gap-4 mt-0.5">
-          <span>MEGAN FOX</span>
-          <span className="text-red-500 text-xl sm:text-2xl md:text-3xl inline-block animate-pulse">❤️</span>
-          <span>BRAD PITT</span>
+        <h1 className={`text-2xl sm:text-3xl md:text-4xl lg:text-[2.75rem] xl:text-[3.25rem] font-shrikhand tracking-wider drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)] whitespace-nowrap flex items-center justify-center gap-2 sm:gap-3.5 mt-0.5 sm:mt-1 transition-all duration-500 ${themeConfig.titleColor}`}>
+          <span>{WEDDING_CONFIG.bride.fullName}</span>
+          <span className={`text-xl sm:text-2xl md:text-3xl lg:text-4xl inline-block ${themeConfig.heartColor}`}>❤️</span>
+          <span>{WEDDING_CONFIG.groom.fullName}</span>
         </h1>
       </div>
 
       {/* CENTERPIECE: THE FULL MADHUBANI WEDDING STAGE SCENE */}
-      <div className="relative z-10 w-full max-w-[98vw] xl:max-w-7xl mx-auto flex-1 min-h-0 flex items-center justify-center py-1">
+      <div className="relative z-10 w-full h-full flex items-end justify-center">
         
-        {/* --- MADHUBANI FOLK ART TAPESTRY: CHARACTERS SCATTERED ACROSS FULL CANVAS --- */}
+        {/* --- MADHUBANI FOLK ART TAPESTRY: CHARACTERS SCATTERED ACROSS CANVAS --- */}
 
-        {/* 1. Left Royal Elephant */}
+        {/* 1. Left Royal Elephant (Bottom-Left Anchor) */}
         <div
-          className="hidden md:flex flex-col items-center absolute left-0.5 xl:left-2 bottom-1 z-10 group cursor-pointer hover:scale-105 transition-transform"
-          onClick={() => handleCharacterTap('left_elephant', () => shaadiAudio.playShehnaiNote(440, 0.4))}
-          title="Royal Gajraj (Elephant) - Click for trumpet!"
+          className={`hidden lg:flex flex-col items-center absolute left-[1.8%] xl:left-[2.2%] bottom-[1.5%] xl:bottom-[4%] group cursor-pointer hover:z-50 transition-transform ${
+            activeCharacter === 'left_elephant' ? 'z-50' : 'z-25'
+          } ${
+            roaringElephant === 'left' ? 'animate-elephant-roar-left' : 'hover:scale-105'
+          }`}
+          onClick={() => {
+            handleElephantRoar('left');
+            handleCharacterTap('left_elephant');
+          }}
+          title="Royal Gajraj (Elephant) - Click to hear and watch the elephant trumpet and roar!"
         >
           <img
             src="/assets/madhubani/left_elephant.png"
             alt="Royal Gajraj Left"
-            className="max-h-[22vh] xl:max-h-[25vh] h-auto w-auto object-contain drop-shadow-[0_8px_18px_rgba(0,0,0,0.85)] filter hover:brightness-110 transition-all"
+            className="max-h-[24vh] xl:max-h-[25.5vh] h-auto w-auto object-contain drop-shadow-[0_8px_18px_rgba(0,0,0,0.85)] filter hover:brightness-110 transition-all select-none"
           />
-          <span className={`text-amber-400 font-rozha text-[10px] tracking-wider mt-0.5 bg-red-950/85 px-1.5 py-0.5 rounded border border-amber-500/30 whitespace-nowrap transition-all duration-300 pointer-events-none ${
+          <span className={`font-rozha text-[10px] tracking-wider mt-0.5 px-1.5 py-0.5 rounded whitespace-nowrap transition-all duration-300 pointer-events-none relative z-50 ${themeConfig.charBadgeClass} ${
             activeCharacter === 'left_elephant'
               ? 'opacity-100 scale-100'
               : 'opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100'
           }`}>
-            🐘 Shubh Gajraj
+            🐘 Shubh Gajraj (Click to Roar!)
           </span>
         </div>
 
-        {/* 2. Welcoming Elder (Namaste Uncle) */}
+        {/* 2. Auspicious Kalash Lady (Upper-Left High Flank) */}
         <div
-          className="hidden lg:flex flex-col items-center absolute left-[1%] xl:left-[2.5%] top-[4%] z-15 group cursor-pointer hover:scale-105 transition-transform"
+          className={`hidden lg:flex flex-col items-center absolute left-[2.8%] xl:left-[3.8%] top-[5.5%] xl:top-[6.5%] group cursor-pointer hover:scale-105 hover:z-50 transition-all -rotate-2 ${
+            activeCharacter === 'kalash_lady' ? 'z-50' : 'z-15'
+          }`}
+          onClick={() => handleCharacterTap('kalash_lady', () => shaadiAudio.playPop())}
+          title="Shubh Kalash Welcome"
+        >
+          <div className="relative animate-namaste" style={{ animationDelay: '0.3s' }}>
+            <img
+              src="/assets/madhubani/women-with-kalash.png"
+              alt="Kalash Welcome Lady"
+              className="max-h-[24.5vh] xl:max-h-[27vh] h-auto w-auto object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.8)] filter hover:brightness-110 transition-all scale-x-[-1]"
+            />
+            <div className={`absolute -top-5 left-1/2 -translate-x-1/2 bg-amber-300 text-red-950 font-bold font-pixel text-[9px] px-2 py-0.5 rounded-md border border-red-900 shadow-md whitespace-nowrap transition-all duration-300 pointer-events-none z-50 ${
+              activeCharacter === 'kalash_lady'
+                ? 'opacity-100 scale-100'
+                : 'opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100'
+            }`}>
+              🏺 Shubh Kalash!
+            </div>
+          </div>
+          <span className={`font-rozha text-[10px] tracking-wider mt-0.5 px-1.5 py-0.5 rounded whitespace-nowrap transition-all duration-300 pointer-events-none relative z-50 ${themeConfig.charBadgeClass} ${
+            activeCharacter === 'kalash_lady'
+              ? 'opacity-100 scale-100'
+              : 'opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100'
+          }`}>
+            Mangal Kalash
+          </span>
+        </div>
+
+        {/* 3. Aarti Thali Welcome Man (Upper Left Flank - Tucked Beside Roof) */}
+        <div
+          className={`hidden lg:flex flex-col items-center absolute left-[15%] xl:left-[16.5%] top-[10.5%] xl:top-[11.5%] group cursor-pointer hover:scale-105 hover:z-50 transition-all rotate-3 ${
+            activeCharacter === 'aarti_man' ? 'z-50' : 'z-15'
+          }`}
+          onClick={() => handleCharacterTap('aarti_man', () => shaadiAudio.playPop())}
+          title="Aarti Welcome"
+        >
+          <div className="relative animate-namaste" style={{ animationDelay: '0.6s' }}>
+            <img
+              src="/assets/madhubani/pooja_thali_man.png"
+              alt="Pooja Thali Welcome"
+              className="max-h-[22.5vh] xl:max-h-[25vh] h-auto w-auto object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.8)] filter hover:brightness-110 transition-all"
+            />
+            <div className={`absolute -top-5 left-1/2 -translate-x-1/2 bg-amber-300 text-red-950 font-bold font-pixel text-[9px] px-2 py-0.5 rounded-md border border-red-900 shadow-md whitespace-nowrap transition-all duration-300 pointer-events-none z-50 ${
+              activeCharacter === 'aarti_man'
+                ? 'opacity-100 scale-100'
+                : 'opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100'
+            }`}>
+              🪔 Aarti Swagat!
+            </div>
+          </div>
+          <span className={`font-rozha text-[10px] tracking-wider mt-0.5 px-1.5 py-0.5 rounded whitespace-nowrap transition-all duration-300 pointer-events-none relative z-50 ${themeConfig.charBadgeClass} ${
+            activeCharacter === 'aarti_man'
+              ? 'opacity-100 scale-100'
+              : 'opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100'
+          }`}>
+            Aarti Thali
+          </span>
+        </div>
+
+        {/* 4. Welcoming Elder (Namaste Uncle - Mid-Left Stepped Outward) */}
+        <div
+          className={`hidden lg:flex flex-col items-center absolute left-[1.8%] xl:left-[2.8%] top-[37.5%] xl:top-[38.5%] group cursor-pointer hover:scale-105 hover:z-50 transition-all rotate-1 ${
+            activeCharacter === 'namaste_uncle' ? 'z-50' : 'z-15'
+          }`}
           onClick={() => handleCharacterTap('namaste_uncle', () => shaadiAudio.playPop())}
           title="Welcoming Elder"
         >
@@ -179,9 +374,9 @@ export default function WeddingHeroSection() {
             <img
               src="/assets/madhubani/namanste_man.png"
               alt="Namaste Uncle"
-              className="max-h-[21vh] xl:max-h-[24vh] h-auto w-auto object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.8)] filter hover:brightness-110 transition-all"
+              className="max-h-[24.5vh] xl:max-h-[27vh] h-auto w-auto object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.8)] filter hover:brightness-110 transition-all"
             />
-            <div className={`absolute -top-5 left-1/2 -translate-x-1/2 bg-amber-300 text-red-950 font-bold font-pixel text-[9px] px-2 py-0.5 rounded-md border border-red-900 shadow-md whitespace-nowrap transition-all duration-300 pointer-events-none ${
+            <div className={`absolute -top-5 left-1/2 -translate-x-1/2 bg-amber-300 text-red-950 font-bold font-pixel text-[9px] px-2 py-0.5 rounded-md border border-red-900 shadow-md whitespace-nowrap transition-all duration-300 pointer-events-none z-50 ${
               activeCharacter === 'namaste_uncle'
                 ? 'opacity-100 scale-100'
                 : 'opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100'
@@ -189,7 +384,7 @@ export default function WeddingHeroSection() {
               🙏 Swagatam!
             </div>
           </div>
-          <span className={`text-amber-400 font-rozha text-[10px] tracking-wider mt-0.5 bg-red-950/85 px-1.5 py-0.5 rounded border border-amber-500/30 whitespace-nowrap transition-all duration-300 pointer-events-none ${
+          <span className={`font-rozha text-[10px] tracking-wider mt-0.5 px-1.5 py-0.5 rounded whitespace-nowrap transition-all duration-300 pointer-events-none relative z-50 ${themeConfig.charBadgeClass} ${
             activeCharacter === 'namaste_uncle'
               ? 'opacity-100 scale-100'
               : 'opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100'
@@ -198,9 +393,11 @@ export default function WeddingHeroSection() {
           </span>
         </div>
 
-        {/* 3. Swagat Lady */}
+        {/* 5. Swagat Lady (Lower-Mid Flank - Tucked Inward Beside Pillar) */}
         <div
-          className="hidden md:flex flex-col items-center absolute left-[5%] xl:left-[7%] top-[24%] z-15 group cursor-pointer hover:scale-105 transition-transform"
+          className={`hidden lg:flex flex-col items-center absolute left-[13.5%] xl:left-[15%] top-[39%] xl:top-[40%] group cursor-pointer hover:scale-105 hover:z-50 transition-all -rotate-3 ${
+            activeCharacter === 'swagat_lady' ? 'z-50' : 'z-15'
+          }`}
           onClick={() => handleCharacterTap('swagat_lady', () => shaadiAudio.playPop())}
           title="Swagat Lady"
         >
@@ -208,9 +405,9 @@ export default function WeddingHeroSection() {
             <img
               src="/assets/madhubani/clapping_lady.png"
               alt="Swagat Lady"
-              className="max-h-[23vh] xl:max-h-[26vh] h-auto w-auto object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.8)] filter hover:brightness-110 transition-all scale-x-[-1]"
+              className="max-h-[24vh] xl:max-h-[26.5vh] h-auto w-auto object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.8)] filter hover:brightness-110 transition-all scale-x-[-1]"
             />
-            <div className={`absolute -top-5 left-1/2 -translate-x-1/2 bg-amber-300 text-red-950 font-bold font-pixel text-[9px] px-2 py-0.5 rounded-md border border-red-900 shadow-md whitespace-nowrap transition-all duration-300 pointer-events-none ${
+            <div className={`absolute -top-5 left-1/2 -translate-x-1/2 bg-amber-300 text-red-950 font-bold font-pixel text-[9px] px-2 py-0.5 rounded-md border border-red-900 shadow-md whitespace-nowrap transition-all duration-300 pointer-events-none z-50 ${
               activeCharacter === 'swagat_lady'
                 ? 'opacity-100 scale-100'
                 : 'opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100'
@@ -218,7 +415,7 @@ export default function WeddingHeroSection() {
               🌺 Padhariye!
             </div>
           </div>
-          <span className={`text-amber-400 font-rozha text-[10px] tracking-wider mt-0.5 bg-red-950/85 px-1.5 py-0.5 rounded border border-amber-500/30 whitespace-nowrap transition-all duration-300 pointer-events-none ${
+          <span className={`font-rozha text-[10px] tracking-wider mt-0.5 px-1.5 py-0.5 rounded whitespace-nowrap transition-all duration-300 pointer-events-none relative z-50 ${themeConfig.charBadgeClass} ${
             activeCharacter === 'swagat_lady'
               ? 'opacity-100 scale-100'
               : 'opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100'
@@ -228,14 +425,14 @@ export default function WeddingHeroSection() {
         </div>
 
         {/* --- CENTER: THE ROYAL MANDAP & FIRE PAVILION --- */}
-        <div className="relative flex flex-col items-center justify-center h-full max-h-[76vh] md:max-h-[80vh] w-auto aspect-[3373/3426] z-20">
+        <div className="relative flex flex-col items-center justify-end h-full max-h-[83%] w-auto aspect-[3373/3426] z-20 pb-0">
           
           {/* Mandap Structure (Transparent PNG) */}
           <div className="relative w-full h-full flex flex-col items-center justify-end">
             <img
               src="/assets/madhubani/mandap.png"
               alt="Royal Vedic Wedding Mandap"
-              className="w-full h-full object-contain drop-shadow-[0_16px_32px_rgba(0,0,0,0.95)] select-none pointer-events-none"
+              className="w-full h-full object-contain object-bottom drop-shadow-[0_16px_32px_rgba(0,0,0,0.95)] select-none pointer-events-none"
             />
 
             {/* Lord Ganesha seated in the upper decorative medallion niche */}
@@ -330,35 +527,35 @@ export default function WeddingHeroSection() {
                   <polygon points="500,0 450,600 550,600" fill="url(#rayCenter)" opacity="0.9" />
                   
                   {/* Ray 4: Directly over Groom Brad */}
-                  <polygon points="500,0 580,600 760,600" fill="url(#rayRight)" opacity="0.95" />
+                  <polygon points="500,0 700,600 880,600" fill="url(#rayRight)" opacity="0.95" />
                   
                   {/* Ray 5: Rightward sweep */}
-                  <polygon points="500,0 780,600 920,600" fill="url(#rayRight)" opacity="0.8" />
+                  <polygon points="500,0 870,600 970,600" fill="url(#rayRight)" opacity="0.8" />
                 </g>
               </svg>
 
               {/* Auspicious Divine Text & Sparkles hovering directly in the open arch above the couple */}
-              <div className="absolute top-[31%] left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none whitespace-nowrap z-30">
-                <div className="bg-gradient-to-b from-[#3a000a] via-[#4d000f] to-[#250006] px-5 sm:px-7 py-2 sm:py-2.5 rounded-2xl border-2 border-amber-400 shadow-[0_10px_30px_rgba(0,0,0,0.95)] flex flex-col items-center gap-1 backdrop-blur-md">
-                  {/* Top line: Traditional Sacred Sanskrit Header */}
-                  <div className="text-amber-300 text-sm sm:text-base md:text-lg font-yatra font-bold tracking-widest drop-shadow-[0_2px_6px_rgba(0,0,0,1)] flex items-center gap-2">
-                    <span className="text-amber-400 text-xs sm:text-sm animate-spin" style={{ animationDuration: '4s' }}>✨</span>
+              <div className="absolute top-[28%] sm:top-[28.5%] left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none whitespace-nowrap z-30">
+                <div className={`${themeConfig.blessingCardBg || 'bg-gradient-to-b from-[#3a000a] via-[#4d000f] to-[#250006]'} px-3 sm:px-4 md:px-5 py-1 sm:py-1.5 rounded-xl border border-amber-400/90 shadow-[0_6px_20px_rgba(0,0,0,0.85)] flex flex-col items-center gap-0.5 sm:gap-1 backdrop-blur-md`}>
+                  {/* Top line: Traditional Sacred Sanskrit Header (Shrikhand) */}
+                  <div className="text-amber-300 text-xs sm:text-sm md:text-base font-shrikhand tracking-wider drop-shadow-[0_2px_4px_rgba(0,0,0,1)] flex items-center gap-1.5">
+                    <span className="text-amber-400 text-[10px] sm:text-xs animate-spin" style={{ animationDuration: '4s' }}>✨</span>
                     <span className="text-yellow-300">॥ दिव्य आशीर्वाद ॥</span>
-                    <span className="text-amber-400 text-xs sm:text-sm animate-spin" style={{ animationDuration: '4s' }}>✨</span>
+                    <span className="text-amber-400 text-[10px] sm:text-xs animate-spin" style={{ animationDuration: '4s' }}>✨</span>
                   </div>
                   
                   {/* Ornate Golden Filigree Divider with Center Diamond */}
-                  <div className="w-full flex items-center justify-center gap-1.5 opacity-80">
+                  <div className="w-full flex items-center justify-center gap-1 opacity-70">
                     <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent via-amber-400 to-amber-300" />
-                    <span className="text-amber-400 text-[8px]">✦</span>
+                    <span className="text-amber-400 text-[7px]">✦</span>
                     <div className="flex-1 h-[1px] bg-gradient-to-l from-transparent via-amber-400 to-amber-300" />
                   </div>
 
-                  {/* Subtitle: English Blessing Text */}
-                  <div className="text-[10px] sm:text-xs md:text-sm text-amber-100 font-yatra tracking-wider drop-shadow-[0_1px_4px_rgba(0,0,0,1)] flex items-center gap-1.5">
-                    <span>🌺</span>
-                    <span className="text-amber-100 font-semibold">Vighnaharta Ganesha Blesses Megan & Brad</span>
-                    <span>🌺</span>
+                  {/* Subtitle: English Blessing Text (Poppins) */}
+                  <div className="text-[9px] sm:text-[10px] md:text-[11px] text-amber-100 font-poppins tracking-wider drop-shadow-[0_1px_3px_rgba(0,0,0,1)] flex items-center gap-1">
+                    <span className="text-[9px] sm:text-[10px]">🌺</span>
+                    <span className="text-amber-100 font-medium">Vighnaharta Ganesha Blesses {WEDDING_CONFIG.bride.displayName} & {WEDDING_CONFIG.groom.displayName}</span>
+                    <span className="text-[9px] sm:text-[10px]">🌺</span>
                   </div>
                 </div>
               </div>
@@ -371,48 +568,22 @@ export default function WeddingHeroSection() {
               <div className="absolute top-[8%] left-1/2 -translate-x-1/2 text-amber-300 text-sm sm:text-base animate-ping" style={{ animationDuration: '2s' }}>🕉️</div>
             </div>
 
-            {/* INSIDE THE ARCH: Bride (Megan), Holy Hawan Fire in Between, Groom (Brad) */}
-            <div className="absolute bottom-[7.2%] left-[18%] right-[18%] h-[40%] flex items-end justify-center gap-2 sm:gap-4 md:gap-5 z-15 pointer-events-auto px-1">
+            {/* INSIDE THE ARCH: Hawan Kund directly centered below Ganesha, flanked by Bride (Left) and Groom (Right) */}
+            <div className="absolute bottom-[7.2%] left-[20%] right-[18%] h-[40%] pointer-events-none z-30">
               
-              {/* 1. Bride (Megan) with Varmala */}
+              {/* 1. Sacred Hawan Fire - DIRECTLY CENTERED BELOW GANESH */}
               <div
-                className="relative h-full flex flex-col items-center justify-end group cursor-pointer"
-                onClick={() => handleCharacterTap('bride', () => shaadiAudio.playPop())}
-              >
-                <img
-                  src="/assets/madhubani/bride.png"
-                  alt="Bride Megan"
-                  className={`h-[88%] w-auto object-contain filter scale-x-[-1] group-hover:scale-x-[-1] group-hover:scale-105 transition-all duration-300 ${
-                    ganeshBlessingActive
-                      ? 'drop-shadow-[0_0_20px_rgba(255,215,0,0.9)] brightness-110'
-                      : 'drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)]'
-                  }`}
-                />
-                <span className={`absolute -bottom-4 sm:-bottom-5 left-1/2 -translate-x-1/2 bg-red-950/90 text-amber-300 font-yatra text-[8px] sm:text-[10px] md:text-[11px] px-2.5 py-0.5 rounded border border-amber-400/80 shadow whitespace-nowrap z-20 transition-all duration-300 pointer-events-none ${
-                  activeCharacter === 'bride'
-                    ? 'opacity-100 scale-100'
-                    : 'opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100'
-                }`}>
-                  MEGAN
-                </span>
-              </div>
-
-              {/* 2. Sacred Hawan Fire in Between Bride & Groom */}
-              <div
-                className="relative h-full flex flex-col items-center justify-end z-25 group cursor-pointer"
+                className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-full flex flex-col items-center justify-end hover:z-50 group cursor-pointer pointer-events-auto transition-all ${
+                  activeCharacter === 'hawan' ? 'z-50' : 'z-30'
+                }`}
                 onClick={() => handleCharacterTap('hawan', handleOfferSamagri)}
               >
-                {/* Subtle rising holy smoke wisps */}
-                <div className="text-amber-200 text-xs animate-smoke pointer-events-none mb-1">
-                  ☁️ 💨
-                </div>
-
                 {/* Hawan Kund Image with animated fire glow - sits firmly on stage floor */}
                 <img
                   src="/assets/madhubani/madhubani-havan.png"
                   alt="Sacred Hawan Kund"
                   title="Click to offer sacred Samagri into Agni Kund!"
-                  className={`h-[55%] sm:h-[58%] max-h-[170px] md:max-h-[195px] w-auto object-contain animate-flame filter group-hover:scale-105 active:scale-95 transition-all duration-300 ${
+                  className={`h-[54%] sm:h-[57%] max-h-[170px] md:max-h-[195px] w-auto object-contain animate-flame filter group-hover:scale-105 active:scale-95 transition-all duration-300 ${
                     ganeshBlessingActive
                       ? 'drop-shadow-[0_0_25px_rgba(255,215,0,0.9)] brightness-115'
                       : 'drop-shadow-[0_4px_12px_rgba(255,140,0,0.6)]'
@@ -427,7 +598,7 @@ export default function WeddingHeroSection() {
                     handleOfferSamagri();
                   }}
                   title="Click to offer sacred Samagri into Agni Kund!"
-                  className={`absolute -bottom-4 sm:-bottom-5 left-1/2 -translate-x-1/2 bg-amber-400 hover:bg-amber-300 active:scale-95 text-red-950 font-pixel font-bold text-[7px] sm:text-[9px] md:text-[10px] px-2.5 sm:px-3 py-0.5 rounded-full border-2 border-red-900 shadow-xl whitespace-nowrap cursor-pointer hover:shadow-amber-400/50 transition-all duration-300 z-20 pointer-events-none ${
+                  className={`absolute -bottom-4 sm:-bottom-5 left-1/2 -translate-x-1/2 bg-amber-400 hover:bg-amber-300 active:scale-95 text-red-950 font-poppins font-bold text-[8px] sm:text-[10px] md:text-[11px] px-2.5 sm:px-3 py-0.5 rounded-full border-2 border-red-900 shadow-xl whitespace-nowrap cursor-pointer hover:shadow-amber-400/50 transition-all duration-300 z-50 pointer-events-none ${
                     activeCharacter === 'hawan'
                       ? 'opacity-100 scale-100 pointer-events-auto'
                       : 'opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto'
@@ -437,38 +608,132 @@ export default function WeddingHeroSection() {
                 </button>
               </div>
 
-              {/* 3. Groom (Brad) with Varmala & Sherwani */}
+              {/* 2. Bride with Varmala - Highest Z-Index Prominence */}
               <div
-                className="relative h-full flex flex-col items-center justify-end group cursor-pointer"
-                onClick={() => handleCharacterTap('groom', () => shaadiAudio.playPop())}
+                className={`absolute bottom-0 right-[62.5%] sm:right-[63.5%] md:right-[64%] h-full flex flex-col items-center justify-end hover:z-50 group cursor-pointer pointer-events-auto transition-all ${
+                  activeCharacter === 'bride' ? 'z-50' : 'z-35'
+                }`}
+                onClick={() => handleCharacterTap('bride', () => shaadiAudio.playPop())}
               >
-                <img
-                  src="/assets/madhubani/groom.png"
-                  alt="Groom Brad"
-                  className={`h-[88%] w-auto object-contain filter scale-x-[-1] group-hover:scale-x-[-1] group-hover:scale-105 transition-all duration-300 ${
-                    ganeshBlessingActive
-                      ? 'drop-shadow-[0_0_20px_rgba(255,215,0,0.9)] brightness-110'
-                      : 'drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)]'
-                  }`}
-                />
-                <span className={`absolute -bottom-4 sm:-bottom-5 left-1/2 -translate-x-1/2 bg-red-950/90 text-amber-300 font-yatra text-[8px] sm:text-[10px] md:text-[11px] px-2.5 py-0.5 rounded border border-amber-400/80 shadow whitespace-nowrap z-20 transition-all duration-300 pointer-events-none ${
-                  activeCharacter === 'groom'
-                    ? 'opacity-100 scale-100'
-                    : 'opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100'
-                }`}>
-                  BRAD
-                </span>
+                <div className="relative h-[84%] sm:h-[86%] flex items-end justify-center">
+                  <div className={`absolute -top-5 sm:-top-6 left-1/2 -translate-x-1/2 bg-amber-300 text-red-950 font-bold font-pixel text-[9px] sm:text-[10px] px-2.5 py-0.5 rounded-md border border-red-900 shadow-md whitespace-nowrap transition-all duration-300 pointer-events-none z-50 ${
+                    activeCharacter === 'bride'
+                      ? 'opacity-100 scale-100'
+                      : 'opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100'
+                  }`}>
+                    👰 {WEDDING_CONFIG.bride.shortName}
+                  </div>
+                  <img
+                    src="/assets/madhubani/bride.png"
+                    alt={`Bride ${WEDDING_CONFIG.bride.displayName}`}
+                    className={`h-full w-auto object-contain filter scale-x-[-1] group-hover:scale-x-[-1] group-hover:scale-105 transition-all duration-300 ${
+                      ganeshBlessingActive
+                        ? 'drop-shadow-[0_0_20px_rgba(255,215,0,0.9)] brightness-110'
+                        : 'drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)]'
+                    }`}
+                  />
+                </div>
               </div>
 
+              {/* 3. Groom with Varmala & Sherwani - Highest Z-Index Prominence */}
+              <div
+                className={`absolute bottom-0 left-[71.5%] sm:left-[72%] md:left-[72.5%] h-full flex flex-col items-center justify-end hover:z-50 group cursor-pointer pointer-events-auto transition-all ${
+                  activeCharacter === 'groom' ? 'z-50' : 'z-35'
+                }`}
+                onClick={() => handleCharacterTap('groom', () => shaadiAudio.playPop())}
+              >
+                <div className="relative h-[84%] sm:h-[86%] flex items-end justify-center">
+                  <div className={`absolute -top-5 sm:-top-6 left-1/2 -translate-x-1/2 bg-amber-300 text-red-950 font-bold font-pixel text-[9px] sm:text-[10px] px-2.5 py-0.5 rounded-md border border-red-900 shadow-md whitespace-nowrap transition-all duration-300 pointer-events-none z-50 ${
+                    activeCharacter === 'groom'
+                      ? 'opacity-100 scale-100'
+                      : 'opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100'
+                  }`}>
+                    🤵 {WEDDING_CONFIG.groom.shortName}
+                  </div>
+                  <img
+                    src="/assets/madhubani/groom.png"
+                    alt={`Groom ${WEDDING_CONFIG.groom.displayName}`}
+                    className={`h-full w-auto object-contain filter scale-x-[-1] group-hover:scale-x-[-1] group-hover:scale-105 transition-all duration-300 ${
+                      ganeshBlessingActive
+                        ? 'drop-shadow-[0_0_20px_rgba(255,215,0,0.9)] brightness-110'
+                        : 'drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)]'
+                    }`}
+                  />
+                </div>
+              </div>
             </div>
 
           </div>
 
         </div>
 
-        {/* 4. Dancing Baraati (Upper Right) */}
+        {/* 6. Shehnai Vaadan Player (Upper Roof Flank - Tucked Inward) */}
         <div
-          className="hidden lg:flex flex-col items-center absolute right-[1%] xl:right-[2.5%] top-[4%] z-15 group cursor-pointer hover:scale-105 transition-transform"
+          className={`hidden lg:flex flex-col items-center absolute right-[15%] xl:right-[16.5%] top-[10.5%] xl:top-[11.5%] group cursor-pointer hover:scale-105 hover:z-50 transition-all -rotate-6 ${
+            activeCharacter === 'shehnai_man' ? 'z-50' : 'z-15'
+          }`}
+          onClick={() => handleCharacterTap('shehnai_man', () => shaadiAudio.playShehnaiNote(587, 0.5))}
+          title="Shehnai Vaadan"
+        >
+          <div className="relative animate-namaste" style={{ animationDelay: '0.8s' }}>
+            <img
+              src="/assets/madhubani/shenai-man.png"
+              alt="Shehnai Player"
+              className="max-h-[22.5vh] xl:max-h-[25vh] h-auto w-auto object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.8)] filter hover:brightness-110 transition-all scale-x-[-1]"
+            />
+            <div className={`absolute -top-5 left-1/2 -translate-x-1/2 bg-amber-300 text-red-950 font-bold font-pixel text-[9px] px-2 py-0.5 rounded-md border border-red-900 shadow-md whitespace-nowrap transition-all duration-300 pointer-events-none z-50 ${
+              activeCharacter === 'shehnai_man'
+                ? 'opacity-100 scale-100'
+                : 'opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100'
+            }`}>
+              🎶 Mangal Dhun!
+            </div>
+          </div>
+          <span className={`font-rozha text-[10px] tracking-wider mt-0.5 px-1.5 py-0.5 rounded whitespace-nowrap transition-all duration-300 pointer-events-none relative z-50 ${themeConfig.charBadgeClass} ${
+            activeCharacter === 'shehnai_man'
+              ? 'opacity-100 scale-100'
+              : 'opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100'
+          }`}>
+            Shehnai Vaadan
+          </span>
+        </div>
+
+        {/* 7. Dholak Drummer (Upper-Right High Flank) */}
+        <div
+          className={`hidden lg:flex flex-col items-center absolute right-[2.8%] xl:right-[3.8%] top-[5%] xl:top-[6%] group cursor-pointer hover:scale-105 hover:z-50 transition-all rotate-3 ${
+            activeCharacter === 'dhol_man' ? 'z-50' : 'z-15'
+          }`}
+          onClick={() => handleCharacterTap('dhol_man', () => shaadiAudio.playDhol())}
+          title="Baraat Dholak"
+        >
+          <div className="relative animate-namaste" style={{ animationDelay: '0.4s' }}>
+            <img
+              src="/assets/madhubani/dhol-man.png"
+              alt="Dholak Drummer"
+              className="max-h-[24vh] xl:max-h-[26.5vh] h-auto w-auto object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.8)] filter hover:brightness-110 transition-all"
+            />
+            <div className={`absolute -top-5 left-1/2 -translate-x-1/2 bg-amber-300 text-red-950 font-bold font-pixel text-[9px] px-2 py-0.5 rounded-md border border-red-900 shadow-md whitespace-nowrap transition-all duration-300 pointer-events-none z-50 ${
+              activeCharacter === 'dhol_man'
+                ? 'opacity-100 scale-100'
+                : 'opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100'
+            }`}>
+              🥁 Dhol Tashan!
+            </div>
+          </div>
+          <span className={`font-rozha text-[10px] tracking-wider mt-0.5 px-1.5 py-0.5 rounded whitespace-nowrap transition-all duration-300 pointer-events-none relative z-50 ${themeConfig.charBadgeClass} ${
+            activeCharacter === 'dhol_man'
+              ? 'opacity-100 scale-100'
+              : 'opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100'
+          }`}>
+            Baraat Dholak
+          </span>
+        </div>
+
+        {/* 8. Dancing Baraati (Mid-Right Stepped Inward to the Left) */}
+        <div
+          className={`hidden lg:flex flex-col items-center absolute right-[5%] xl:right-[6%] top-[36%] xl:top-[37%] group cursor-pointer hover:scale-105 hover:z-50 transition-all rotate-4 ${
+            activeCharacter === 'dancing_baraati' ? 'z-50' : 'z-15'
+          }`}
           onClick={() => handleCharacterTap('dancing_baraati', () => shaadiAudio.playPop())}
           title="Dancing Baraati"
         >
@@ -476,9 +741,9 @@ export default function WeddingHeroSection() {
             <img
               src="/assets/madhubani/hands_up_dancing_man.png"
               alt="Baraati Dancing"
-              className="max-h-[21vh] xl:max-h-[24vh] h-auto w-auto object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.8)] filter hover:brightness-110 transition-all"
+              className="max-h-[24.5vh] xl:max-h-[27vh] h-auto w-auto object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.8)] filter hover:brightness-110 transition-all"
             />
-            <div className={`absolute -top-5 left-1/2 -translate-x-1/2 bg-amber-300 text-red-950 font-bold font-pixel text-[9px] px-2 py-0.5 rounded-md border border-red-900 shadow-md whitespace-nowrap transition-all duration-300 pointer-events-none ${
+            <div className={`absolute -top-5 left-1/2 -translate-x-1/2 bg-amber-300 text-red-950 font-bold font-pixel text-[9px] px-2 py-0.5 rounded-md border border-red-900 shadow-md whitespace-nowrap transition-all duration-300 pointer-events-none z-50 ${
               activeCharacter === 'dancing_baraati'
                 ? 'opacity-100 scale-100'
                 : 'opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100'
@@ -486,7 +751,7 @@ export default function WeddingHeroSection() {
               💃 Shava Shava!
             </div>
           </div>
-          <span className={`text-amber-400 font-rozha text-[10px] tracking-wider mt-0.5 bg-red-950/85 px-1.5 py-0.5 rounded border border-amber-500/30 whitespace-nowrap transition-all duration-300 pointer-events-none ${
+          <span className={`font-rozha text-[10px] tracking-wider mt-0.5 px-1.5 py-0.5 rounded whitespace-nowrap transition-all duration-300 pointer-events-none relative z-50 ${themeConfig.charBadgeClass} ${
             activeCharacter === 'dancing_baraati'
               ? 'opacity-100 scale-100'
               : 'opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100'
@@ -495,59 +760,65 @@ export default function WeddingHeroSection() {
           </span>
         </div>
 
-        {/* 5. Aarti Thali Welcome Man (Mid Right) */}
+        {/* 9. Joyful Dancing Lady / Ghoomar Girl (Lower-Mid Right Flank) */}
         <div
-          className="hidden md:flex flex-col items-center absolute right-[5%] xl:right-[7%] top-[24%] z-15 group cursor-pointer hover:scale-105 transition-transform"
-          onClick={() => handleCharacterTap('aarti_man', () => shaadiAudio.playPop())}
-          title="Aarti Welcome"
+          className={`hidden lg:flex flex-col items-center absolute right-[14%] xl:right-[15.5%] top-[39%] xl:top-[40%] group cursor-pointer hover:scale-105 hover:z-50 transition-all -rotate-3 ${
+            activeCharacter === 'dancing_lady' ? 'z-50' : 'z-15'
+          }`}
+          onClick={() => handleCharacterTap('dancing_lady', () => shaadiAudio.playPop())}
+          title="Sangeet Nritya"
         >
-          <div className="relative animate-namaste" style={{ animationDelay: '0.6s' }}>
+          <div className="relative animate-namaste" style={{ animationDelay: '1.5s' }}>
             <img
-              src="/assets/madhubani/pooja_thali_man.png"
-              alt="Pooja Thali Welcome"
-              className="max-h-[23vh] xl:max-h-[26vh] h-auto w-auto object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.8)] filter hover:brightness-110 transition-all scale-x-[-1]"
+              src="/assets/madhubani/dancing-women.png"
+              alt="Dancing Lady"
+              className="max-h-[24vh] xl:max-h-[26.5vh] h-auto w-auto object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.8)] filter hover:brightness-110 transition-all scale-x-[-1]"
             />
-            <div className={`absolute -top-5 left-1/2 -translate-x-1/2 bg-amber-300 text-red-950 font-bold font-pixel text-[9px] px-2 py-0.5 rounded-md border border-red-900 shadow-md whitespace-nowrap transition-all duration-300 pointer-events-none ${
-              activeCharacter === 'aarti_man'
+            <div className={`absolute -top-5 left-1/2 -translate-x-1/2 bg-amber-300 text-red-950 font-bold font-pixel text-[9px] px-2 py-0.5 rounded-md border border-red-900 shadow-md whitespace-nowrap transition-all duration-300 pointer-events-none z-50 ${
+              activeCharacter === 'dancing_lady'
                 ? 'opacity-100 scale-100'
                 : 'opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100'
             }`}>
-              🪔 Aarti Swagat!
+              💃 Ghoomar!
             </div>
           </div>
-          <span className={`text-amber-400 font-rozha text-[10px] tracking-wider mt-0.5 bg-red-950/85 px-1.5 py-0.5 rounded border border-amber-500/30 whitespace-nowrap transition-all duration-300 pointer-events-none ${
-            activeCharacter === 'aarti_man'
+          <span className={`font-rozha text-[10px] tracking-wider mt-0.5 px-1.5 py-0.5 rounded whitespace-nowrap transition-all duration-300 pointer-events-none relative z-50 ${themeConfig.charBadgeClass} ${
+            activeCharacter === 'dancing_lady'
               ? 'opacity-100 scale-100'
               : 'opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100'
           }`}>
-            Aarti Thali
+            Sangeet Nritya
           </span>
         </div>
 
-        {/* 6. Right Royal Elephant */}
+        {/* 10. Right Royal Elephant (Bottom-Right Anchor) */}
         <div
-          className="hidden md:flex flex-col items-center absolute right-0.5 xl:right-2 bottom-1 z-10 group cursor-pointer hover:scale-105 transition-transform"
-          onClick={() => handleCharacterTap('right_elephant', () => shaadiAudio.playShehnaiNote(523, 0.4))}
-          title="Royal Gajraj (Elephant) - Click for trumpet!"
+          className={`hidden lg:flex flex-col items-center absolute right-[1.8%] xl:right-[2.2%] bottom-[1.5%] xl:bottom-[4%] group cursor-pointer hover:z-50 transition-transform ${
+            activeCharacter === 'right_elephant' ? 'z-50' : 'z-25'
+          } ${
+            roaringElephant === 'right' ? 'animate-elephant-roar-right' : 'hover:scale-105'
+          }`}
+          onClick={() => {
+            handleElephantRoar('right');
+            handleCharacterTap('right_elephant');
+          }}
+          title="Royal Gajraj (Elephant) - Click to hear and watch the elephant trumpet and roar!"
         >
           <img
             src="/assets/madhubani/right_elephant.png"
             alt="Royal Gajraj Right"
-            className="max-h-[22vh] xl:max-h-[25vh] h-auto w-auto object-contain drop-shadow-[0_8px_18px_rgba(0,0,0,0.85)] filter hover:brightness-110 transition-all"
+            className="max-h-[24vh] xl:max-h-[25.5vh] h-auto w-auto object-contain drop-shadow-[0_8px_18px_rgba(0,0,0,0.85)] filter hover:brightness-110 transition-all select-none"
           />
-          <span className={`text-amber-400 font-rozha text-[10px] tracking-wider mt-0.5 bg-red-950/85 px-1.5 py-0.5 rounded border border-amber-500/30 whitespace-nowrap transition-all duration-300 pointer-events-none ${
+          <span className={`font-rozha text-[10px] tracking-wider mt-0.5 px-1.5 py-0.5 rounded whitespace-nowrap transition-all duration-300 pointer-events-none relative z-50 ${themeConfig.charBadgeClass} ${
             activeCharacter === 'right_elephant'
               ? 'opacity-100 scale-100'
               : 'opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100'
           }`}>
-            🐘 Shubh Gajraj
+            🐘 Shubh Gajraj (Click to Roar!)
           </span>
         </div>
 
       </div>
-
-
-
     </section>
   );
 }

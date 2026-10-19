@@ -106,6 +106,70 @@ class ShaadiAudioEngine {
     lfo.stop(this.ctx.currentTime + duration);
   }
 
+  // 2b. Royal Elephant Trumpet / Auspicious Roar
+  playElephantTrumpet() {
+    if (this.muted) return;
+    this.init();
+    if (!this.ctx) return;
+
+    const t = this.ctx.currentTime;
+
+    // 1. Horn / Trumpet Sawtooth Oscillator
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+    osc.type = 'sawtooth';
+
+    // Characteristic elephant trumpeting pitch glide
+    osc.frequency.setValueAtTime(310, t);
+    osc.frequency.exponentialRampToValueAtTime(530, t + 0.16);
+    osc.frequency.setValueAtTime(530, t + 0.55);
+    osc.frequency.exponentialRampToValueAtTime(360, t + 0.9);
+
+    // Guttural lip flutter vibrato (LFO)
+    const lfo = this.ctx.createOscillator();
+    const lfoGain = this.ctx.createGain();
+    lfo.frequency.value = 17; // 17Hz flutter
+    lfoGain.gain.value = 28;  // vibrato depth
+    lfo.connect(osc.frequency);
+    lfo.start(t);
+    lfo.stop(t + 0.95);
+
+    // Resonant bandpass filter for brass horn resonance
+    const filter = this.ctx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.setValueAtTime(820, t);
+    filter.frequency.linearRampToValueAtTime(1450, t + 0.18);
+    filter.frequency.linearRampToValueAtTime(750, t + 0.85);
+    filter.Q.value = 2.8;
+
+    // Volume envelope
+    gain.gain.setValueAtTime(0.01, t);
+    gain.gain.linearRampToValueAtTime(0.35, t + 0.08);
+    gain.gain.setValueAtTime(0.35, t + 0.6);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.95);
+
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(this.ctx.destination);
+
+    // 2. Low chest rumble
+    const rumble = this.ctx.createOscillator();
+    const rumbleGain = this.ctx.createGain();
+    rumble.type = 'sine';
+    rumble.frequency.setValueAtTime(90, t);
+    rumble.frequency.exponentialRampToValueAtTime(50, t + 0.85);
+    rumbleGain.gain.setValueAtTime(0.35, t);
+    rumbleGain.gain.exponentialRampToValueAtTime(0.01, t + 0.85);
+
+    rumble.connect(rumbleGain);
+    rumbleGain.connect(this.ctx.destination);
+
+    osc.start(t);
+    osc.stop(t + 0.95);
+    rumble.start(t);
+    rumble.stop(t + 0.85);
+  }
+
   // 3. Dramatic 90s TV Orchestra Hit / "DUN DUN DUN!"
   playDramaticHit() {
     if (this.muted) return;
