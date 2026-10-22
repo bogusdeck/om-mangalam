@@ -1,3 +1,4 @@
+// Wedding Hero Section with scroll-driven zoom-in reveal effect
 import React, { useState, useRef, useEffect } from 'react';
 import confetti from 'canvas-confetti';
 import { shaadiAudio } from '../utils/audio';
@@ -5,6 +6,8 @@ import { ShaadiButton } from './ui';
 import { useTheme } from '../context/ThemeContext';
 import { WEDDING_CONFIG } from '../config/weddingConfig';
 import ThemeSwitcher from './ThemeSwitcher';
+import InvitationCard from './InvitationCard';
+import MeetCouple from './MeetCouple';
 
 export default function WeddingHeroSection() {
   const { themeConfig } = useTheme();
@@ -15,6 +18,62 @@ export default function WeddingHeroSection() {
   const [ganeshBlessingActive, setGaneshBlessingActive] = useState(false);
   const [activeCharacter, setActiveCharacter] = useState(null);
   const [roaringElephant, setRoaringElephant] = useState(null);
+
+  const scrollContainerRef = useRef(null);
+  const mandapRef = useRef(null);
+  const leftFlankRef = useRef(null);
+  const rightFlankRef = useRef(null);
+  const headerRef = useRef(null);
+  const brideRef = useRef(null);
+  const groomRef = useRef(null);
+  const hawanRef = useRef(null);
+  const invitationLayerRef = useRef(null);
+
+  // Old Hero Border Refs (Red & Gold Madhubani - slides away)
+  const oldTopRef = useRef(null);
+  const oldBottomRef = useRef(null);
+  const oldLeftRef = useRef(null);
+  const oldRightRef = useRef(null);
+  const oldCornerTLRef = useRef(null);
+  const oldCornerTRRef = useRef(null);
+  const oldCornerBLRef = useRef(null);
+  const oldCornerBRRef = useRef(null);
+
+  // New Section 2 Border Refs (Royal Blue & Gold Sun Medallion - slides in)
+  const newTopRef = useRef(null);
+  const newBottomRef = useRef(null);
+  const newLeftRef = useRef(null);
+  const newRightRef = useRef(null);
+  const newCornerTLRef = useRef(null);
+  const newCornerTRRef = useRef(null);
+  const newCornerBLRef = useRef(null);
+  const newCornerBRRef = useRef(null);
+
+  // Section 2 Background Ref (Royal Midnight Blue & Gold Crossfade)
+  const section2BgRef = useRef(null);
+
+  // Section 3 Background Ref (Deep Royal Emerald Green)
+  const section3BgRef = useRef(null);
+
+  // Section 3 Border Refs (Custom Emerald & Gold with Corner Medallions)
+  const emeraldTopRef = useRef(null);
+  const emeraldBottomRef = useRef(null);
+  const emeraldLeftRef = useRef(null);
+  const emeraldRightRef = useRef(null);
+  const emeraldCornerTLRef = useRef(null);
+  const emeraldCornerTRRef = useRef(null);
+  const emeraldCornerBLRef = useRef(null);
+  const emeraldCornerBRRef = useRef(null);
+
+  // Section 3 Revealed Couple Layer Ref (Revealed underneath the Farman flip)
+  const coupleLayerRef = useRef(null);
+  const coupleBrideRef = useRef(null);
+  const coupleGroomRef = useRef(null);
+  const coupleTitleRef = useRef(null);
+
+  // Invitation Card Folding Cover Ref (Opens vertically on desktop, horizontally on mobile)
+  const cardCoverRef = useRef(null);
+
   const toastTimeoutRef = useRef(null);
   const ganeshTimerRef = useRef(null);
   const activeCharTimerRef = useRef(null);
@@ -135,7 +194,329 @@ export default function WeddingHeroSection() {
   };
 
   useEffect(() => {
+    let ticking = false;
+
+    const updateScrollAnimation = () => {
+      if (!scrollContainerRef.current) return;
+      const rect = scrollContainerRef.current.getBoundingClientRect();
+      const maxScroll = rect.height - window.innerHeight;
+      if (maxScroll <= 0) return;
+
+      const rawProgress = -rect.top / maxScroll;
+      const progress = Math.min(Math.max(rawProgress, 0), 1);
+
+      // 1. Mandap Zoom & Portal Transition:
+      // - Phase 1 (0 -> 0.18): Initial framing zoom (1.0 -> 1.80)
+      // - Phase 2 (0.18 -> 0.30): Zoom past the courtyard opening! Scale 1.80 -> 7.8
+      //   As the camera passes through into Section 2, Mandap fades out smoothly to 0
+      if (mandapRef.current) {
+        let zoom = 1.0;
+        let mandapOpacity = 1.0;
+
+        if (progress <= 0.18) {
+          const p = progress / 0.18;
+          zoom = 1.0 + p * 0.80; // 1.0 -> 1.80
+          mandapOpacity = 1.0;
+        } else {
+          const p2 = Math.min((progress - 0.18) / 0.12, 1); // 0 -> 1 over 0.18 to 0.30
+          zoom = 1.80 + Math.pow(p2, 1.25) * 6.0; // 1.80 -> 7.8
+          if (progress > 0.20) {
+            const fadeP = Math.min((progress - 0.20) / 0.10, 1);
+            mandapOpacity = Math.max(0, 1 - fadeP);
+          }
+        }
+
+        mandapRef.current.style.transform = `scale(${zoom}) translate3d(0, 0, 0)`;
+        mandapRef.current.style.transformOrigin = '50% 64%';
+        mandapRef.current.style.opacity = mandapOpacity;
+        mandapRef.current.style.pointerEvents = (progress > 0.18 || mandapOpacity < 0.1) ? 'none' : 'auto';
+      }
+
+      // Couple Outward Separation (Bride parts left, Groom parts right, Hawan drops down):
+      if (progress <= 0.18) {
+        if (brideRef.current) brideRef.current.style.transform = 'translate3d(0, 0, 0)';
+        if (groomRef.current) groomRef.current.style.transform = 'translate3d(0, 0, 0)';
+        if (hawanRef.current) hawanRef.current.style.transform = 'translate3d(0, 0, 0)';
+      } else {
+        const pFly = Math.min((progress - 0.18) / 0.12, 1);
+        const transBrideX = -pFly * 320;
+        const transGroomX = pFly * 320;
+        const transY = pFly * 120;
+        if (brideRef.current) brideRef.current.style.transform = `translate3d(${transBrideX}px, ${transY}px, 0)`;
+        if (groomRef.current) groomRef.current.style.transform = `translate3d(${transGroomX}px, ${transY}px, 0)`;
+        if (hawanRef.current) hawanRef.current.style.transform = `translate3d(0, ${transY * 1.3}px, 0)`;
+      }
+
+      // 2. Old Hero Border Slide-Away (Red Madhubani):
+      const pSlideOld = Math.min(Math.max((progress - 0.04) / 0.14, 0), 1); // 0 -> 1 over 0.04 to 0.18
+      const oldOffset = pSlideOld * 115;
+      const oldCornerOffset = pSlideOld * 135;
+
+      if (oldTopRef.current) oldTopRef.current.style.transform = `translate3d(0, -${oldOffset}%, 0)`;
+      if (oldBottomRef.current) oldBottomRef.current.style.transform = `translate3d(0, ${oldOffset}%, 0)`;
+      if (oldLeftRef.current) oldLeftRef.current.style.transform = `translate3d(-${oldOffset}%, 0, 0)`;
+      if (oldRightRef.current) oldRightRef.current.style.transform = `translate3d(${oldOffset}%, 0, 0)`;
+      if (oldCornerTLRef.current) oldCornerTLRef.current.style.transform = `translate3d(-${oldCornerOffset}%, -${oldCornerOffset}%, 0)`;
+      if (oldCornerTRRef.current) oldCornerTRRef.current.style.transform = `translate3d(${oldCornerOffset}%, -${oldCornerOffset}%, 0)`;
+      if (oldCornerBLRef.current) oldCornerBLRef.current.style.transform = `translate3d(-${oldCornerOffset}%, ${oldCornerOffset}%, 0)`;
+      if (oldCornerBRRef.current) oldCornerBRRef.current.style.transform = `translate3d(${oldCornerOffset}%, ${oldCornerOffset}%, 0)`;
+
+      // 3. Section 2 Royal Blue Borders Slide-In & Slide-Out:
+      // Slide-In (0.18 -> 0.32)
+      // Hold locked (0.32 -> 0.64)
+      // Slide-Out during Second Vertical Flip (0.64 -> 0.80)
+      let newOffset = 0;
+      let newCornerOffset = 0;
+      if (progress < 0.32) {
+        const pEnterNew = Math.min(Math.max((progress - 0.18) / 0.14, 0), 1);
+        const newEase = 1 - Math.pow(1 - pEnterNew, 2.2);
+        newOffset = (1 - newEase) * 115;
+        newCornerOffset = (1 - newEase) * 135;
+      } else if (progress > 0.64) {
+        const pExitNew = Math.min((progress - 0.64) / 0.16, 1);
+        const exitEase = Math.pow(pExitNew, 2.0);
+        newOffset = exitEase * 115;
+        newCornerOffset = exitEase * 135;
+      }
+
+      if (newTopRef.current) newTopRef.current.style.transform = `translate3d(0, -${newOffset}%, 0)`;
+      if (newBottomRef.current) newBottomRef.current.style.transform = `translate3d(0, ${newOffset}%, 0)`;
+      if (newLeftRef.current) newLeftRef.current.style.transform = `translate3d(-${newOffset}%, 0, 0)`;
+      if (newRightRef.current) newRightRef.current.style.transform = `translate3d(${newOffset}%, 0, 0)`;
+      if (newCornerTLRef.current) newCornerTLRef.current.style.transform = `translate3d(-${newCornerOffset}%, -${newCornerOffset}%, 0)`;
+      if (newCornerTRRef.current) newCornerTRRef.current.style.transform = `translate3d(${newCornerOffset}%, -${newCornerOffset}%, 0)`;
+      if (newCornerBLRef.current) newCornerBLRef.current.style.transform = `translate3d(-${newCornerOffset}%, ${newCornerOffset}%, 0)`;
+      if (newCornerBRRef.current) newCornerBRRef.current.style.transform = `translate3d(${newCornerOffset}%, ${newCornerOffset}%, 0)`;
+
+      // 4. Section 2 Royal Midnight Blue Background (Crossfade In and Out):
+      // Fades in over 0.16 -> 0.28, holds until 0.64, fades out over 0.64 -> 0.80
+      if (section2BgRef.current) {
+        if (progress <= 0.16) {
+          section2BgRef.current.style.opacity = '0';
+        } else if (progress <= 0.64) {
+          const pBg = Math.min((progress - 0.16) / 0.12, 1);
+          section2BgRef.current.style.opacity = pBg.toString();
+        } else {
+          const pExitBg = Math.min((progress - 0.64) / 0.16, 1);
+          section2BgRef.current.style.opacity = Math.max(0, 1 - pExitBg).toString();
+        }
+      }
+
+      // 5. Section 3 Deep Royal Emerald Background (Crossfade In smoothly):
+      // Fades in over 0.64 -> 0.80, holds until 1.00
+      if (section3BgRef.current) {
+        if (progress <= 0.64) {
+          section3BgRef.current.style.opacity = '0';
+        } else {
+          const pBg3 = Math.min((progress - 0.64) / 0.16, 1);
+          section3BgRef.current.style.opacity = pBg3.toString();
+        }
+      }
+
+      // 6. Section 3 Custom Emerald & Gold Borders (Slide-In):
+      // Slides in as Section 2 blue borders slide out (0.70 -> 0.84), holds locked until 1.00
+      let emOffset = 115;
+      let emCornerOffset = 135;
+      if (progress >= 0.70) {
+        const pEnterEm = Math.min((progress - 0.70) / 0.14, 1);
+        const emEase = 1 - Math.pow(1 - pEnterEm, 2.2);
+        emOffset = (1 - emEase) * 115;
+        emCornerOffset = (1 - emEase) * 135;
+      }
+
+      if (emeraldTopRef.current) emeraldTopRef.current.style.transform = `translate3d(0, -${emOffset}%, 0)`;
+      if (emeraldBottomRef.current) emeraldBottomRef.current.style.transform = `translate3d(0, ${emOffset}%, 0)`;
+      if (emeraldLeftRef.current) emeraldLeftRef.current.style.transform = `translate3d(-${emOffset}%, 0, 0)`;
+      if (emeraldRightRef.current) emeraldRightRef.current.style.transform = `translate3d(${emOffset}%, 0, 0)`;
+      if (emeraldCornerTLRef.current) emeraldCornerTLRef.current.style.transform = `translate3d(-${emCornerOffset}%, -${emCornerOffset}%, 0)`;
+      if (emeraldCornerTRRef.current) emeraldCornerTRRef.current.style.transform = `translate3d(${emCornerOffset}%, -${emCornerOffset}%, 0)`;
+      if (emeraldCornerBLRef.current) emeraldCornerBLRef.current.style.transform = `translate3d(-${emCornerOffset}%, ${emCornerOffset}%, 0)`;
+      if (emeraldCornerBRRef.current) emeraldCornerBRRef.current.style.transform = `translate3d(${emCornerOffset}%, ${emCornerOffset}%, 0)`;
+
+      // 7. Left Flank Characters (drift left and exit):
+      if (leftFlankRef.current) {
+        const sideP = Math.min(progress / 0.18, 1);
+        const opacity = Math.max(0, 1 - sideP);
+        const transX = -sideP * 200;
+        leftFlankRef.current.style.opacity = opacity;
+        leftFlankRef.current.style.transform = `translate3d(${transX}px, 0, 0)`;
+        leftFlankRef.current.style.pointerEvents = opacity < 0.05 ? 'none' : 'auto';
+      }
+
+      // 8. Right Flank Characters (drift right and exit):
+      if (rightFlankRef.current) {
+        const sideP = Math.min(progress / 0.18, 1);
+        const opacity = Math.max(0, 1 - sideP);
+        const transX = sideP * 200;
+        rightFlankRef.current.style.opacity = opacity;
+        rightFlankRef.current.style.transform = `translate3d(${transX}px, 0, 0)`;
+        rightFlankRef.current.style.pointerEvents = opacity < 0.05 ? 'none' : 'auto';
+      }
+
+      // 9. Section Title Header (drift up and exit):
+      if (headerRef.current) {
+        const headerP = Math.min(progress / 0.18, 1);
+        const opacity = Math.max(0, 1 - headerP);
+        const transY = -headerP * 80;
+        headerRef.current.style.opacity = opacity;
+        headerRef.current.style.transform = `translate3d(0, ${transY}px, 0)`;
+      }
+
+      // 10. Revealed Invitation Card Layer (Arrival & Second Vertical Flip):
+      // - Arrival (0.20 -> 0.32): Slides up from bottom (100vh -> 0vh)
+      // - Hold (0.32 -> 0.64): Rests centered
+      // - Second Vertical Flip (0.64 -> 0.84): Flips up along top scroll rod axis (rotateX 0deg -> 125deg)
+      //   smoothly unveiling Section 3's Bride & Groom cards underneath!
+      if (invitationLayerRef.current) {
+        if (progress <= 0.20) {
+          invitationLayerRef.current.style.opacity = '0';
+          invitationLayerRef.current.style.transform = 'translate3d(0, 100vh, 0)';
+          invitationLayerRef.current.style.pointerEvents = 'none';
+        } else if (progress <= 0.32) {
+          const slideP = (progress - 0.20) / 0.12;
+          const ease = 1 - Math.pow(1 - slideP, 2.2);
+          const transY = (1 - ease) * 100; // 100vh -> 0vh
+          const opacity = Math.min(slideP * 2.2, 1);
+
+          invitationLayerRef.current.style.opacity = opacity;
+          invitationLayerRef.current.style.transform = `translate3d(0, ${transY}vh, 0)`;
+          invitationLayerRef.current.style.pointerEvents = 'none';
+        } else if (progress <= 0.64) {
+          invitationLayerRef.current.style.opacity = '1';
+          invitationLayerRef.current.style.transformOrigin = '50% 16.74%';
+          invitationLayerRef.current.style.transform = 'perspective(2500px) rotateX(0deg)';
+          invitationLayerRef.current.style.pointerEvents = 'auto';
+        } else if (progress <= 0.84) {
+          // SECOND VERTICAL FLIP: The Farman scroll rolls/lifts up along the top wooden axis!
+          const pFlip2 = (progress - 0.64) / 0.20;
+          const flipEase = pFlip2 * pFlip2 * (3 - 2 * pFlip2);
+          const flipAngle = flipEase * 125; // 0deg -> 125deg
+          const fade = Math.max(0, 1 - Math.max(0, (pFlip2 - 0.30) / 0.40));
+
+          invitationLayerRef.current.style.transformOrigin = '50% 16.74%';
+          invitationLayerRef.current.style.transform = `perspective(2500px) rotateX(${flipAngle}deg)`;
+          invitationLayerRef.current.style.opacity = fade.toString();
+          invitationLayerRef.current.style.pointerEvents = pFlip2 > 0.65 ? 'none' : 'auto';
+        } else {
+          invitationLayerRef.current.style.opacity = '0';
+          invitationLayerRef.current.style.transformOrigin = '50% 16.74%';
+          invitationLayerRef.current.style.transform = 'perspective(2500px) rotateX(125deg)';
+          invitationLayerRef.current.style.pointerEvents = 'none';
+        }
+      }
+
+      // 11. First Vertical Flip: Royal Farman Unfolding on Scroll (Cover Layer):
+      if (cardCoverRef.current) {
+        if (progress <= 0.34) {
+          cardCoverRef.current.style.transformOrigin = '50% 16.74%';
+          cardCoverRef.current.style.transform = 'perspective(2500px) rotateX(0deg)';
+          cardCoverRef.current.style.opacity = '1';
+          cardCoverRef.current.style.pointerEvents = 'auto';
+        } else if (progress >= 0.50) {
+          cardCoverRef.current.style.transformOrigin = '50% 16.74%';
+          cardCoverRef.current.style.transform = 'perspective(2500px) rotateX(130deg)';
+          cardCoverRef.current.style.opacity = '0';
+          cardCoverRef.current.style.pointerEvents = 'none';
+        } else {
+          const openP = (progress - 0.34) / 0.16;
+          const ease = openP * openP * (3 - 2 * openP);
+          const angle = ease * 130;
+
+          cardCoverRef.current.style.transformOrigin = '50% 16.74%';
+          cardCoverRef.current.style.transform = `perspective(2500px) rotateX(${angle}deg)`;
+
+          if (openP < 0.65) {
+            cardCoverRef.current.style.opacity = '1';
+          } else {
+            const fade = 1 - (openP - 0.65) / 0.30;
+            cardCoverRef.current.style.opacity = Math.max(0, fade).toString();
+          }
+
+          cardCoverRef.current.style.pointerEvents = openP > 0.8 ? 'none' : 'auto';
+        }
+      }
+
+      // 12. Section 3 Revealed Couple Layer Backdrop:
+      if (coupleLayerRef.current) {
+        if (progress <= 0.64) {
+          coupleLayerRef.current.style.opacity = '0';
+          coupleLayerRef.current.style.pointerEvents = 'none';
+        } else if (progress <= 0.84) {
+          const pRev = (progress - 0.64) / 0.20;
+          const opacity = Math.min(pRev * 1.8, 1);
+          coupleLayerRef.current.style.opacity = opacity.toString();
+          coupleLayerRef.current.style.pointerEvents = pRev > 0.85 ? 'auto' : 'none';
+        } else {
+          coupleLayerRef.current.style.opacity = '1';
+          coupleLayerRef.current.style.pointerEvents = 'auto';
+        }
+      }
+
+      // 13. Bride Card (Slides in from Left) & Groom Card (Slides in from Right):
+      if (coupleBrideRef.current && coupleGroomRef.current) {
+        if (progress <= 0.64) {
+          coupleBrideRef.current.style.transform = 'translate3d(-105%, 0, 0) rotate(-4deg)';
+          coupleBrideRef.current.style.opacity = '0';
+          coupleGroomRef.current.style.transform = 'translate3d(105%, 0, 0) rotate(4deg)';
+          coupleGroomRef.current.style.opacity = '0';
+        } else if (progress <= 0.84) {
+          const pSlide = (progress - 0.64) / 0.20;
+          const ease = 1 - Math.pow(1 - pSlide, 2.4); // Smooth organic deceleration
+          const offset = (1 - ease) * 105; // 105% -> 0%
+          const rot = (1 - ease) * 4; // 4deg -> 0deg
+          const cardOpacity = Math.min(pSlide * 1.6, 1);
+
+          coupleBrideRef.current.style.transform = `translate3d(-${offset}%, 0, 0) rotate(-${rot}deg)`;
+          coupleBrideRef.current.style.opacity = cardOpacity.toString();
+
+          coupleGroomRef.current.style.transform = `translate3d(${offset}%, 0, 0) rotate(${rot}deg)`;
+          coupleGroomRef.current.style.opacity = cardOpacity.toString();
+        } else {
+          coupleBrideRef.current.style.transform = 'translate3d(0, 0, 0) rotate(0deg)';
+          coupleBrideRef.current.style.opacity = '1';
+
+          coupleGroomRef.current.style.transform = 'translate3d(0, 0, 0) rotate(0deg)';
+          coupleGroomRef.current.style.opacity = '1';
+        }
+      }
+
+      // 14. Section 3 Title Header (Gentle descent from top):
+      if (coupleTitleRef.current) {
+        if (progress <= 0.64) {
+          coupleTitleRef.current.style.transform = 'translate3d(0, -30px, 0)';
+          coupleTitleRef.current.style.opacity = '0';
+        } else if (progress <= 0.84) {
+          const pTitle = (progress - 0.64) / 0.20;
+          const easeTitle = 1 - Math.pow(1 - pTitle, 2.2);
+          const transY = (1 - easeTitle) * -30;
+          const titleOpacity = Math.min(pTitle * 1.5, 1);
+
+          coupleTitleRef.current.style.transform = `translate3d(0, ${transY}px, 0)`;
+          coupleTitleRef.current.style.opacity = titleOpacity.toString();
+        } else {
+          coupleTitleRef.current.style.transform = 'translate3d(0, 0, 0)';
+          coupleTitleRef.current.style.opacity = '1';
+        }
+      }
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          updateScrollAnimation();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    updateScrollAnimation(); // Initial setup
+
     return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
       if (toastTimeoutRef.current) {
         clearTimeout(toastTimeoutRef.current);
       }
@@ -153,10 +534,15 @@ export default function WeddingHeroSection() {
 
   return (
     <section
+      ref={scrollContainerRef}
       id="opening"
-      className={`relative h-screen min-h-[580px] flex flex-col justify-end items-center overflow-hidden select-none transition-colors duration-500 ${themeConfig.bgClass}`}
+      className="relative h-[580vh] w-full"
     >
-      {/* FLOATING THEME PALETTE SWITCHER (Commented out per request - uncomment anytime for live client demos) */}
+      {/* Sticky Viewport Window */}
+      <div
+        className={`sticky top-0 h-screen min-h-[580px] w-full flex flex-col justify-end items-center overflow-hidden select-none transition-colors duration-500 ${themeConfig.bgClass}`}
+      >
+      {/* FLOATING THEME PALETTE SWITCHER (Hidden per request) */}
       {/* <ThemeSwitcher /> */}
 
       {/* Auspicious Hawan Blessing Toaster (Top Center - visible for 2 seconds) */}
@@ -186,76 +572,230 @@ export default function WeddingHeroSection() {
         className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[550px] rounded-full blur-3xl pointer-events-none transition-colors duration-500 ${themeConfig.glowClass}`}
       />
 
-      {/* AUTHENTIC MADHUBANI ORNATE BORDER FRAME */}
+      {/* 1. AUTHENTIC HERO BORDER FRAME (Slides away on scroll: top up, bottom down, left left, right right) */}
       <div className="absolute inset-0 z-30 pointer-events-none">
-        {/* Top Border Strip */}
+        {/* Top Strip */}
         <div
-          className="absolute top-0 left-0 right-0 h-[20px] sm:h-[24px] md:h-[28px]"
-          style={{
-            backgroundImage: "url('/assets/madhubani/border.jpeg')",
-            backgroundRepeat: 'repeat-x',
-            backgroundSize: 'auto 100%',
-          }}
-        />
+          ref={oldTopRef}
+          className="absolute top-0 left-0 right-0 h-[20px] sm:h-[24px] md:h-[28px] will-change-transform"
+        >
+          <div
+            className="w-full h-full"
+            style={{
+              backgroundImage: "url('/assets/madhubani/border.jpeg')",
+              backgroundRepeat: 'repeat-x',
+              backgroundSize: 'auto 100%',
+            }}
+          />
+        </div>
 
-        {/* Bottom Border Strip */}
+        {/* Bottom Strip */}
         <div
-          className="absolute bottom-0 left-0 right-0 h-[20px] sm:h-[24px] md:h-[28px]"
-          style={{
-            backgroundImage: "url('/assets/madhubani/border.jpeg')",
-            backgroundRepeat: 'repeat-x',
-            backgroundSize: 'auto 100%',
-            transform: 'scaleY(-1)',
-          }}
-        />
+          ref={oldBottomRef}
+          className="absolute bottom-0 left-0 right-0 h-[20px] sm:h-[24px] md:h-[28px] will-change-transform"
+        >
+          <div
+            className="w-full h-full scale-y-[-1]"
+            style={{
+              backgroundImage: "url('/assets/madhubani/border.jpeg')",
+              backgroundRepeat: 'repeat-x',
+              backgroundSize: 'auto 100%',
+            }}
+          />
+        </div>
 
-        {/* Left Border Strip */}
+        {/* Left Strip */}
         <div
-          className="absolute top-0 bottom-0 left-0 w-[20px] sm:w-[24px] md:w-[28px]"
-          style={{
-            backgroundImage: "url('/assets/madhubani/border-vertical.jpg')",
-            backgroundRepeat: 'repeat-y',
-            backgroundSize: '100% auto',
-          }}
-        />
+          ref={oldLeftRef}
+          className="absolute top-0 bottom-0 left-0 w-[20px] sm:w-[24px] md:w-[28px] will-change-transform"
+        >
+          <div
+            className="w-full h-full"
+            style={{
+              backgroundImage: "url('/assets/madhubani/border-vertical.jpg')",
+              backgroundRepeat: 'repeat-y',
+              backgroundSize: '100% auto',
+            }}
+          />
+        </div>
 
-        {/* Right Border Strip */}
+        {/* Right Strip */}
         <div
-          className="absolute top-0 bottom-0 right-0 w-[20px] sm:w-[24px] md:w-[28px]"
-          style={{
-            backgroundImage: "url('/assets/madhubani/border-vertical.jpg')",
-            backgroundRepeat: 'repeat-y',
-            backgroundSize: '100% auto',
-            transform: 'scaleX(-1)',
-          }}
-        />
+          ref={oldRightRef}
+          className="absolute top-0 bottom-0 right-0 w-[20px] sm:w-[24px] md:w-[28px] will-change-transform"
+        >
+          <div
+            className="w-full h-full scale-x-[-1]"
+            style={{
+              backgroundImage: "url('/assets/madhubani/border-vertical.jpg')",
+              backgroundRepeat: 'repeat-y',
+              backgroundSize: '100% auto',
+            }}
+          />
+        </div>
 
         {/* 4 Corner Lotus Blocks */}
-        <img
-          src="/assets/madhubani/corner-piece.png"
-          alt="Border Corner"
-          className="absolute top-0 left-0 w-[20px] sm:w-[24px] md:w-[28px] h-[20px] sm:h-[24px] md:h-[28px] object-contain select-none z-35"
-        />
-        <img
-          src="/assets/madhubani/corner-piece.png"
-          alt="Border Corner"
-          className="absolute top-0 right-0 w-[20px] sm:w-[24px] md:w-[28px] h-[20px] sm:h-[24px] md:h-[28px] object-contain select-none z-35 scale-x-[-1]"
-        />
-        <img
-          src="/assets/madhubani/corner-piece.png"
-          alt="Border Corner"
-          className="absolute bottom-0 left-0 w-[20px] sm:w-[24px] md:w-[28px] h-[20px] sm:h-[24px] md:h-[28px] object-contain select-none z-35 scale-y-[-1]"
-        />
-        <img
-          src="/assets/madhubani/corner-piece.png"
-          alt="Border Corner"
-          className="absolute bottom-0 right-0 w-[20px] sm:w-[24px] md:w-[28px] h-[20px] sm:h-[24px] md:h-[28px] object-contain select-none z-35 scale-x-[-1] scale-y-[-1]"
-        />
+        <div
+          ref={oldCornerTLRef}
+          className="absolute top-0 left-0 w-[20px] sm:w-[24px] md:w-[28px] h-[20px] sm:h-[24px] md:h-[28px] z-35 will-change-transform"
+        >
+          <img
+            src="/assets/madhubani/corner-piece.png"
+            alt="Border Corner"
+            className="w-full h-full object-contain select-none"
+          />
+        </div>
+        <div
+          ref={oldCornerTRRef}
+          className="absolute top-0 right-0 w-[20px] sm:w-[24px] md:w-[28px] h-[20px] sm:h-[24px] md:h-[28px] z-35 will-change-transform"
+        >
+          <img
+            src="/assets/madhubani/corner-piece.png"
+            alt="Border Corner"
+            className="w-full h-full object-contain select-none scale-x-[-1]"
+          />
+        </div>
+        <div
+          ref={oldCornerBLRef}
+          className="absolute bottom-0 left-0 w-[20px] sm:w-[24px] md:w-[28px] h-[20px] sm:h-[24px] md:h-[28px] z-35 will-change-transform"
+        >
+          <img
+            src="/assets/madhubani/corner-piece.png"
+            alt="Border Corner"
+            className="w-full h-full object-contain select-none scale-y-[-1]"
+          />
+        </div>
+        <div
+          ref={oldCornerBRRef}
+          className="absolute bottom-0 right-0 w-[20px] sm:w-[24px] md:w-[28px] h-[20px] sm:h-[24px] md:h-[28px] z-35 will-change-transform"
+        >
+          <img
+            src="/assets/madhubani/corner-piece.png"
+            alt="Border Corner"
+            className="w-full h-full object-contain select-none scale-x-[-1] scale-y-[-1]"
+          />
+        </div>
+      </div>
+
+      {/* 2. NEW SECTION 2 BORDER FRAME (Slides in on scroll: top down, bottom up, left right, right left) */}
+      <div className="absolute inset-0 z-35 pointer-events-none">
+        {/* Top Strip */}
+        <div
+          ref={newTopRef}
+          className="absolute top-0 left-0 right-0 h-[22px] sm:h-[26px] md:h-[30px] will-change-transform"
+          style={{ transform: 'translate3d(0, -115%, 0)' }}
+        >
+          <div
+            className="w-full h-full"
+            style={{
+              backgroundImage: "url('/assets/madhubani/blue-border-h.jpg')",
+              backgroundRepeat: 'repeat-x',
+              backgroundSize: 'auto 100%',
+            }}
+          />
+        </div>
+
+        {/* Bottom Strip */}
+        <div
+          ref={newBottomRef}
+          className="absolute bottom-0 left-0 right-0 h-[22px] sm:h-[26px] md:h-[30px] will-change-transform"
+          style={{ transform: 'translate3d(0, 115%, 0)' }}
+        >
+          <div
+            className="w-full h-full scale-y-[-1]"
+            style={{
+              backgroundImage: "url('/assets/madhubani/blue-border-h.jpg')",
+              backgroundRepeat: 'repeat-x',
+              backgroundSize: 'auto 100%',
+            }}
+          />
+        </div>
+
+        {/* Left Strip */}
+        <div
+          ref={newLeftRef}
+          className="absolute top-0 bottom-0 left-0 w-[22px] sm:w-[26px] md:w-[30px] will-change-transform"
+          style={{ transform: 'translate3d(-115%, 0, 0)' }}
+        >
+          <div
+            className="w-full h-full"
+            style={{
+              backgroundImage: "url('/assets/madhubani/blue-border-v.jpg')",
+              backgroundRepeat: 'repeat-y',
+              backgroundSize: '100% auto',
+            }}
+          />
+        </div>
+
+        {/* Right Strip */}
+        <div
+          ref={newRightRef}
+          className="absolute top-0 bottom-0 right-0 w-[22px] sm:w-[26px] md:w-[30px] will-change-transform"
+          style={{ transform: 'translate3d(115%, 0, 0)' }}
+        >
+          <div
+            className="w-full h-full scale-x-[-1]"
+            style={{
+              backgroundImage: "url('/assets/madhubani/blue-border-v.jpg')",
+              backgroundRepeat: 'repeat-y',
+              backgroundSize: '100% auto',
+            }}
+          />
+        </div>
+
+        {/* 4 Sun Medallion Corner Blocks */}
+        <div
+          ref={newCornerTLRef}
+          className="absolute top-0 left-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-40 will-change-transform"
+          style={{ transform: 'translate3d(-135%, -135%, 0)' }}
+        >
+          <img
+            src="/assets/madhubani/sun-corner-clean.png"
+            alt="Sun Corner"
+            className="w-full h-full object-contain select-none"
+          />
+        </div>
+        <div
+          ref={newCornerTRRef}
+          className="absolute top-0 right-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-40 will-change-transform"
+          style={{ transform: 'translate3d(135%, -135%, 0)' }}
+        >
+          <img
+            src="/assets/madhubani/sun-corner-clean.png"
+            alt="Sun Corner"
+            className="w-full h-full object-contain select-none scale-x-[-1]"
+          />
+        </div>
+        <div
+          ref={newCornerBLRef}
+          className="absolute bottom-0 left-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-40 will-change-transform"
+          style={{ transform: 'translate3d(-135%, 135%, 0)' }}
+        >
+          <img
+            src="/assets/madhubani/sun-corner-clean.png"
+            alt="Sun Corner"
+            className="w-full h-full object-contain select-none scale-y-[-1]"
+          />
+        </div>
+        <div
+          ref={newCornerBRRef}
+          className="absolute bottom-0 right-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-40 will-change-transform"
+          style={{ transform: 'translate3d(135%, 135%, 0)' }}
+        >
+          <img
+            src="/assets/madhubani/sun-corner-clean.png"
+            alt="Sun Corner"
+            className="w-full h-full object-contain select-none scale-x-[-1] scale-y-[-1]"
+          />
+        </div>
       </div>
 
       {/* SECTION HEADER: Royal Title & Auspicious Invocation with Dynamic Theme Styling */}
-      <div className="absolute top-[26px] sm:top-[28px] md:top-[32px] left-1/2 -translate-x-1/2 z-25 text-center max-w-5xl mx-auto space-y-0.5 sm:space-y-1 px-4 pointer-events-none select-none">
-        <div className={`inline-flex items-center gap-2 px-3.5 py-0.5 rounded-full shadow-lg font-poppins text-[10px] sm:text-xs md:text-sm font-semibold tracking-widest drop-shadow transition-colors duration-500 ${themeConfig.badgeClass}`}>
+      <div 
+        ref={headerRef}
+        className="absolute top-[26px] sm:top-[28px] md:top-[32px] left-1/2 -translate-x-1/2 z-25 text-center max-w-5xl mx-auto space-y-0.5 sm:space-y-1 px-4 pointer-events-none select-none will-change-transform"
+      >
+        <div className={`inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-0.5 rounded-full shadow-lg font-poppins text-[9px] sm:text-xs md:text-sm font-semibold tracking-widest drop-shadow transition-colors duration-500 ${themeConfig.badgeClass}`}>
           <span>🪔</span>
           <span>{WEDDING_CONFIG.invocation}</span>
           <span>🪔</span>
@@ -271,9 +811,12 @@ export default function WeddingHeroSection() {
       {/* CENTERPIECE: THE FULL MADHUBANI WEDDING STAGE SCENE */}
       <div className="relative z-10 w-full h-full flex items-end justify-center">
         
-        {/* --- MADHUBANI FOLK ART TAPESTRY: CHARACTERS SCATTERED ACROSS CANVAS --- */}
-
-        {/* 1. Left Royal Elephant (Bottom-Left Anchor) */}
+        {/* --- LEFT FLANK CHARACTERS (Fades & Drifts Outward During Zoom-In) --- */}
+        <div 
+          ref={leftFlankRef}
+          className="absolute inset-0 pointer-events-none z-15 will-change-transform"
+        >
+          {/* 1. Left Royal Elephant (Bottom-Left Anchor) */}
         <div
           className={`hidden lg:flex flex-col items-center absolute left-[1.8%] xl:left-[2.2%] bottom-[1.5%] xl:bottom-[4%] group cursor-pointer hover:z-50 transition-transform ${
             activeCharacter === 'left_elephant' ? 'z-50' : 'z-25'
@@ -423,9 +966,14 @@ export default function WeddingHeroSection() {
             Vadhu Swagat
           </span>
         </div>
+      </div>
 
-        {/* --- CENTER: THE ROYAL MANDAP & FIRE PAVILION --- */}
-        <div className="relative flex flex-col items-center justify-end h-full max-h-[83%] w-auto aspect-[3373/3426] z-20 pb-0">
+      {/* --- CENTER: THE ROYAL MANDAP & FIRE PAVILION (ZOOM TARGET) --- */}
+      <div 
+        ref={mandapRef}
+        className="relative flex flex-col items-center justify-end h-full max-h-[83%] w-auto aspect-[3373/3426] z-20 pb-0 will-change-transform"
+        style={{ transformOrigin: '50% 64%' }}
+      >
           
           {/* Mandap Structure (Transparent PNG) */}
           <div className="relative w-full h-full flex flex-col items-center justify-end">
@@ -573,7 +1121,8 @@ export default function WeddingHeroSection() {
               
               {/* 1. Sacred Hawan Fire - DIRECTLY CENTERED BELOW GANESH */}
               <div
-                className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-full flex flex-col items-center justify-end hover:z-50 group cursor-pointer pointer-events-auto transition-all ${
+                ref={hawanRef}
+                className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-full flex flex-col items-center justify-end hover:z-50 group cursor-pointer pointer-events-auto transition-all will-change-transform ${
                   activeCharacter === 'hawan' ? 'z-50' : 'z-30'
                 }`}
                 onClick={() => handleCharacterTap('hawan', handleOfferSamagri)}
@@ -610,7 +1159,8 @@ export default function WeddingHeroSection() {
 
               {/* 2. Bride with Varmala - Highest Z-Index Prominence */}
               <div
-                className={`absolute bottom-0 right-[62.5%] sm:right-[63.5%] md:right-[64%] h-full flex flex-col items-center justify-end hover:z-50 group cursor-pointer pointer-events-auto transition-all ${
+                ref={brideRef}
+                className={`absolute bottom-0 right-[62.5%] sm:right-[63.5%] md:right-[64%] h-full flex flex-col items-center justify-end hover:z-50 group cursor-pointer pointer-events-auto transition-all will-change-transform ${
                   activeCharacter === 'bride' ? 'z-50' : 'z-35'
                 }`}
                 onClick={() => handleCharacterTap('bride', () => shaadiAudio.playPop())}
@@ -637,7 +1187,8 @@ export default function WeddingHeroSection() {
 
               {/* 3. Groom with Varmala & Sherwani - Highest Z-Index Prominence */}
               <div
-                className={`absolute bottom-0 left-[71.5%] sm:left-[72%] md:left-[72.5%] h-full flex flex-col items-center justify-end hover:z-50 group cursor-pointer pointer-events-auto transition-all ${
+                ref={groomRef}
+                className={`absolute bottom-0 left-[71.5%] sm:left-[72%] md:left-[72.5%] h-full flex flex-col items-center justify-end hover:z-50 group cursor-pointer pointer-events-auto transition-all will-change-transform ${
                   activeCharacter === 'groom' ? 'z-50' : 'z-35'
                 }`}
                 onClick={() => handleCharacterTap('groom', () => shaadiAudio.playPop())}
@@ -667,7 +1218,12 @@ export default function WeddingHeroSection() {
 
         </div>
 
-        {/* 6. Shehnai Vaadan Player (Upper Roof Flank - Tucked Inward) */}
+        {/* --- RIGHT FLANK CHARACTERS (Fades & Drifts Outward During Zoom-In) --- */}
+        <div 
+          ref={rightFlankRef}
+          className="absolute inset-0 pointer-events-none z-15 will-change-transform"
+        >
+          {/* 6. Shehnai Vaadan Player (Upper Roof Flank - Tucked Inward) */}
         <div
           className={`hidden lg:flex flex-col items-center absolute right-[15%] xl:right-[16.5%] top-[10.5%] xl:top-[11.5%] group cursor-pointer hover:scale-105 hover:z-50 transition-all -rotate-6 ${
             activeCharacter === 'shehnai_man' ? 'z-50' : 'z-15'
@@ -817,8 +1373,195 @@ export default function WeddingHeroSection() {
             🐘 Shubh Gajraj (Click to Roar!)
           </span>
         </div>
+      </div>
 
       </div>
+
+      {/* SECTION 2 (INVITATION) ROYAL MIDNIGHT BLUE BACKDROP (Crossfades in on scroll) */}
+      <div
+        ref={section2BgRef}
+        className="absolute inset-0 z-28 pointer-events-none opacity-0 will-change-[opacity]"
+        style={{
+          background: 'radial-gradient(ellipse at 50% 50%, #0b2247 0%, #06142a 55%, #020712 100%)',
+        }}
+      >
+        {/* Midnight Blue Royal Stardust Dots */}
+        <div
+          className="absolute inset-0 opacity-25"
+          style={{
+            backgroundImage: 'radial-gradient(#ffd700 1.2px, transparent 1.2px)',
+            backgroundSize: '24px 24px',
+          }}
+        />
+        {/* Ambient Sapphire Glow behind Invitation Card */}
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[650px] rounded-full blur-3xl pointer-events-none bg-blue-600/20"
+        />
+      </div>
+
+      {/* SECTION 3 DEEP ROYAL EMERALD BACKDROP (Crossfades in during second vertical flip) */}
+      <div
+        ref={section3BgRef}
+        className="absolute inset-0 z-30 pointer-events-none opacity-0 will-change-[opacity]"
+        style={{
+          background: 'radial-gradient(ellipse at 50% 50%, #0e3b2b 0%, #061c14 60%, #020b08 100%)',
+        }}
+      >
+        {/* Royal Gold Stardust Pattern */}
+        <div
+          className="absolute inset-0 opacity-25"
+          style={{
+            backgroundImage: 'radial-gradient(#ffd700 1.2px, transparent 1.2px)',
+            backgroundSize: '24px 24px',
+          }}
+        />
+        {/* Ambient Emerald Gold Glow */}
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[650px] rounded-full blur-3xl pointer-events-none bg-emerald-600/20"
+        />
+      </div>
+
+      {/* SECTION 3 EMERALD & GOLD BORDERS & CORNERS (Slides in during second vertical flip) */}
+      <div className="absolute inset-0 z-45 pointer-events-none">
+        {/* Top Emerald Strip */}
+        <div
+          ref={emeraldTopRef}
+          className="absolute top-0 left-0 right-0 h-[22px] sm:h-[26px] md:h-[30px] will-change-transform"
+          style={{ transform: 'translate3d(0, -115%, 0)' }}
+        >
+          <div
+            className="w-full h-full"
+            style={{
+              backgroundImage: "url('/assets/borders/emerald_border_h.png')",
+              backgroundRepeat: 'repeat-x',
+              backgroundSize: 'auto 100%',
+            }}
+          />
+        </div>
+
+        {/* Bottom Emerald Strip */}
+        <div
+          ref={emeraldBottomRef}
+          className="absolute bottom-0 left-0 right-0 h-[22px] sm:h-[26px] md:h-[30px] will-change-transform"
+          style={{ transform: 'translate3d(0, 115%, 0)' }}
+        >
+          <div
+            className="w-full h-full scale-y-[-1]"
+            style={{
+              backgroundImage: "url('/assets/borders/emerald_border_h.png')",
+              backgroundRepeat: 'repeat-x',
+              backgroundSize: 'auto 100%',
+            }}
+          />
+        </div>
+
+        {/* Left Emerald Strip */}
+        <div
+          ref={emeraldLeftRef}
+          className="absolute top-0 bottom-0 left-0 w-[22px] sm:w-[26px] md:w-[30px] will-change-transform"
+          style={{ transform: 'translate3d(-115%, 0, 0)' }}
+        >
+          <div
+            className="w-full h-full"
+            style={{
+              backgroundImage: "url('/assets/borders/emerald_border_v.png')",
+              backgroundRepeat: 'repeat-y',
+              backgroundSize: '100% auto',
+            }}
+          />
+        </div>
+
+        {/* Right Emerald Strip */}
+        <div
+          ref={emeraldRightRef}
+          className="absolute top-0 bottom-0 right-0 w-[22px] sm:w-[26px] md:w-[30px] will-change-transform"
+          style={{ transform: 'translate3d(115%, 0, 0)' }}
+        >
+          <div
+            className="w-full h-full scale-x-[-1]"
+            style={{
+              backgroundImage: "url('/assets/borders/emerald_border_v.png')",
+              backgroundRepeat: 'repeat-y',
+              backgroundSize: '100% auto',
+            }}
+          />
+        </div>
+
+        {/* 4 Corner Medallions */}
+        <div
+          ref={emeraldCornerTLRef}
+          className="absolute top-0 left-0 w-[22px] sm:w-[26px] md:w-[30px] h-[22px] sm:h-[26px] md:h-[30px] z-50 will-change-transform"
+          style={{ transform: 'translate3d(-135%, -135%, 0)' }}
+        >
+          <img
+            src="/assets/borders/emerald_corner.png"
+            alt="Royal Corner Motif Top Left"
+            className="w-full h-full object-contain select-none"
+          />
+        </div>
+        <div
+          ref={emeraldCornerTRRef}
+          className="absolute top-0 right-0 w-[22px] sm:w-[26px] md:w-[30px] h-[22px] sm:h-[26px] md:h-[30px] z-50 will-change-transform"
+          style={{ transform: 'translate3d(135%, -135%, 0)' }}
+        >
+          <img
+            src="/assets/borders/emerald_corner.png"
+            alt="Royal Corner Motif Top Right"
+            className="w-full h-full object-contain select-none scale-x-[-1]"
+          />
+        </div>
+        <div
+          ref={emeraldCornerBLRef}
+          className="absolute bottom-0 left-0 w-[22px] sm:w-[26px] md:w-[30px] h-[22px] sm:h-[26px] md:h-[30px] z-50 will-change-transform"
+          style={{ transform: 'translate3d(-135%, 135%, 0)' }}
+        >
+          <img
+            src="/assets/borders/emerald_corner.png"
+            alt="Royal Corner Motif Bottom Left"
+            className="w-full h-full object-contain select-none scale-y-[-1]"
+          />
+        </div>
+        <div
+          ref={emeraldCornerBRRef}
+          className="absolute bottom-0 right-0 w-[22px] sm:w-[26px] md:w-[30px] h-[22px] sm:h-[26px] md:h-[30px] z-50 will-change-transform"
+          style={{ transform: 'translate3d(135%, 135%, 0)' }}
+        >
+          <img
+            src="/assets/borders/emerald_corner.png"
+            alt="Royal Corner Motif Bottom Right"
+            className="w-full h-full object-contain select-none scale-x-[-1] scale-y-[-1]"
+          />
+        </div>
+      </div>
+
+      {/* SECTION 3 REVEALED COUPLE LAYER (Megan & Brad Introduction Cards) */}
+      <div
+        ref={coupleLayerRef}
+        className="absolute inset-0 z-38 flex items-center justify-center pointer-events-none will-change-transform overflow-hidden"
+        style={{ opacity: 0 }}
+      >
+        <MeetCouple 
+          embedded={true} 
+          brideCardRef={coupleBrideRef}
+          groomCardRef={coupleGroomRef}
+          titleRef={coupleTitleRef}
+        />
+      </div>
+
+      {/* REVEALED INVITATION CARD LAYER (Slides in from the Bottom as we zoom past the Mandap) */}
+      <div
+        ref={invitationLayerRef}
+        className="absolute inset-0 z-40 flex items-center justify-center px-1.5 sm:px-6 py-2 pointer-events-none will-change-transform"
+        style={{ opacity: 0, transform: 'translate3d(0, 100vh, 0)' }}
+      >
+        <div className="w-full max-w-5xl flex-shrink-0">
+          <InvitationCard embedded={true} coverRef={cardCoverRef} />
+        </div>
+      </div>
+
+      {/* End Sticky Viewport Window */}
+      </div>
+
     </section>
   );
 }

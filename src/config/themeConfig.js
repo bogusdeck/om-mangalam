@@ -11,7 +11,7 @@
  *   - 'emerald' : Emerald Green with Rani Pink (#134E3A)
  * ===========================================================================
  */
-export const ACTIVE_THEME = 'maroon';
+export const ACTIVE_THEME = 'emerald';
 
 // Re-export wedding client config for convenience
 export { WEDDING_CONFIG } from './weddingConfig';
@@ -23,7 +23,7 @@ export { WEDDING_CONFIG } from './weddingConfig';
 export const THEMES = {
   maroon: {
     id: 'maroon',
-    name: 'Royal Maroon (Current)',
+    name: 'Royal Maroon',
     label: 'Royal Maroon',
     hex: '#701015',
     swatchColor: '#701015',
@@ -51,13 +51,13 @@ export const THEMES = {
     glowClass: 'bg-[#C9A24A]/20',
     badgeClass: 'bg-[#061f20]/95 border-2 border-[#C9A24A] text-[#F2A33A]',
     titleColor: 'gold-gradient-text',
-    heartColor: 'text-[#E0457B]',
+    heartColor: 'text-red-500',
     charBadgeClass: 'bg-[#061f20]/90 text-[#F2A33A] border border-[#C9A24A]/40',
     blessingCardBg: 'bg-gradient-to-b from-[#041a1b] via-[#0b2f30] to-[#041a1b]',
   },
   emerald: {
     id: 'emerald',
-    name: 'Emerald with Rani Pink',
+    name: 'Emerald Green & Red Assets (Current)',
     label: 'Emerald Green',
     hex: '#134E3A',
     swatchColor: '#134E3A',
@@ -65,10 +65,10 @@ export const THEMES = {
     bgClass: 'bg-gradient-to-b from-[#09261c] via-[#134E3A] to-[#061c14]',
     dotColor: '#D4A84B',
     dotOpacity: 'opacity-20',
-    glowClass: 'bg-[#E0457B]/15',
+    glowClass: 'bg-amber-500/15',
     badgeClass: 'bg-[#072118]/95 border-2 border-[#D4A84B] text-[#D4A84B]',
     titleColor: 'gold-gradient-text',
-    heartColor: 'text-[#E0457B]',
+    heartColor: 'text-red-500',
     charBadgeClass: 'bg-[#072118]/90 text-[#D4A84B] border border-[#D4A84B]/40',
     blessingCardBg: 'bg-gradient-to-b from-[#051c14] via-[#0e3b2b] to-[#051c14]',
   },

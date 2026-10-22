@@ -28,40 +28,16 @@ export const sectionsConfig = [
   // },
   {
     id: 'hero',
-    name: 'Vedic Mandap Hero Scene',
+    name: 'Vedic Mandap Hero & Invitation Zoom Journey',
     Component: WeddingHeroSection,
     enabled: true,
   },
-  // {
-  //   id: 'invitation',
-  //   name: 'Invitation Card',
-  //   Component: InvitationCard,
-  //   enabled: false,
-  // },
-  // {
-  //   id: 'couple',
-  //   name: 'Meet The Couple',
-  //   Component: MeetCouple,
-  //   enabled: false,
-  // },
-  // {
-  //   id: 'story',
-  //   name: 'Love Story',
-  //   Component: LoveStory,
-  //   enabled: false,
-  // },
-  // {
-  //   id: 'family',
-  //   name: 'Family Blessings',
-  //   Component: FamilySection,
-  //   enabled: false,
-  // },
-  // {
-  //   id: 'events',
-  //   name: 'Main Events',
-  //   Component: MainEvents,
-  //   enabled: false,
-  // },
+  {
+    id: 'events',
+    name: 'Wedding Events & Itinerary',
+    Component: MainEvents,
+    enabled: true,
+  },
   // {
   //   id: 'baraat',
   //   name: 'Baraat Simulator',

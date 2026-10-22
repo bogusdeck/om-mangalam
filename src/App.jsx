@@ -16,7 +16,7 @@ function AppContent() {
   }, []);
 
   return (
-    <div className={`relative min-h-screen ${themeConfig.bgClass} text-amber-100 font-poppins overflow-x-hidden transition-colors duration-500`}>
+    <div className={`relative min-h-screen ${themeConfig.bgClass} text-amber-100 font-poppins overflow-x-clip transition-colors duration-500`}>
       {/* Main Interactive Sections Journey */}
       <main className="relative">
         {sectionsConfig

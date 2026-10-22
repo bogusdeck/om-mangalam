@@ -9,12 +9,26 @@ import {
 const ThemeContext = createContext(null);
 
 export function ThemeProvider({ children }) {
-  // Theme is strictly governed by ACTIVE_THEME in config
-  const [themeId, setThemeId] = useState(ACTIVE_THEME);
+  const getInitialTheme = () => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const urlTheme = params.get('theme');
+      if (urlTheme && THEMES[urlTheme]) return urlTheme;
+    }
+    return ACTIVE_THEME;
+  };
+
+  const [themeId, setThemeId] = useState(getInitialTheme);
 
   // Sync state if ACTIVE_THEME in config changes
   useEffect(() => {
-    setThemeId(ACTIVE_THEME);
+    const params = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
+    const urlTheme = params ? params.get('theme') : null;
+    if (urlTheme && THEMES[urlTheme]) {
+      setThemeId(urlTheme);
+    } else {
+      setThemeId(ACTIVE_THEME);
+    }
   }, [ACTIVE_THEME]);
 
   const themeConfig = getTheme(themeId);
