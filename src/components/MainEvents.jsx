@@ -192,7 +192,7 @@ export default function MainEvents() {
       {/* 4 Corner Sun Medallions */}
       <div
         ref={cornerTLRef}
-        className="absolute top-0 left-0 w-[22px] sm:w-[26px] md:w-[30px] h-[22px] sm:h-[26px] md:h-[30px] z-40 pointer-events-none will-change-transform"
+        className="absolute top-0 left-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-40 pointer-events-none will-change-transform"
         style={{ transform: 'translate3d(-135%, -135%, 0)' }}
       >
         <img
@@ -203,7 +203,7 @@ export default function MainEvents() {
       </div>
       <div
         ref={cornerTRRef}
-        className="absolute top-0 right-0 w-[22px] sm:w-[26px] md:w-[30px] h-[22px] sm:h-[26px] md:h-[30px] z-40 pointer-events-none will-change-transform"
+        className="absolute top-0 right-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-40 pointer-events-none will-change-transform"
         style={{ transform: 'translate3d(135%, -135%, 0)' }}
       >
         <img
@@ -214,7 +214,7 @@ export default function MainEvents() {
       </div>
       <div
         ref={cornerBLRef}
-        className="absolute bottom-0 left-0 w-[22px] sm:w-[26px] md:w-[30px] h-[22px] sm:h-[26px] md:h-[30px] z-40 pointer-events-none will-change-transform"
+        className="absolute bottom-0 left-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-40 pointer-events-none will-change-transform"
         style={{ transform: 'translate3d(-135%, 135%, 0)' }}
       >
         <img
@@ -225,7 +225,7 @@ export default function MainEvents() {
       </div>
       <div
         ref={cornerBRRef}
-        className="absolute bottom-0 right-0 w-[22px] sm:w-[26px] md:w-[30px] h-[22px] sm:h-[26px] md:h-[30px] z-40 pointer-events-none will-change-transform"
+        className="absolute bottom-0 right-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-40 pointer-events-none will-change-transform"
         style={{ transform: 'translate3d(135%, 135%, 0)' }}
       >
         <img

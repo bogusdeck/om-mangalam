@@ -577,7 +577,7 @@ export default function WeddingHeroSection() {
         {/* Top Strip */}
         <div
           ref={oldTopRef}
-          className="absolute top-0 left-0 right-0 h-[20px] sm:h-[24px] md:h-[28px] will-change-transform"
+          className="absolute top-0 left-0 right-0 h-[22px] sm:h-[26px] md:h-[30px] will-change-transform"
         >
           <div
             className="w-full h-full"
@@ -592,7 +592,7 @@ export default function WeddingHeroSection() {
         {/* Bottom Strip */}
         <div
           ref={oldBottomRef}
-          className="absolute bottom-0 left-0 right-0 h-[20px] sm:h-[24px] md:h-[28px] will-change-transform"
+          className="absolute bottom-0 left-0 right-0 h-[22px] sm:h-[26px] md:h-[30px] will-change-transform"
         >
           <div
             className="w-full h-full scale-y-[-1]"
@@ -607,7 +607,7 @@ export default function WeddingHeroSection() {
         {/* Left Strip */}
         <div
           ref={oldLeftRef}
-          className="absolute top-0 bottom-0 left-0 w-[20px] sm:w-[24px] md:w-[28px] will-change-transform"
+          className="absolute top-0 bottom-0 left-0 w-[22px] sm:w-[26px] md:w-[30px] will-change-transform"
         >
           <div
             className="w-full h-full"
@@ -622,7 +622,7 @@ export default function WeddingHeroSection() {
         {/* Right Strip */}
         <div
           ref={oldRightRef}
-          className="absolute top-0 bottom-0 right-0 w-[20px] sm:w-[24px] md:w-[28px] will-change-transform"
+          className="absolute top-0 bottom-0 right-0 w-[22px] sm:w-[26px] md:w-[30px] will-change-transform"
         >
           <div
             className="w-full h-full scale-x-[-1]"
@@ -637,7 +637,7 @@ export default function WeddingHeroSection() {
         {/* 4 Corner Lotus Blocks */}
         <div
           ref={oldCornerTLRef}
-          className="absolute top-0 left-0 w-[20px] sm:w-[24px] md:w-[28px] h-[20px] sm:h-[24px] md:h-[28px] z-35 will-change-transform"
+          className="absolute top-0 left-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-35 will-change-transform"
         >
           <img
             src="/assets/madhubani/corner-piece.png"
@@ -647,7 +647,7 @@ export default function WeddingHeroSection() {
         </div>
         <div
           ref={oldCornerTRRef}
-          className="absolute top-0 right-0 w-[20px] sm:w-[24px] md:w-[28px] h-[20px] sm:h-[24px] md:h-[28px] z-35 will-change-transform"
+          className="absolute top-0 right-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-35 will-change-transform"
         >
           <img
             src="/assets/madhubani/corner-piece.png"
@@ -657,7 +657,7 @@ export default function WeddingHeroSection() {
         </div>
         <div
           ref={oldCornerBLRef}
-          className="absolute bottom-0 left-0 w-[20px] sm:w-[24px] md:w-[28px] h-[20px] sm:h-[24px] md:h-[28px] z-35 will-change-transform"
+          className="absolute bottom-0 left-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-35 will-change-transform"
         >
           <img
             src="/assets/madhubani/corner-piece.png"
@@ -667,7 +667,7 @@ export default function WeddingHeroSection() {
         </div>
         <div
           ref={oldCornerBRRef}
-          className="absolute bottom-0 right-0 w-[20px] sm:w-[24px] md:w-[28px] h-[20px] sm:h-[24px] md:h-[28px] z-35 will-change-transform"
+          className="absolute bottom-0 right-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-35 will-change-transform"
         >
           <img
             src="/assets/madhubani/corner-piece.png"
@@ -1490,7 +1490,7 @@ export default function WeddingHeroSection() {
         {/* 4 Corner Medallions */}
         <div
           ref={emeraldCornerTLRef}
-          className="absolute top-0 left-0 w-[22px] sm:w-[26px] md:w-[30px] h-[22px] sm:h-[26px] md:h-[30px] z-50 will-change-transform"
+          className="absolute top-0 left-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-50 will-change-transform"
           style={{ transform: 'translate3d(-135%, -135%, 0)' }}
         >
           <img
@@ -1501,7 +1501,7 @@ export default function WeddingHeroSection() {
         </div>
         <div
           ref={emeraldCornerTRRef}
-          className="absolute top-0 right-0 w-[22px] sm:w-[26px] md:w-[30px] h-[22px] sm:h-[26px] md:h-[30px] z-50 will-change-transform"
+          className="absolute top-0 right-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-50 will-change-transform"
           style={{ transform: 'translate3d(135%, -135%, 0)' }}
         >
           <img
@@ -1512,7 +1512,7 @@ export default function WeddingHeroSection() {
         </div>
         <div
           ref={emeraldCornerBLRef}
-          className="absolute bottom-0 left-0 w-[22px] sm:w-[26px] md:w-[30px] h-[22px] sm:h-[26px] md:h-[30px] z-50 will-change-transform"
+          className="absolute bottom-0 left-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-50 will-change-transform"
           style={{ transform: 'translate3d(-135%, 135%, 0)' }}
         >
           <img
@@ -1523,7 +1523,7 @@ export default function WeddingHeroSection() {
         </div>
         <div
           ref={emeraldCornerBRRef}
-          className="absolute bottom-0 right-0 w-[22px] sm:w-[26px] md:w-[30px] h-[22px] sm:h-[26px] md:h-[30px] z-50 will-change-transform"
+          className="absolute bottom-0 right-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-50 will-change-transform"
           style={{ transform: 'translate3d(135%, 135%, 0)' }}
         >
           <img
