@@ -344,16 +344,6 @@ export default function MainEvents() {
   const cardRefs = useRef([]);
   const headerRef = useRef(null);
 
-  // Section 4 Architectural Borders & Corners (Slide-in transition refs)
-  const borderTopRef = useRef(null);
-  const borderBottomRef = useRef(null);
-  const borderLeftRef = useRef(null);
-  const borderRightRef = useRef(null);
-  const cornerTLRef = useRef(null);
-  const cornerTRRef = useRef(null);
-  const cornerBLRef = useRef(null);
-  const cornerBRRef = useRef(null);
-
   // Dynamic SVG Geometry State
   const [vineData, setVineData] = useState({
     mainPathD: '',
@@ -656,7 +646,7 @@ export default function MainEvents() {
 
     const ctx = gsap.context(() => {
       // 0. Section 4 Entrance Transition from Section 3:
-      // Architectural gold arch borders slide in, header glides up from bottom, grapevine glides up from bottom
+      // Header and grapevine glide up from bottom inside the pinned gold arch frame
       const entryTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -665,32 +655,6 @@ export default function MainEvents() {
           scrub: 0.6,
         },
       });
-
-      // Gold Arch Architectural Borders & Sun Medallions Slide-In
-      if (borderTopRef.current) {
-        entryTl.fromTo(borderTopRef.current, { yPercent: -115 }, { yPercent: 0, ease: 'power2.out' }, 0);
-      }
-      if (borderBottomRef.current) {
-        entryTl.fromTo(borderBottomRef.current, { yPercent: 115 }, { yPercent: 0, ease: 'power2.out' }, 0);
-      }
-      if (borderLeftRef.current) {
-        entryTl.fromTo(borderLeftRef.current, { xPercent: -115 }, { xPercent: 0, ease: 'power2.out' }, 0);
-      }
-      if (borderRightRef.current) {
-        entryTl.fromTo(borderRightRef.current, { xPercent: 115 }, { xPercent: 0, ease: 'power2.out' }, 0);
-      }
-      if (cornerTLRef.current) {
-        entryTl.fromTo(cornerTLRef.current, { xPercent: -135, yPercent: -135 }, { xPercent: 0, yPercent: 0, ease: 'power2.out' }, 0);
-      }
-      if (cornerTRRef.current) {
-        entryTl.fromTo(cornerTRRef.current, { xPercent: 135, yPercent: -135 }, { xPercent: 0, yPercent: 0, ease: 'power2.out' }, 0);
-      }
-      if (cornerBLRef.current) {
-        entryTl.fromTo(cornerBLRef.current, { xPercent: -135, yPercent: 135 }, { xPercent: 0, yPercent: 0, ease: 'power2.out' }, 0);
-      }
-      if (cornerBRRef.current) {
-        entryTl.fromTo(cornerBRRef.current, { xPercent: 135, yPercent: 135 }, { xPercent: 0, yPercent: 0, ease: 'power2.out' }, 0);
-      }
 
       // Section 4 Heading Rises Up from the Bottom
       if (headerRef.current) {
@@ -904,111 +868,6 @@ export default function MainEvents() {
     >
       {/* Target anchor for legacy links pointing to #events */}
       <div id="events" className="absolute -top-12 left-0 pointer-events-none" />
-
-      {/* ============================================================== */}
-      {/* Royal Gold Arch & Sun Medallion Architectural Borders         */}
-      {/* ============================================================== */}
-      {/* Top Border */}
-      <div
-        ref={borderTopRef}
-        className="absolute top-0 left-0 right-0 h-[22px] sm:h-[26px] md:h-[30px] z-30 pointer-events-none will-change-transform"
-      >
-        <div
-          className="w-full h-full"
-          style={{
-            backgroundImage: "url('/assets/borders/gold_arch_border_h.webp')",
-            backgroundRepeat: 'repeat-x',
-            backgroundSize: 'auto 100%',
-          }}
-        />
-      </div>
-
-      {/* Bottom Border */}
-      <div
-        ref={borderBottomRef}
-        className="absolute bottom-0 left-0 right-0 h-[22px] sm:h-[26px] md:h-[30px] z-30 pointer-events-none will-change-transform"
-      >
-        <div
-          className="w-full h-full scale-y-[-1]"
-          style={{
-            backgroundImage: "url('/assets/borders/gold_arch_border_h.webp')",
-            backgroundRepeat: 'repeat-x',
-            backgroundSize: 'auto 100%',
-          }}
-        />
-      </div>
-
-      {/* Left Border */}
-      <div
-        ref={borderLeftRef}
-        className="absolute top-0 bottom-0 left-0 w-[22px] sm:w-[26px] md:w-[30px] z-30 pointer-events-none will-change-transform"
-      >
-        <div
-          className="w-full h-full"
-          style={{
-            backgroundImage: "url('/assets/borders/gold_arch_border_v.webp')",
-            backgroundRepeat: 'repeat-y',
-            backgroundSize: '100% auto',
-          }}
-        />
-      </div>
-
-      {/* Right Border */}
-      <div
-        ref={borderRightRef}
-        className="absolute top-0 bottom-0 right-0 w-[22px] sm:w-[26px] md:w-[30px] z-30 pointer-events-none will-change-transform"
-      >
-        <div
-          className="w-full h-full scale-x-[-1]"
-          style={{
-            backgroundImage: "url('/assets/borders/gold_arch_border_v.webp')",
-            backgroundRepeat: 'repeat-y',
-            backgroundSize: '100% auto',
-          }}
-        />
-      </div>
-
-      {/* 4 Corner Stepped-Out Sun Medallions */}
-      <div
-        ref={cornerTLRef}
-        className="absolute top-0 left-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-40 pointer-events-none will-change-transform"
-      >
-        <img
-          src="/assets/borders/gold_arch_corner.webp"
-          alt="Royal Sun Corner Top Left"
-          className="w-full h-full object-contain select-none"
-        />
-      </div>
-      <div
-        ref={cornerTRRef}
-        className="absolute top-0 right-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-40 pointer-events-none will-change-transform"
-      >
-        <img
-          src="/assets/borders/gold_arch_corner.webp"
-          alt="Royal Sun Corner Top Right"
-          className="w-full h-full object-contain select-none scale-x-[-1]"
-        />
-      </div>
-      <div
-        ref={cornerBLRef}
-        className="absolute bottom-0 left-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-40 pointer-events-none will-change-transform"
-      >
-        <img
-          src="/assets/borders/gold_arch_corner.webp"
-          alt="Royal Sun Corner Bottom Left"
-          className="w-full h-full object-contain select-none scale-y-[-1]"
-        />
-      </div>
-      <div
-        ref={cornerBRRef}
-        className="absolute bottom-0 right-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-40 pointer-events-none will-change-transform"
-      >
-        <img
-          src="/assets/borders/gold_arch_corner.webp"
-          alt="Royal Sun Corner Bottom Right"
-          className="w-full h-full object-contain select-none scale-x-[-1] scale-y-[-1]"
-        />
-      </div>
 
       {/* ============================================================== */}
       {/* Section Header (Centered & Preserved)                          */}

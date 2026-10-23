@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import LoadingScreen from './components/LoadingScreen';
 import LeftAside from './components/LeftAside';
 import MarigoldRain from './components/MarigoldRain';
+import ArchitecturalBorderFrame from './components/ArchitecturalBorderFrame';
 import { sectionsConfig } from './config/sectionsConfig';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { WEDDING_CONFIG, getCoupleInitials } from './config/weddingConfig';
@@ -17,6 +18,9 @@ function AppContent() {
 
   return (
     <div className={`relative min-h-screen ${themeConfig.bgClass} text-amber-100 font-poppins overflow-x-clip transition-colors duration-500`}>
+      {/* Global Pinned Architectural Viewport Border Frame */}
+      <ArchitecturalBorderFrame />
+
       {/* Main Interactive Sections Journey */}
       <main className="relative">
         {sectionsConfig
