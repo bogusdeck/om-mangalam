@@ -342,6 +342,17 @@ export default function MainEvents() {
   const svgRef = useRef(null);
   const maskPathRef = useRef(null);
   const cardRefs = useRef([]);
+  const headerRef = useRef(null);
+
+  // Section 4 Architectural Borders & Corners (Slide-in transition refs)
+  const borderTopRef = useRef(null);
+  const borderBottomRef = useRef(null);
+  const borderLeftRef = useRef(null);
+  const borderRightRef = useRef(null);
+  const cornerTLRef = useRef(null);
+  const cornerTRRef = useRef(null);
+  const cornerBLRef = useRef(null);
+  const cornerBRRef = useRef(null);
 
   // Dynamic SVG Geometry State
   const [vineData, setVineData] = useState({
@@ -644,7 +655,64 @@ export default function MainEvents() {
     }
 
     const ctx = gsap.context(() => {
-      // 1. Vine Growth via SVG Mask (Tied cleanly to 60% viewport line)
+      // 0. Section 4 Entrance Transition from Section 3:
+      // Architectural gold arch borders slide in, header glides up from bottom, grapevine glides up from bottom
+      const entryTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top bottom',
+          end: 'top top',
+          scrub: 0.6,
+        },
+      });
+
+      // Gold Arch Architectural Borders & Sun Medallions Slide-In
+      if (borderTopRef.current) {
+        entryTl.fromTo(borderTopRef.current, { yPercent: -115 }, { yPercent: 0, ease: 'power2.out' }, 0);
+      }
+      if (borderBottomRef.current) {
+        entryTl.fromTo(borderBottomRef.current, { yPercent: 115 }, { yPercent: 0, ease: 'power2.out' }, 0);
+      }
+      if (borderLeftRef.current) {
+        entryTl.fromTo(borderLeftRef.current, { xPercent: -115 }, { xPercent: 0, ease: 'power2.out' }, 0);
+      }
+      if (borderRightRef.current) {
+        entryTl.fromTo(borderRightRef.current, { xPercent: 115 }, { xPercent: 0, ease: 'power2.out' }, 0);
+      }
+      if (cornerTLRef.current) {
+        entryTl.fromTo(cornerTLRef.current, { xPercent: -135, yPercent: -135 }, { xPercent: 0, yPercent: 0, ease: 'power2.out' }, 0);
+      }
+      if (cornerTRRef.current) {
+        entryTl.fromTo(cornerTRRef.current, { xPercent: 135, yPercent: -135 }, { xPercent: 0, yPercent: 0, ease: 'power2.out' }, 0);
+      }
+      if (cornerBLRef.current) {
+        entryTl.fromTo(cornerBLRef.current, { xPercent: -135, yPercent: 135 }, { xPercent: 0, yPercent: 0, ease: 'power2.out' }, 0);
+      }
+      if (cornerBRRef.current) {
+        entryTl.fromTo(cornerBRRef.current, { xPercent: 135, yPercent: 135 }, { xPercent: 0, yPercent: 0, ease: 'power2.out' }, 0);
+      }
+
+      // Section 4 Heading Rises Up from the Bottom
+      if (headerRef.current) {
+        entryTl.fromTo(
+          headerRef.current,
+          { y: 120, opacity: 0 },
+          { y: 0, opacity: 1, ease: 'power2.out' },
+          0.04
+        );
+      }
+
+      // Grapevine Rises Up from the Bottom into Position
+      if (svgRef.current) {
+        entryTl.fromTo(
+          svgRef.current,
+          { y: 150, opacity: 0 },
+          { y: 0, opacity: 1, ease: 'power2.out' },
+          0.06
+        );
+      }
+
+      // 1. Vine Growth via SVG Mask (Starts smoothly as section enters and grows progressively)
       if (maskPathRef.current) {
         const pathLength = maskPathRef.current.getTotalLength() || 2500;
 
@@ -658,7 +726,7 @@ export default function MainEvents() {
           ease: 'none',
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: 'top 60%',
+            start: 'top 80%',
             end: 'bottom 60%',
             scrub: 0.6,
           },
@@ -824,7 +892,7 @@ export default function MainEvents() {
     <section
       id="timeline"
       ref={sectionRef}
-      className="relative w-full min-h-screen py-16 sm:py-24 md:py-28 px-3 sm:px-6 md:px-12 text-center overflow-x-hidden select-none"
+      className="relative w-full min-h-screen pt-20 sm:pt-24 md:pt-28 pb-24 sm:pb-32 px-3 sm:px-6 md:px-12 text-center overflow-x-hidden select-none"
       style={{
         '--red': '#b3141c',
         '--gold': '#b8862b',
@@ -841,7 +909,10 @@ export default function MainEvents() {
       {/* Royal Gold Arch & Sun Medallion Architectural Borders         */}
       {/* ============================================================== */}
       {/* Top Border */}
-      <div className="absolute top-0 left-0 right-0 h-[22px] sm:h-[26px] md:h-[30px] z-30 pointer-events-none">
+      <div
+        ref={borderTopRef}
+        className="absolute top-0 left-0 right-0 h-[22px] sm:h-[26px] md:h-[30px] z-30 pointer-events-none will-change-transform"
+      >
         <div
           className="w-full h-full"
           style={{
@@ -853,7 +924,10 @@ export default function MainEvents() {
       </div>
 
       {/* Bottom Border */}
-      <div className="absolute bottom-0 left-0 right-0 h-[22px] sm:h-[26px] md:h-[30px] z-30 pointer-events-none">
+      <div
+        ref={borderBottomRef}
+        className="absolute bottom-0 left-0 right-0 h-[22px] sm:h-[26px] md:h-[30px] z-30 pointer-events-none will-change-transform"
+      >
         <div
           className="w-full h-full scale-y-[-1]"
           style={{
@@ -865,7 +939,10 @@ export default function MainEvents() {
       </div>
 
       {/* Left Border */}
-      <div className="absolute top-0 bottom-0 left-0 w-[22px] sm:w-[26px] md:w-[30px] z-30 pointer-events-none">
+      <div
+        ref={borderLeftRef}
+        className="absolute top-0 bottom-0 left-0 w-[22px] sm:w-[26px] md:w-[30px] z-30 pointer-events-none will-change-transform"
+      >
         <div
           className="w-full h-full"
           style={{
@@ -877,7 +954,10 @@ export default function MainEvents() {
       </div>
 
       {/* Right Border */}
-      <div className="absolute top-0 bottom-0 right-0 w-[22px] sm:w-[26px] md:w-[30px] z-30 pointer-events-none">
+      <div
+        ref={borderRightRef}
+        className="absolute top-0 bottom-0 right-0 w-[22px] sm:w-[26px] md:w-[30px] z-30 pointer-events-none will-change-transform"
+      >
         <div
           className="w-full h-full scale-x-[-1]"
           style={{
@@ -889,28 +969,40 @@ export default function MainEvents() {
       </div>
 
       {/* 4 Corner Stepped-Out Sun Medallions */}
-      <div className="absolute top-0 left-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-40 pointer-events-none">
+      <div
+        ref={cornerTLRef}
+        className="absolute top-0 left-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-40 pointer-events-none will-change-transform"
+      >
         <img
           src="/assets/borders/gold_arch_corner.webp"
           alt="Royal Sun Corner Top Left"
           className="w-full h-full object-contain select-none"
         />
       </div>
-      <div className="absolute top-0 right-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-40 pointer-events-none">
+      <div
+        ref={cornerTRRef}
+        className="absolute top-0 right-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-40 pointer-events-none will-change-transform"
+      >
         <img
           src="/assets/borders/gold_arch_corner.webp"
           alt="Royal Sun Corner Top Right"
           className="w-full h-full object-contain select-none scale-x-[-1]"
         />
       </div>
-      <div className="absolute bottom-0 left-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-40 pointer-events-none">
+      <div
+        ref={cornerBLRef}
+        className="absolute bottom-0 left-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-40 pointer-events-none will-change-transform"
+      >
         <img
           src="/assets/borders/gold_arch_corner.webp"
           alt="Royal Sun Corner Bottom Left"
           className="w-full h-full object-contain select-none scale-y-[-1]"
         />
       </div>
-      <div className="absolute bottom-0 right-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-40 pointer-events-none">
+      <div
+        ref={cornerBRRef}
+        className="absolute bottom-0 right-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-40 pointer-events-none will-change-transform"
+      >
         <img
           src="/assets/borders/gold_arch_corner.webp"
           alt="Royal Sun Corner Bottom Right"
@@ -921,7 +1013,10 @@ export default function MainEvents() {
       {/* ============================================================== */}
       {/* Section Header (Centered & Preserved)                          */}
       {/* ============================================================== */}
-      <header className="max-w-4xl mx-auto flex flex-col items-center justify-center text-center z-20 mb-14 sm:mb-20">
+      <header
+        ref={headerRef}
+        className="max-w-4xl mx-auto flex flex-col items-center justify-center text-center z-20 mb-14 sm:mb-20 will-change-transform"
+      >
         {eventsConfig.badge && (
           <div className="bg-[#360814]/90 text-amber-300 font-pixel text-[7px] sm:text-[9px] md:text-[10px] px-3.5 sm:px-4 py-1 rounded-full border border-amber-400/50 shadow-md mb-2 tracking-widest inline-flex items-center gap-1.5">
             <span>✨</span>

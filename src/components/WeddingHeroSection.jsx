@@ -205,6 +205,9 @@ export default function WeddingHeroSection() {
       const rawProgress = -rect.top / maxScroll;
       const progress = Math.min(Math.max(rawProgress, 0), 1);
 
+      // Section 3 exit progress as Section 4 enters (when scrollContainer reaches bottom and scrolls off)
+      const pExitS3 = Math.min(Math.max((window.innerHeight - rect.bottom) / window.innerHeight, 0), 1);
+
       // 1. Mandap Zoom & Portal Transition:
       // - Phase 1 (0 -> 0.18): Initial framing zoom (1.0 -> 1.80)
       // - Phase 2 (0.18 -> 0.30): Zoom past the courtyard opening! Scale 1.80 -> 7.8
@@ -302,10 +305,11 @@ export default function WeddingHeroSection() {
         }
       }
 
-      // 5. Section 3 Deep Royal Emerald Background (Crossfade In smoothly):
-      // Fades in over 0.64 -> 0.80, holds until 1.00
+      // 5. Section 3 Deep Royal Emerald Background (Crossfade In and Out toward Section 4):
       if (section3BgRef.current) {
-        if (progress <= 0.64) {
+        if (pExitS3 > 0) {
+          section3BgRef.current.style.opacity = Math.max(0, 1 - pExitS3).toString();
+        } else if (progress <= 0.64) {
           section3BgRef.current.style.opacity = '0';
         } else {
           const pBg3 = Math.min((progress - 0.64) / 0.16, 1);
@@ -313,11 +317,17 @@ export default function WeddingHeroSection() {
         }
       }
 
-      // 6. Section 3 Custom Emerald & Gold Borders (Slide-In):
-      // Slides in as Section 2 blue borders slide out (0.70 -> 0.84), holds locked until 1.00
+      // 6. Section 3 Custom Emerald & Gold Borders (Slide-In & Slide-Out Transition to Section 4):
+      // - Slide-In (0.70 -> 0.84)
+      // - Hold locked while in Section 3 (0.84 -> 1.00)
+      // - Slide-Out as user scrolls into Section 4 (pExitS3: 0 -> 1)
       let emOffset = 115;
       let emCornerOffset = 135;
-      if (progress >= 0.70) {
+      if (pExitS3 > 0) {
+        const exitEase = Math.pow(pExitS3, 1.8);
+        emOffset = exitEase * 115;
+        emCornerOffset = exitEase * 135;
+      } else if (progress >= 0.70) {
         const pEnterEm = Math.min((progress - 0.70) / 0.14, 1);
         const emEase = 1 - Math.pow(1 - pEnterEm, 2.2);
         emOffset = (1 - emEase) * 115;
@@ -438,7 +448,10 @@ export default function WeddingHeroSection() {
 
       // 12. Section 3 Revealed Couple Layer Backdrop:
       if (coupleLayerRef.current) {
-        if (progress <= 0.64) {
+        if (pExitS3 > 0) {
+          coupleLayerRef.current.style.opacity = Math.max(0, 1 - pExitS3 * 1.5).toString();
+          coupleLayerRef.current.style.pointerEvents = pExitS3 > 0.3 ? 'none' : 'auto';
+        } else if (progress <= 0.64) {
           coupleLayerRef.current.style.opacity = '0';
           coupleLayerRef.current.style.pointerEvents = 'none';
         } else if (progress <= 0.84) {
@@ -454,7 +467,20 @@ export default function WeddingHeroSection() {
 
       // 13. Bride Card (Slides in from Left) & Groom Card (Slides in from Right):
       if (coupleBrideRef.current && coupleGroomRef.current) {
-        if (progress <= 0.64) {
+        if (pExitS3 > 0) {
+          // Section 3 Exit Transition to Section 4:
+          // Bride slides left (-115%), Groom slides right (115%), slight organic rotation and fade
+          const exitEase = Math.pow(pExitS3, 1.6);
+          const offset = exitEase * 115;
+          const rot = exitEase * 5;
+          const cardOpacity = Math.max(0, 1 - pExitS3 * 1.5);
+
+          coupleBrideRef.current.style.transform = `translate3d(-${offset}%, 0, 0) rotate(-${rot}deg)`;
+          coupleBrideRef.current.style.opacity = cardOpacity.toString();
+
+          coupleGroomRef.current.style.transform = `translate3d(${offset}%, 0, 0) rotate(${rot}deg)`;
+          coupleGroomRef.current.style.opacity = cardOpacity.toString();
+        } else if (progress <= 0.64) {
           coupleBrideRef.current.style.transform = 'translate3d(-105%, 0, 0) rotate(-4deg)';
           coupleBrideRef.current.style.opacity = '0';
           coupleGroomRef.current.style.transform = 'translate3d(105%, 0, 0) rotate(4deg)';
@@ -480,9 +506,15 @@ export default function WeddingHeroSection() {
         }
       }
 
-      // 14. Section 3 Title Header (Gentle descent from top):
+      // 14. Section 3 Title Header (Gentle descent from top, drift up on exit):
       if (coupleTitleRef.current) {
-        if (progress <= 0.64) {
+        if (pExitS3 > 0) {
+          const transY = -pExitS3 * 50;
+          const titleOpacity = Math.max(0, 1 - pExitS3 * 1.6);
+
+          coupleTitleRef.current.style.transform = `translate3d(0, ${transY}px, 0)`;
+          coupleTitleRef.current.style.opacity = titleOpacity.toString();
+        } else if (progress <= 0.64) {
           coupleTitleRef.current.style.transform = 'translate3d(0, -30px, 0)';
           coupleTitleRef.current.style.opacity = '0';
         } else if (progress <= 0.84) {
@@ -1398,6 +1430,15 @@ export default function WeddingHeroSection() {
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[650px] rounded-full blur-3xl pointer-events-none bg-blue-600/20"
         />
       </div>
+
+      {/* SECTION 4 DEEP WINE PREVIEW BACKDROP (Revealed as emerald fades out) */}
+      <div
+        className="absolute inset-0 z-29 pointer-events-none"
+        style={{
+          backgroundColor: '#1b050d',
+          backgroundImage: 'radial-gradient(circle at 50% 10%, #2f0714 0%, #170208 80%)',
+        }}
+      />
 
       {/* SECTION 3 DEEP ROYAL EMERALD BACKDROP (Crossfades in during second vertical flip) */}
       <div
