@@ -120,14 +120,28 @@ export default function ArchitecturalBorderFrame() {
         goldCornerOffset = 0;
       } else if (pExitS3 > 0) {
         // Transition from Section 3 to Section 4:
-        // Emerald borders slide OUT, Gold Arch borders slide IN
-        const exitEase = Math.pow(pExitS3, 1.8);
-        emOffset = exitEase * 115;
-        emCornerOffset = exitEase * 135;
+        // FIRST slide out Section 3 border, THEN slide in Section 4 border!
+        if (pExitS3 <= 0.48) {
+          // Phase 1 (0.00 -> 0.48): Section 3 Emerald borders slide OUT beyond screen edges
+          const pExitEm = pExitS3 / 0.48;
+          const exitEase = Math.pow(pExitEm, 1.8);
+          emOffset = exitEase * 115;
+          emCornerOffset = exitEase * 135;
 
-        const enterEase = 1 - Math.pow(1 - pExitS3, 2.2);
-        goldOffset = (1 - enterEase) * 115;
-        goldCornerOffset = (1 - enterEase) * 135;
+          // Section 4 Gold Arch borders remain waiting off-screen
+          goldOffset = 115;
+          goldCornerOffset = 135;
+        } else {
+          // Phase 2 (0.48 -> 1.00): Section 3 Emerald borders are fully off-screen
+          emOffset = 115;
+          emCornerOffset = 135;
+
+          // Section 4 Gold Arch borders slide IN from beyond screen edges into place
+          const pEnterGold = Math.min((pExitS3 - 0.48) / 0.52, 1);
+          const enterEase = 1 - Math.pow(1 - pEnterGold, 2.2);
+          goldOffset = (1 - enterEase) * 115;
+          goldCornerOffset = (1 - enterEase) * 135;
+        }
       } else {
         // Section 1 (Mandap): 0.00 -> 0.18
         if (progress <= 0.04) {

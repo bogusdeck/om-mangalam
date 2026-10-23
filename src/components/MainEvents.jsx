@@ -656,13 +656,13 @@ export default function MainEvents() {
         },
       });
 
-      // Section 4 Heading Rises Up from the Bottom
+      // Section 4 Heading Rises Up from the Bottom (choreographed as Gold Arch border slides in)
       if (headerRef.current) {
         entryTl.fromTo(
           headerRef.current,
           { y: 120, opacity: 0 },
           { y: 0, opacity: 1, ease: 'power2.out' },
-          0.04
+          0.28
         );
       }
 
@@ -672,7 +672,7 @@ export default function MainEvents() {
           svgRef.current,
           { y: 150, opacity: 0 },
           { y: 0, opacity: 1, ease: 'power2.out' },
-          0.06
+          0.32
         );
       }
 
