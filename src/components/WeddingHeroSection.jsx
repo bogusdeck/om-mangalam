@@ -1431,15 +1431,6 @@ export default function WeddingHeroSection() {
         />
       </div>
 
-      {/* SECTION 4 DEEP WINE PREVIEW BACKDROP (Revealed as emerald fades out) */}
-      <div
-        className="absolute inset-0 z-29 pointer-events-none"
-        style={{
-          backgroundColor: '#1b050d',
-          backgroundImage: 'radial-gradient(circle at 50% 10%, #2f0714 0%, #170208 80%)',
-        }}
-      />
-
       {/* SECTION 3 DEEP ROYAL EMERALD BACKDROP (Crossfades in during second vertical flip) */}
       <div
         ref={section3BgRef}
