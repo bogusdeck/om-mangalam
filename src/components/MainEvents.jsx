@@ -845,7 +845,7 @@ export default function MainEvents() {
         <div
           className="w-full h-full"
           style={{
-            backgroundImage: "url('/assets/borders/gold_arch_border_h.png')",
+            backgroundImage: "url('/assets/borders/gold_arch_border_h.webp')",
             backgroundRepeat: 'repeat-x',
             backgroundSize: 'auto 100%',
           }}
@@ -857,7 +857,7 @@ export default function MainEvents() {
         <div
           className="w-full h-full scale-y-[-1]"
           style={{
-            backgroundImage: "url('/assets/borders/gold_arch_border_h.png')",
+            backgroundImage: "url('/assets/borders/gold_arch_border_h.webp')",
             backgroundRepeat: 'repeat-x',
             backgroundSize: 'auto 100%',
           }}
@@ -869,7 +869,7 @@ export default function MainEvents() {
         <div
           className="w-full h-full"
           style={{
-            backgroundImage: "url('/assets/borders/gold_arch_border_v.png')",
+            backgroundImage: "url('/assets/borders/gold_arch_border_v.webp')",
             backgroundRepeat: 'repeat-y',
             backgroundSize: '100% auto',
           }}
@@ -881,7 +881,7 @@ export default function MainEvents() {
         <div
           className="w-full h-full scale-x-[-1]"
           style={{
-            backgroundImage: "url('/assets/borders/gold_arch_border_v.png')",
+            backgroundImage: "url('/assets/borders/gold_arch_border_v.webp')",
             backgroundRepeat: 'repeat-y',
             backgroundSize: '100% auto',
           }}
@@ -891,28 +891,28 @@ export default function MainEvents() {
       {/* 4 Corner Stepped-Out Sun Medallions */}
       <div className="absolute top-0 left-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-40 pointer-events-none">
         <img
-          src="/assets/borders/gold_arch_corner.png"
+          src="/assets/borders/gold_arch_corner.webp"
           alt="Royal Sun Corner Top Left"
           className="w-full h-full object-contain select-none"
         />
       </div>
       <div className="absolute top-0 right-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-40 pointer-events-none">
         <img
-          src="/assets/borders/gold_arch_corner.png"
+          src="/assets/borders/gold_arch_corner.webp"
           alt="Royal Sun Corner Top Right"
           className="w-full h-full object-contain select-none scale-x-[-1]"
         />
       </div>
       <div className="absolute bottom-0 left-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-40 pointer-events-none">
         <img
-          src="/assets/borders/gold_arch_corner.png"
+          src="/assets/borders/gold_arch_corner.webp"
           alt="Royal Sun Corner Bottom Left"
           className="w-full h-full object-contain select-none scale-y-[-1]"
         />
       </div>
       <div className="absolute bottom-0 right-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-40 pointer-events-none">
         <img
-          src="/assets/borders/gold_arch_corner.png"
+          src="/assets/borders/gold_arch_corner.webp"
           alt="Royal Sun Corner Bottom Right"
           className="w-full h-full object-contain select-none scale-x-[-1] scale-y-[-1]"
         />

@@ -582,7 +582,7 @@ export default function WeddingHeroSection() {
           <div
             className="w-full h-full"
             style={{
-              backgroundImage: "url('/assets/madhubani/border.jpeg')",
+              backgroundImage: "url('/assets/madhubani/border.webp')",
               backgroundRepeat: 'repeat-x',
               backgroundSize: 'auto 100%',
             }}
@@ -597,7 +597,7 @@ export default function WeddingHeroSection() {
           <div
             className="w-full h-full scale-y-[-1]"
             style={{
-              backgroundImage: "url('/assets/madhubani/border.jpeg')",
+              backgroundImage: "url('/assets/madhubani/border.webp')",
               backgroundRepeat: 'repeat-x',
               backgroundSize: 'auto 100%',
             }}
@@ -612,7 +612,7 @@ export default function WeddingHeroSection() {
           <div
             className="w-full h-full"
             style={{
-              backgroundImage: "url('/assets/madhubani/border-vertical.jpg')",
+              backgroundImage: "url('/assets/madhubani/border-vertical.webp')",
               backgroundRepeat: 'repeat-y',
               backgroundSize: '100% auto',
             }}
@@ -627,7 +627,7 @@ export default function WeddingHeroSection() {
           <div
             className="w-full h-full scale-x-[-1]"
             style={{
-              backgroundImage: "url('/assets/madhubani/border-vertical.jpg')",
+              backgroundImage: "url('/assets/madhubani/border-vertical.webp')",
               backgroundRepeat: 'repeat-y',
               backgroundSize: '100% auto',
             }}
@@ -640,7 +640,7 @@ export default function WeddingHeroSection() {
           className="absolute top-0 left-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-35 will-change-transform"
         >
           <img
-            src="/assets/madhubani/corner-piece.png"
+            src="/assets/madhubani/corner-piece.webp"
             alt="Border Corner"
             className="w-full h-full object-contain select-none"
           />
@@ -650,7 +650,7 @@ export default function WeddingHeroSection() {
           className="absolute top-0 right-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-35 will-change-transform"
         >
           <img
-            src="/assets/madhubani/corner-piece.png"
+            src="/assets/madhubani/corner-piece.webp"
             alt="Border Corner"
             className="w-full h-full object-contain select-none scale-x-[-1]"
           />
@@ -660,7 +660,7 @@ export default function WeddingHeroSection() {
           className="absolute bottom-0 left-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-35 will-change-transform"
         >
           <img
-            src="/assets/madhubani/corner-piece.png"
+            src="/assets/madhubani/corner-piece.webp"
             alt="Border Corner"
             className="w-full h-full object-contain select-none scale-y-[-1]"
           />
@@ -670,7 +670,7 @@ export default function WeddingHeroSection() {
           className="absolute bottom-0 right-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-35 will-change-transform"
         >
           <img
-            src="/assets/madhubani/corner-piece.png"
+            src="/assets/madhubani/corner-piece.webp"
             alt="Border Corner"
             className="w-full h-full object-contain select-none scale-x-[-1] scale-y-[-1]"
           />
@@ -688,7 +688,7 @@ export default function WeddingHeroSection() {
           <div
             className="w-full h-full"
             style={{
-              backgroundImage: "url('/assets/madhubani/blue-border-h.jpg')",
+              backgroundImage: "url('/assets/madhubani/blue-border-h.webp')",
               backgroundRepeat: 'repeat-x',
               backgroundSize: 'auto 100%',
             }}
@@ -704,7 +704,7 @@ export default function WeddingHeroSection() {
           <div
             className="w-full h-full scale-y-[-1]"
             style={{
-              backgroundImage: "url('/assets/madhubani/blue-border-h.jpg')",
+              backgroundImage: "url('/assets/madhubani/blue-border-h.webp')",
               backgroundRepeat: 'repeat-x',
               backgroundSize: 'auto 100%',
             }}
@@ -720,7 +720,7 @@ export default function WeddingHeroSection() {
           <div
             className="w-full h-full"
             style={{
-              backgroundImage: "url('/assets/madhubani/blue-border-v.jpg')",
+              backgroundImage: "url('/assets/madhubani/blue-border-v.webp')",
               backgroundRepeat: 'repeat-y',
               backgroundSize: '100% auto',
             }}
@@ -736,7 +736,7 @@ export default function WeddingHeroSection() {
           <div
             className="w-full h-full scale-x-[-1]"
             style={{
-              backgroundImage: "url('/assets/madhubani/blue-border-v.jpg')",
+              backgroundImage: "url('/assets/madhubani/blue-border-v.webp')",
               backgroundRepeat: 'repeat-y',
               backgroundSize: '100% auto',
             }}
@@ -750,7 +750,7 @@ export default function WeddingHeroSection() {
           style={{ transform: 'translate3d(-135%, -135%, 0)' }}
         >
           <img
-            src="/assets/madhubani/sun-corner-clean.png"
+            src="/assets/madhubani/sun-corner-clean.webp"
             alt="Sun Corner"
             className="w-full h-full object-contain select-none"
           />
@@ -761,7 +761,7 @@ export default function WeddingHeroSection() {
           style={{ transform: 'translate3d(135%, -135%, 0)' }}
         >
           <img
-            src="/assets/madhubani/sun-corner-clean.png"
+            src="/assets/madhubani/sun-corner-clean.webp"
             alt="Sun Corner"
             className="w-full h-full object-contain select-none scale-x-[-1]"
           />
@@ -772,7 +772,7 @@ export default function WeddingHeroSection() {
           style={{ transform: 'translate3d(-135%, 135%, 0)' }}
         >
           <img
-            src="/assets/madhubani/sun-corner-clean.png"
+            src="/assets/madhubani/sun-corner-clean.webp"
             alt="Sun Corner"
             className="w-full h-full object-contain select-none scale-y-[-1]"
           />
@@ -783,7 +783,7 @@ export default function WeddingHeroSection() {
           style={{ transform: 'translate3d(135%, 135%, 0)' }}
         >
           <img
-            src="/assets/madhubani/sun-corner-clean.png"
+            src="/assets/madhubani/sun-corner-clean.webp"
             alt="Sun Corner"
             className="w-full h-full object-contain select-none scale-x-[-1] scale-y-[-1]"
           />
@@ -830,7 +830,7 @@ export default function WeddingHeroSection() {
           title="Royal Gajraj (Elephant) - Click to hear and watch the elephant trumpet and roar!"
         >
           <img
-            src="/assets/madhubani/left_elephant.png"
+            src="/assets/madhubani/left_elephant.webp"
             alt="Royal Gajraj Left"
             className="max-h-[24vh] xl:max-h-[25.5vh] h-auto w-auto object-contain drop-shadow-[0_8px_18px_rgba(0,0,0,0.85)] filter hover:brightness-110 transition-all select-none"
           />
@@ -853,7 +853,7 @@ export default function WeddingHeroSection() {
         >
           <div className="relative animate-namaste" style={{ animationDelay: '0.3s' }}>
             <img
-              src="/assets/madhubani/women-with-kalash.png"
+              src="/assets/madhubani/women-with-kalash.webp"
               alt="Kalash Welcome Lady"
               className="max-h-[24.5vh] xl:max-h-[27vh] h-auto w-auto object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.8)] filter hover:brightness-110 transition-all scale-x-[-1]"
             />
@@ -884,7 +884,7 @@ export default function WeddingHeroSection() {
         >
           <div className="relative animate-namaste" style={{ animationDelay: '0.6s' }}>
             <img
-              src="/assets/madhubani/pooja_thali_man.png"
+              src="/assets/madhubani/pooja_thali_man.webp"
               alt="Pooja Thali Welcome"
               className="max-h-[22.5vh] xl:max-h-[25vh] h-auto w-auto object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.8)] filter hover:brightness-110 transition-all"
             />
@@ -915,7 +915,7 @@ export default function WeddingHeroSection() {
         >
           <div className="relative animate-namaste" style={{ animationDelay: '0.9s' }}>
             <img
-              src="/assets/madhubani/namanste_man.png"
+              src="/assets/madhubani/namanste_man.webp"
               alt="Namaste Uncle"
               className="max-h-[24.5vh] xl:max-h-[27vh] h-auto w-auto object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.8)] filter hover:brightness-110 transition-all"
             />
@@ -946,7 +946,7 @@ export default function WeddingHeroSection() {
         >
           <div className="relative animate-namaste">
             <img
-              src="/assets/madhubani/clapping_lady.png"
+              src="/assets/madhubani/clapping_lady.webp"
               alt="Swagat Lady"
               className="max-h-[24vh] xl:max-h-[26.5vh] h-auto w-auto object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.8)] filter hover:brightness-110 transition-all scale-x-[-1]"
             />
@@ -978,7 +978,7 @@ export default function WeddingHeroSection() {
           {/* Mandap Structure (Transparent PNG) */}
           <div className="relative w-full h-full flex flex-col items-center justify-end">
             <img
-              src="/assets/madhubani/mandap.png"
+              src="/assets/madhubani/mandap.webp"
               alt="Royal Vedic Wedding Mandap"
               className="w-full h-full object-contain object-bottom drop-shadow-[0_16px_32px_rgba(0,0,0,0.95)] select-none pointer-events-none"
             />
@@ -994,7 +994,7 @@ export default function WeddingHeroSection() {
                 <div className="absolute inset-0 -m-3 sm:-m-4 bg-gradient-to-r from-amber-400 via-yellow-200 to-amber-400 rounded-full blur-md animate-ping pointer-events-none" />
               )}
               <img
-                src="/assets/madhubani/ganesh.png"
+                src="/assets/madhubani/ganesh.webp"
                 alt="Lord Ganesha"
                 className={`w-full h-auto object-contain transition-all duration-300 ${
                   ganeshBlessingActive
@@ -1129,7 +1129,7 @@ export default function WeddingHeroSection() {
               >
                 {/* Hawan Kund Image with animated fire glow - sits firmly on stage floor */}
                 <img
-                  src="/assets/madhubani/madhubani-havan.png"
+                  src="/assets/madhubani/madhubani-havan.webp"
                   alt="Sacred Hawan Kund"
                   title="Click to offer sacred Samagri into Agni Kund!"
                   className={`h-[54%] sm:h-[57%] max-h-[170px] md:max-h-[195px] w-auto object-contain animate-flame filter group-hover:scale-105 active:scale-95 transition-all duration-300 ${
@@ -1174,7 +1174,7 @@ export default function WeddingHeroSection() {
                     👰 {WEDDING_CONFIG.bride.shortName}
                   </div>
                   <img
-                    src="/assets/madhubani/bride.png"
+                    src="/assets/madhubani/bride.webp"
                     alt={`Bride ${WEDDING_CONFIG.bride.displayName}`}
                     className={`h-full w-auto object-contain filter scale-x-[-1] group-hover:scale-x-[-1] group-hover:scale-105 transition-all duration-300 ${
                       ganeshBlessingActive
@@ -1202,7 +1202,7 @@ export default function WeddingHeroSection() {
                     🤵 {WEDDING_CONFIG.groom.shortName}
                   </div>
                   <img
-                    src="/assets/madhubani/groom.png"
+                    src="/assets/madhubani/groom.webp"
                     alt={`Groom ${WEDDING_CONFIG.groom.displayName}`}
                     className={`h-full w-auto object-contain filter scale-x-[-1] group-hover:scale-x-[-1] group-hover:scale-105 transition-all duration-300 ${
                       ganeshBlessingActive
@@ -1233,7 +1233,7 @@ export default function WeddingHeroSection() {
         >
           <div className="relative animate-namaste" style={{ animationDelay: '0.8s' }}>
             <img
-              src="/assets/madhubani/shenai-man.png"
+              src="/assets/madhubani/shenai-man.webp"
               alt="Shehnai Player"
               className="max-h-[22.5vh] xl:max-h-[25vh] h-auto w-auto object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.8)] filter hover:brightness-110 transition-all scale-x-[-1]"
             />
@@ -1264,7 +1264,7 @@ export default function WeddingHeroSection() {
         >
           <div className="relative animate-namaste" style={{ animationDelay: '0.4s' }}>
             <img
-              src="/assets/madhubani/dhol-man.png"
+              src="/assets/madhubani/dhol-man.webp"
               alt="Dholak Drummer"
               className="max-h-[24vh] xl:max-h-[26.5vh] h-auto w-auto object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.8)] filter hover:brightness-110 transition-all"
             />
@@ -1295,7 +1295,7 @@ export default function WeddingHeroSection() {
         >
           <div className="relative animate-namaste" style={{ animationDelay: '1.2s' }}>
             <img
-              src="/assets/madhubani/hands_up_dancing_man.png"
+              src="/assets/madhubani/hands_up_dancing_man.webp"
               alt="Baraati Dancing"
               className="max-h-[24.5vh] xl:max-h-[27vh] h-auto w-auto object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.8)] filter hover:brightness-110 transition-all"
             />
@@ -1326,7 +1326,7 @@ export default function WeddingHeroSection() {
         >
           <div className="relative animate-namaste" style={{ animationDelay: '1.5s' }}>
             <img
-              src="/assets/madhubani/dancing-women.png"
+              src="/assets/madhubani/dancing-women.webp"
               alt="Dancing Lady"
               className="max-h-[24vh] xl:max-h-[26.5vh] h-auto w-auto object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.8)] filter hover:brightness-110 transition-all scale-x-[-1]"
             />
@@ -1361,7 +1361,7 @@ export default function WeddingHeroSection() {
           title="Royal Gajraj (Elephant) - Click to hear and watch the elephant trumpet and roar!"
         >
           <img
-            src="/assets/madhubani/right_elephant.png"
+            src="/assets/madhubani/right_elephant.webp"
             alt="Royal Gajraj Right"
             className="max-h-[24vh] xl:max-h-[25.5vh] h-auto w-auto object-contain drop-shadow-[0_8px_18px_rgba(0,0,0,0.85)] filter hover:brightness-110 transition-all select-none"
           />
@@ -1432,7 +1432,7 @@ export default function WeddingHeroSection() {
           <div
             className="w-full h-full"
             style={{
-              backgroundImage: "url('/assets/borders/emerald_border_h.png')",
+              backgroundImage: "url('/assets/borders/emerald_border_h.webp')",
               backgroundRepeat: 'repeat-x',
               backgroundSize: 'auto 100%',
             }}
@@ -1448,7 +1448,7 @@ export default function WeddingHeroSection() {
           <div
             className="w-full h-full scale-y-[-1]"
             style={{
-              backgroundImage: "url('/assets/borders/emerald_border_h.png')",
+              backgroundImage: "url('/assets/borders/emerald_border_h.webp')",
               backgroundRepeat: 'repeat-x',
               backgroundSize: 'auto 100%',
             }}
@@ -1464,7 +1464,7 @@ export default function WeddingHeroSection() {
           <div
             className="w-full h-full"
             style={{
-              backgroundImage: "url('/assets/borders/emerald_border_v.png')",
+              backgroundImage: "url('/assets/borders/emerald_border_v.webp')",
               backgroundRepeat: 'repeat-y',
               backgroundSize: '100% auto',
             }}
@@ -1480,7 +1480,7 @@ export default function WeddingHeroSection() {
           <div
             className="w-full h-full scale-x-[-1]"
             style={{
-              backgroundImage: "url('/assets/borders/emerald_border_v.png')",
+              backgroundImage: "url('/assets/borders/emerald_border_v.webp')",
               backgroundRepeat: 'repeat-y',
               backgroundSize: '100% auto',
             }}
@@ -1494,7 +1494,7 @@ export default function WeddingHeroSection() {
           style={{ transform: 'translate3d(-135%, -135%, 0)' }}
         >
           <img
-            src="/assets/borders/emerald_corner.png"
+            src="/assets/borders/emerald_corner.webp"
             alt="Royal Corner Motif Top Left"
             className="w-full h-full object-contain select-none"
           />
@@ -1505,7 +1505,7 @@ export default function WeddingHeroSection() {
           style={{ transform: 'translate3d(135%, -135%, 0)' }}
         >
           <img
-            src="/assets/borders/emerald_corner.png"
+            src="/assets/borders/emerald_corner.webp"
             alt="Royal Corner Motif Top Right"
             className="w-full h-full object-contain select-none scale-x-[-1]"
           />
@@ -1516,7 +1516,7 @@ export default function WeddingHeroSection() {
           style={{ transform: 'translate3d(-135%, 135%, 0)' }}
         >
           <img
-            src="/assets/borders/emerald_corner.png"
+            src="/assets/borders/emerald_corner.webp"
             alt="Royal Corner Motif Bottom Left"
             className="w-full h-full object-contain select-none scale-y-[-1]"
           />
@@ -1527,7 +1527,7 @@ export default function WeddingHeroSection() {
           style={{ transform: 'translate3d(135%, 135%, 0)' }}
         >
           <img
-            src="/assets/borders/emerald_corner.png"
+            src="/assets/borders/emerald_corner.webp"
             alt="Royal Corner Motif Bottom Right"
             className="w-full h-full object-contain select-none scale-x-[-1] scale-y-[-1]"
           />

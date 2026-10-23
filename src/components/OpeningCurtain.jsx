@@ -11,17 +11,17 @@ export const STRIP_TYPES = {
   geometric: {
     id: 'geometric',
     name: 'Geometric Mandap Border',
-    src: '/assets/curtain_strips/strip_1_geometric.png',
+    src: '/assets/curtain_strips/strip_1_geometric.webp',
   },
   lotus: {
     id: 'lotus',
     name: 'Lotus Vine Garland',
-    src: '/assets/curtain_strips/strip_2_lotus.png',
+    src: '/assets/curtain_strips/strip_2_lotus.webp',
   },
   motifs: {
     id: 'motifs',
     name: 'Madhubani Motifs (Fish, Peacock, Sun)',
-    src: '/assets/curtain_strips/strip_3_motifs.png',
+    src: '/assets/curtain_strips/strip_3_motifs.webp',
   },
 };
 
@@ -199,7 +199,7 @@ export default function OpeningCurtain({
           }}
         >
           <img
-            src="/assets/madhubani/top_banner.png"
+            src="/assets/madhubani/top_banner.webp"
             alt="Madhubani Wedding Toran Banner"
             className="w-full h-auto block select-none pointer-events-none"
           />

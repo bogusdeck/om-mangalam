@@ -35,7 +35,7 @@ export default function InvitationCard({ embedded = false, coverRef = null, onCa
         >
           {/* Base Artwork Image: Open Scroll with Cream Parchment Field */}
           <img 
-            src="/assets/scroll/scroll_open.png"
+            src="/assets/scroll/scroll_open.webp"
             alt="Royal Wedding Farman Opened"
             className="w-full h-full object-contain filter drop-shadow-[0_15px_35px_rgba(0,0,0,0.65)] pointer-events-none"
           />
@@ -141,7 +141,7 @@ export default function InvitationCard({ embedded = false, coverRef = null, onCa
         >
           {/* Base Artwork Image: Closed Scroll with Sun Medallion */}
           <img 
-            src="/assets/scroll/scroll_closed.png"
+            src="/assets/scroll/scroll_closed.webp"
             alt="Royal Wedding Farman Closed"
             className="w-full h-full object-contain filter drop-shadow-[0_15px_35px_rgba(0,0,0,0.7)] pointer-events-none"
           />

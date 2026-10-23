@@ -56,7 +56,7 @@ export default function LoadingScreen({ onComplete }) {
         {/* Auspicious Madhubani Ganesha Icon */}
         <div className="w-24 h-24 sm:w-28 sm:h-28 mx-auto mb-4 rounded-full overflow-hidden border-4 border-amber-600 shadow-xl bg-amber-100/90 flex items-center justify-center relative p-1.5">
           <img
-            src="/assets/madhubani/ganesh.png"
+            src="/assets/madhubani/ganesh.webp"
             alt="Bhagwan Ganesha"
             className="w-full h-full object-contain"
           />
