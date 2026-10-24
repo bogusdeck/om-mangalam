@@ -856,14 +856,12 @@ export default function MainEvents() {
     <section
       id="timeline"
       ref={sectionRef}
-      className="relative w-full min-h-screen pt-20 sm:pt-24 md:pt-28 pb-24 sm:pb-32 px-3 sm:px-6 md:px-12 text-center overflow-x-hidden select-none"
+      className="relative w-full min-h-screen pt-20 sm:pt-24 md:pt-28 pb-24 sm:pb-32 px-3 sm:px-6 md:px-12 text-center overflow-x-hidden select-none bg-transparent"
       style={{
         '--red': '#b3141c',
         '--gold': '#b8862b',
         '--ink': '#1b1210',
         '--cream': '#f7e8c4',
-        backgroundColor: '#1b050d',
-        backgroundImage: 'radial-gradient(circle at 50% 10%, #2f0714 0%, #170208 80%)',
       }}
     >
       {/* Target anchor for legacy links pointing to #events */}

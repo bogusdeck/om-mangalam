@@ -29,12 +29,6 @@ export default function WeddingHeroSection() {
   const hawanRef = useRef(null);
   const invitationLayerRef = useRef(null);
 
-  // Section 2 Background Ref (Royal Midnight Blue & Gold Crossfade)
-  const section2BgRef = useRef(null);
-
-  // Section 3 Background Ref (Deep Royal Emerald Green)
-  const section3BgRef = useRef(null);
-
   // Section 3 Revealed Couple Layer Ref (Revealed underneath the Farman flip)
   const coupleLayerRef = useRef(null);
   const coupleBrideRef = useRef(null);
@@ -218,32 +212,6 @@ export default function WeddingHeroSection() {
         if (brideRef.current) brideRef.current.style.transform = `translate3d(${transBrideX}px, ${transY}px, 0)`;
         if (groomRef.current) groomRef.current.style.transform = `translate3d(${transGroomX}px, ${transY}px, 0)`;
         if (hawanRef.current) hawanRef.current.style.transform = `translate3d(0, ${transY * 1.3}px, 0)`;
-      }
-
-      // 4. Section 2 Royal Midnight Blue Background (Crossfade In and Out):
-      // Fades in over 0.16 -> 0.28, holds until 0.64, fades out over 0.64 -> 0.80
-      if (section2BgRef.current) {
-        if (progress <= 0.16) {
-          section2BgRef.current.style.opacity = '0';
-        } else if (progress <= 0.64) {
-          const pBg = Math.min((progress - 0.16) / 0.12, 1);
-          section2BgRef.current.style.opacity = pBg.toString();
-        } else {
-          const pExitBg = Math.min((progress - 0.64) / 0.16, 1);
-          section2BgRef.current.style.opacity = Math.max(0, 1 - pExitBg).toString();
-        }
-      }
-
-      // 5. Section 3 Deep Royal Emerald Background (Crossfade In and Out toward Section 4):
-      if (section3BgRef.current) {
-        if (pExitS3 > 0) {
-          section3BgRef.current.style.opacity = Math.max(0, 1 - pExitS3).toString();
-        } else if (progress <= 0.64) {
-          section3BgRef.current.style.opacity = '0';
-        } else {
-          const pBg3 = Math.min((progress - 0.64) / 0.16, 1);
-          section3BgRef.current.style.opacity = pBg3.toString();
-        }
       }
 
       // 7. Left Flank Characters (drift left and exit):
@@ -475,7 +443,7 @@ export default function WeddingHeroSection() {
     >
       {/* Sticky Viewport Window */}
       <div
-        className={`sticky top-0 h-screen min-h-[580px] w-full flex flex-col justify-end items-center overflow-hidden select-none transition-colors duration-500 ${themeConfig.bgClass}`}
+        className="sticky top-0 h-screen min-h-[580px] w-full flex flex-col justify-end items-center overflow-hidden select-none bg-transparent"
       >
       {/* FLOATING THEME PALETTE SWITCHER (Hidden per request) */}
       {/* <ThemeSwitcher /> */}
@@ -1092,50 +1060,6 @@ export default function WeddingHeroSection() {
         </div>
       </div>
 
-      </div>
-
-      {/* SECTION 2 (INVITATION) ROYAL MIDNIGHT BLUE BACKDROP (Crossfades in on scroll) */}
-      <div
-        ref={section2BgRef}
-        className="absolute inset-0 z-28 pointer-events-none opacity-0 will-change-[opacity]"
-        style={{
-          background: 'radial-gradient(ellipse at 50% 50%, #0b2247 0%, #06142a 55%, #020712 100%)',
-        }}
-      >
-        {/* Midnight Blue Royal Stardust Dots */}
-        <div
-          className="absolute inset-0 opacity-25"
-          style={{
-            backgroundImage: 'radial-gradient(#ffd700 1.2px, transparent 1.2px)',
-            backgroundSize: '24px 24px',
-          }}
-        />
-        {/* Ambient Sapphire Glow behind Invitation Card */}
-        <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[650px] rounded-full blur-3xl pointer-events-none bg-blue-600/20"
-        />
-      </div>
-
-      {/* SECTION 3 DEEP ROYAL EMERALD BACKDROP (Crossfades in during second vertical flip) */}
-      <div
-        ref={section3BgRef}
-        className="absolute inset-0 z-30 pointer-events-none opacity-0 will-change-[opacity]"
-        style={{
-          background: 'radial-gradient(ellipse at 50% 50%, #0e3b2b 0%, #061c14 60%, #020b08 100%)',
-        }}
-      >
-        {/* Royal Gold Stardust Pattern */}
-        <div
-          className="absolute inset-0 opacity-25"
-          style={{
-            backgroundImage: 'radial-gradient(#ffd700 1.2px, transparent 1.2px)',
-            backgroundSize: '24px 24px',
-          }}
-        />
-        {/* Ambient Emerald Gold Glow */}
-        <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[650px] rounded-full blur-3xl pointer-events-none bg-emerald-600/20"
-        />
       </div>
 
       {/* SECTION 3 REVEALED COUPLE LAYER (Megan & Brad Introduction Cards) */}
