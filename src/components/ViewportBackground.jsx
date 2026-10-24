@@ -73,36 +73,32 @@ export default function ViewportBackground() {
       // 3. Section 3 Deep Royal Emerald & Section 4 Royal Deep Wine Crossfade
       if (section3BgRef.current && section4BgRef.current) {
         if (heroRect.bottom <= 0) {
-          // Inside Section 4 timeline
+          // Inside Section 4 timeline: Section 4 background and dots fully active
           section3BgRef.current.style.opacity = '0';
           section4BgRef.current.style.opacity = '1';
           if (section3DotsRef.current) section3DotsRef.current.style.opacity = '0';
-
-          // Section 4 dots: STRICTLY ZERO when title is centered / in intro view (scrollPastHero < 300px)
-          // Smoothly reveals later as user scrolls deeper into the timeline cards (300px -> 700px)
-          if (section4DotsRef.current) {
-            if (scrollPastHero < 300) {
-              section4DotsRef.current.style.opacity = '0';
-            } else {
-              const pTimelineDots = Math.min((scrollPastHero - 300) / 400, 1);
-              section4DotsRef.current.style.opacity = (0.20 * pTimelineDots).toString();
-            }
-          }
+          if (section4DotsRef.current) section4DotsRef.current.style.opacity = '0.22';
         } else if (pExitS3 > 0) {
           // Smooth seamless full-viewport crossfade from Emerald to Wine
           const fadeP = 1 - Math.pow(1 - pExitS3, 1.8);
           section3BgRef.current.style.opacity = Math.max(0, 1 - fadeP).toString();
           section4BgRef.current.style.opacity = Math.min(fadeP * 1.15, 1).toString();
 
-          // Section 3 dots fade out fast (0.00 -> 0.25) so they are 100% GONE before borders switch
+          // Section 3 dots fade out fast (0.00 -> 0.25) so they are 100% GONE before Section 4 dots appear
           if (section3DotsRef.current) {
             const pExitDots3 = Math.min(pExitS3 / 0.25, 1);
             section3DotsRef.current.style.opacity = (0.25 * (1 - pExitDots3)).toString();
           }
 
-          // Section 4 dots MUST BE ZERO while Section 4 title is rising and centering
+          // Section 4 dots reveal cleanly after Section 3 dots are completely gone (0.45 -> 0.75).
+          // When title is centered (pExitS3 ~ 0.75), Section 4 starts and Section 4 dots are active!
           if (section4DotsRef.current) {
-            section4DotsRef.current.style.opacity = '0';
+            if (pExitS3 < 0.45) {
+              section4DotsRef.current.style.opacity = '0';
+            } else {
+              const pEnterDots4 = Math.min((pExitS3 - 0.45) / 0.30, 1);
+              section4DotsRef.current.style.opacity = (0.22 * pEnterDots4).toString();
+            }
           }
         } else if (progress <= 0.64) {
           section3BgRef.current.style.opacity = '0';
@@ -213,7 +209,7 @@ export default function ViewportBackground() {
           className="absolute inset-0 opacity-0 will-change-[opacity]"
           style={{
             backgroundImage: 'radial-gradient(#ffd700 1.2px, transparent 1.2px)',
-            backgroundSize: '28px 28px',
+            backgroundSize: '24px 24px',
           }}
         />
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[700px] rounded-full blur-3xl bg-red-900/15" />
