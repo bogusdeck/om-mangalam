@@ -446,7 +446,10 @@ export default function MainEvents() {
     measuredCards.forEach((c) => {
       if (c.day !== currentDay) {
         currentDay = c.day;
-        const markerY = Math.max(c.top - (isMobile ? 42 : 58), 90);
+        // Day 1 sits comfortably lower between card shoulders so it never overlaps the header subtitle
+        const markerY = c.day === 1
+          ? (c.top + (isMobile ? 8 : 14))
+          : Math.max(c.top - (isMobile ? 42 : 58), 90);
         dayMarkers.push({
           day: c.day,
           dayDate: c.dayDate,
