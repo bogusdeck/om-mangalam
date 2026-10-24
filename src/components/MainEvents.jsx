@@ -691,7 +691,7 @@ export default function MainEvents() {
           scrollTrigger: {
             trigger: sectionRef.current,
             start: 'top 80%',
-            end: 'bottom 60%',
+            end: 'bottom 90%',
             scrub: 0.6,
           },
         });
@@ -710,7 +710,7 @@ export default function MainEvents() {
             ease: 'back.out(1.8)',
             scrollTrigger: {
               trigger: node,
-              start: 'center 60%',
+              start: 'top 85%',
               toggleActions: 'play none none reverse',
             },
           }
@@ -730,7 +730,7 @@ export default function MainEvents() {
             ease: 'back.out(2)',
             scrollTrigger: {
               trigger: node,
-              start: 'center 60%',
+              start: 'top 85%',
               toggleActions: 'play none none reverse',
             },
           }
@@ -749,7 +749,7 @@ export default function MainEvents() {
             ease: 'back.out(1.7)',
             scrollTrigger: {
               trigger: node,
-              start: 'center 60%',
+              start: 'top 85%',
               toggleActions: 'play none none reverse',
             },
           }
@@ -779,7 +779,7 @@ export default function MainEvents() {
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: cardEl,
-            start: 'center 60%',
+            start: 'top 85%',
             toggleActions: 'play none none reverse',
           },
         });
@@ -856,7 +856,7 @@ export default function MainEvents() {
     <section
       id="timeline"
       ref={sectionRef}
-      className="relative w-full min-h-screen pt-20 sm:pt-24 md:pt-28 pb-24 sm:pb-32 px-3 sm:px-6 md:px-12 text-center overflow-x-hidden select-none bg-transparent"
+      className="relative w-full min-h-screen pt-20 sm:pt-24 md:pt-28 pb-36 sm:pb-48 md:pb-60 px-3 sm:px-6 md:px-12 text-center overflow-x-hidden select-none bg-transparent"
       style={{
         '--red': '#b3141c',
         '--gold': '#b8862b',
