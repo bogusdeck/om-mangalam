@@ -22,7 +22,9 @@ export default function ViewportBackground() {
 
   const section2BgRef = useRef(null);
   const section3BgRef = useRef(null);
+  const section3DotsRef = useRef(null);
   const section4BgRef = useRef(null);
+  const section4DotsRef = useRef(null);
 
   useEffect(() => {
     let ticking = false;
@@ -60,19 +62,41 @@ export default function ViewportBackground() {
           // Fully inside Section 4 timeline
           section3BgRef.current.style.opacity = '0';
           section4BgRef.current.style.opacity = '1';
+          if (section3DotsRef.current) section3DotsRef.current.style.opacity = '0';
+          if (section4DotsRef.current) section4DotsRef.current.style.opacity = '0.20';
         } else if (pExitS3 > 0) {
           // Smooth seamless full-viewport crossfade from Emerald to Wine
-          // Smooth cubic ease for imperceptible dissolve
           const fadeP = 1 - Math.pow(1 - pExitS3, 1.8);
           section3BgRef.current.style.opacity = Math.max(0, 1 - fadeP).toString();
           section4BgRef.current.style.opacity = Math.min(fadeP * 1.15, 1).toString();
+
+          // Staggered Dot Grids to prevent moire / overlapping dots:
+          // Section 3 dots fade out fast (0.00 -> 0.40)
+          if (section3DotsRef.current) {
+            const pExitDots3 = Math.min(pExitS3 / 0.40, 1);
+            section3DotsRef.current.style.opacity = (0.25 * (1 - pExitDots3)).toString();
+          }
+
+          // Section 4 dots reveal later (0.60 -> 0.95), after Section 3 dots are completely gone
+          if (section4DotsRef.current) {
+            if (pExitS3 < 0.60) {
+              section4DotsRef.current.style.opacity = '0';
+            } else {
+              const pEnterDots4 = Math.min((pExitS3 - 0.60) / 0.35, 1);
+              section4DotsRef.current.style.opacity = (0.20 * pEnterDots4).toString();
+            }
+          }
         } else if (progress <= 0.64) {
           section3BgRef.current.style.opacity = '0';
           section4BgRef.current.style.opacity = '0';
+          if (section3DotsRef.current) section3DotsRef.current.style.opacity = '0';
+          if (section4DotsRef.current) section4DotsRef.current.style.opacity = '0';
         } else {
           const pBg3 = Math.min((progress - 0.64) / 0.16, 1);
           section3BgRef.current.style.opacity = pBg3.toString();
           section4BgRef.current.style.opacity = '0';
+          if (section3DotsRef.current) section3DotsRef.current.style.opacity = '0.25';
+          if (section4DotsRef.current) section4DotsRef.current.style.opacity = '0';
         }
       }
     };
@@ -144,7 +168,8 @@ export default function ViewportBackground() {
         }}
       >
         <div
-          className="absolute inset-0 opacity-25"
+          ref={section3DotsRef}
+          className="absolute inset-0 opacity-25 will-change-[opacity]"
           style={{
             backgroundImage: 'radial-gradient(#ffd700 1.2px, transparent 1.2px)',
             backgroundSize: '24px 24px',
@@ -165,7 +190,8 @@ export default function ViewportBackground() {
         }}
       >
         <div
-          className="absolute inset-0 opacity-20"
+          ref={section4DotsRef}
+          className="absolute inset-0 opacity-0 will-change-[opacity]"
           style={{
             backgroundImage: 'radial-gradient(#ffd700 1.2px, transparent 1.2px)',
             backgroundSize: '28px 28px',
