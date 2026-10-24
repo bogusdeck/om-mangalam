@@ -35,6 +35,9 @@ export default function WeddingHeroSection() {
   const coupleGroomRef = useRef(null);
   const coupleTitleRef = useRef(null);
 
+  // Section 1 Mandap Radial Glow Ref
+  const mandapGlowRef = useRef(null);
+
   // Invitation Card Folding Cover Ref (Opens vertically on desktop, horizontally on mobile)
   const cardCoverRef = useRef(null);
 
@@ -212,6 +215,12 @@ export default function WeddingHeroSection() {
         if (brideRef.current) brideRef.current.style.transform = `translate3d(${transBrideX}px, ${transY}px, 0)`;
         if (groomRef.current) groomRef.current.style.transform = `translate3d(${transGroomX}px, ${transY}px, 0)`;
         if (hawanRef.current) hawanRef.current.style.transform = `translate3d(0, ${transY * 1.3}px, 0)`;
+      }
+
+      // 6. Section 1 Mandap Radial Lighting Glow (fades out as Section 2 enters):
+      if (mandapGlowRef.current) {
+        const pGlow = Math.max(0, 1 - progress / 0.16);
+        mandapGlowRef.current.style.opacity = pGlow.toString();
       }
 
       // 7. Left Flank Characters (drift left and exit):
@@ -461,18 +470,10 @@ export default function WeddingHeroSection() {
         </div>
       </div>
 
-      {/* Decorative Ornate Background Wallpaper Texture & Ambient Glow */}
+      {/* Warm Mandap Radial Lighting (fades out as Section 2 enters) */}
       <div
-        className={`absolute inset-0 pointer-events-none transition-opacity duration-500 ${themeConfig.dotOpacity}`}
-        style={{
-          backgroundImage: `radial-gradient(${themeConfig.dotColor} 1.2px, transparent 1.2px)`,
-          backgroundSize: '24px 24px',
-        }}
-      />
-      
-      {/* Warm Mandap Radial Lighting */}
-      <div
-        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[550px] rounded-full blur-3xl pointer-events-none transition-colors duration-500 ${themeConfig.glowClass}`}
+        ref={mandapGlowRef}
+        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[550px] rounded-full blur-3xl pointer-events-none transition-colors duration-500 will-change-[opacity] ${themeConfig.glowClass}`}
       />
 
       {/* SECTION HEADER: Royal Title & Auspicious Invocation with Dynamic Theme Styling */}

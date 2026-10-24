@@ -20,6 +20,7 @@ import { useTheme } from '../context/ThemeContext';
 export default function ViewportBackground() {
   const { themeConfig } = useTheme();
 
+  const baseDotsRef = useRef(null);
   const section2BgRef = useRef(null);
   const section3BgRef = useRef(null);
   const section3DotsRef = useRef(null);
@@ -43,7 +44,20 @@ export default function ViewportBackground() {
       // Section 3 exit progress as Section 4 enters (0 -> 1 over 1 viewport height)
       const pExitS3 = Math.min(Math.max((window.innerHeight - heroRect.bottom) / window.innerHeight, 0), 1);
 
-      // 1. Section 2 Royal Midnight Blue (0.16 -> 0.28 in, holds to 0.64, 0.64 -> 0.80 out)
+      // Distance scrolled into Section 4 timeline past the hero opening (in pixels)
+      const scrollPastHero = Math.max(0, -heroRect.bottom);
+
+      // 1. Base Section 1 Mandap Stardust Dots (fade out as Section 2 enters)
+      if (baseDotsRef.current) {
+        if (progress <= 0.16) {
+          baseDotsRef.current.style.opacity = '0.20';
+        } else {
+          const pExitBase = Math.min((progress - 0.16) / 0.08, 1);
+          baseDotsRef.current.style.opacity = (0.20 * (1 - pExitBase)).toString();
+        }
+      }
+
+      // 2. Section 2 Royal Midnight Blue (0.16 -> 0.28 in, holds to 0.64, 0.64 -> 0.80 out)
       if (section2BgRef.current) {
         if (progress <= 0.16) {
           section2BgRef.current.style.opacity = '0';
@@ -56,35 +70,39 @@ export default function ViewportBackground() {
         }
       }
 
-      // 2. Section 3 Deep Royal Emerald & Section 4 Royal Deep Wine Crossfade
+      // 3. Section 3 Deep Royal Emerald & Section 4 Royal Deep Wine Crossfade
       if (section3BgRef.current && section4BgRef.current) {
         if (heroRect.bottom <= 0) {
-          // Fully inside Section 4 timeline
+          // Inside Section 4 timeline
           section3BgRef.current.style.opacity = '0';
           section4BgRef.current.style.opacity = '1';
           if (section3DotsRef.current) section3DotsRef.current.style.opacity = '0';
-          if (section4DotsRef.current) section4DotsRef.current.style.opacity = '0.20';
+
+          // Section 4 dots: STRICTLY ZERO when title is centered / in intro view (scrollPastHero < 300px)
+          // Smoothly reveals later as user scrolls deeper into the timeline cards (300px -> 700px)
+          if (section4DotsRef.current) {
+            if (scrollPastHero < 300) {
+              section4DotsRef.current.style.opacity = '0';
+            } else {
+              const pTimelineDots = Math.min((scrollPastHero - 300) / 400, 1);
+              section4DotsRef.current.style.opacity = (0.20 * pTimelineDots).toString();
+            }
+          }
         } else if (pExitS3 > 0) {
           // Smooth seamless full-viewport crossfade from Emerald to Wine
           const fadeP = 1 - Math.pow(1 - pExitS3, 1.8);
           section3BgRef.current.style.opacity = Math.max(0, 1 - fadeP).toString();
           section4BgRef.current.style.opacity = Math.min(fadeP * 1.15, 1).toString();
 
-          // Staggered Dot Grids to prevent moire / overlapping dots:
-          // Section 3 dots fade out fast (0.00 -> 0.40)
+          // Section 3 dots fade out fast (0.00 -> 0.25) so they are 100% GONE before borders switch
           if (section3DotsRef.current) {
-            const pExitDots3 = Math.min(pExitS3 / 0.40, 1);
+            const pExitDots3 = Math.min(pExitS3 / 0.25, 1);
             section3DotsRef.current.style.opacity = (0.25 * (1 - pExitDots3)).toString();
           }
 
-          // Section 4 dots reveal later (0.60 -> 0.95), after Section 3 dots are completely gone
+          // Section 4 dots MUST BE ZERO while Section 4 title is rising and centering
           if (section4DotsRef.current) {
-            if (pExitS3 < 0.60) {
-              section4DotsRef.current.style.opacity = '0';
-            } else {
-              const pEnterDots4 = Math.min((pExitS3 - 0.60) / 0.35, 1);
-              section4DotsRef.current.style.opacity = (0.20 * pEnterDots4).toString();
-            }
+            section4DotsRef.current.style.opacity = '0';
           }
         } else if (progress <= 0.64) {
           section3BgRef.current.style.opacity = '0';
@@ -95,7 +113,7 @@ export default function ViewportBackground() {
           const pBg3 = Math.min((progress - 0.64) / 0.16, 1);
           section3BgRef.current.style.opacity = pBg3.toString();
           section4BgRef.current.style.opacity = '0';
-          if (section3DotsRef.current) section3DotsRef.current.style.opacity = '0.25';
+          if (section3DotsRef.current) section3DotsRef.current.style.opacity = (0.25 * pBg3).toString();
           if (section4DotsRef.current) section4DotsRef.current.style.opacity = '0';
         }
       }
@@ -129,7 +147,8 @@ export default function ViewportBackground() {
       <div className={`absolute inset-0 transition-colors duration-500 ${themeConfig.bgClass}`}>
         {/* Subtle Stardust Dots */}
         <div
-          className="absolute inset-0 opacity-20"
+          ref={baseDotsRef}
+          className="absolute inset-0 opacity-20 will-change-[opacity]"
           style={{
             backgroundImage: `radial-gradient(${themeConfig.dotColor || '#ffd700'} 1.2px, transparent 1.2px)`,
             backgroundSize: '24px 24px',
