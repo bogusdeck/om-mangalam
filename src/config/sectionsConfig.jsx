@@ -38,12 +38,12 @@ export const sectionsConfig = [
     Component: MainEvents,
     enabled: true,
   },
-  // {
-  //   id: 'baraat',
-  //   name: 'Baraat Simulator',
-  //   Component: BaraatSimulator,
-  //   enabled: false,
-  // },
+  {
+    id: 'baraat',
+    name: 'Baraat Simulator',
+    Component: BaraatSimulator,
+    enabled: true,
+  },
   // {
   //   id: 'photos',
   //   name: 'Photo Album',
