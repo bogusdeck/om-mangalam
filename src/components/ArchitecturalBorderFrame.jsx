@@ -67,6 +67,17 @@ export default function ArchitecturalBorderFrame() {
   const goldCornerBLRef = useRef(null);
   const goldCornerBRRef = useRef(null);
 
+  // Section 5: Royal Magenta Conch & Sun Refs
+  const magentaContainerRef = useRef(null);
+  const magentaTopRef = useRef(null);
+  const magentaBottomRef = useRef(null);
+  const magentaLeftRef = useRef(null);
+  const magentaRightRef = useRef(null);
+  const magentaCornerTLRef = useRef(null);
+  const magentaCornerTRRef = useRef(null);
+  const magentaCornerBLRef = useRef(null);
+  const magentaCornerBRRef = useRef(null);
+
   useEffect(() => {
     let ticking = false;
 
@@ -114,10 +125,50 @@ export default function ArchitecturalBorderFrame() {
       let goldOffset = 115;
       let goldCornerOffset = 135;
 
+      let magentaOffset = 115;
+      let magentaCornerOffset = 135;
+
+      const timelineEl = document.getElementById('timeline');
+
       if (heroRect.bottom <= 0) {
-        // Hero has completely scrolled off; we are fully in Section 4 timeline!
-        goldOffset = 0;
-        goldCornerOffset = 0;
+        // Hero has completely scrolled off; we are in Section 4 timeline or Section 5!
+        if (timelineEl) {
+          const tRect = timelineEl.getBoundingClientRect();
+          const pExitS4 = Math.min(Math.max((window.innerHeight - tRect.bottom) / window.innerHeight, 0), 1);
+          const scrollPastTimeline = Math.max(0, -tRect.bottom);
+          const pEnterS5 = Math.min(Math.max(scrollPastTimeline / 1400, 0), 1);
+
+          if (pExitS4 <= 0) {
+            // Pure Section 4
+            goldOffset = 0;
+            goldCornerOffset = 0;
+            magentaOffset = 115;
+            magentaCornerOffset = 135;
+          } else if (pEnterS5 <= 0) {
+            // Phase 1 (0.00 -> 0.48): Section 4 Gold Arch slides OUT beyond screen edges
+            const exitEase = Math.pow(pExitS4, 1.8);
+            goldOffset = exitEase * 115;
+            goldCornerOffset = exitEase * 135;
+            magentaOffset = 115;
+            magentaCornerOffset = 135;
+          } else if (pEnterS5 < 1) {
+            // Phase 2 (0.48 -> 1.00): Section 5 Magenta Conch & Sun slides IN from beyond screen edges
+            goldOffset = 115;
+            goldCornerOffset = 135;
+            const enterEase = 1 - Math.pow(1 - pEnterS5, 2.2);
+            magentaOffset = (1 - enterEase) * 115;
+            magentaCornerOffset = (1 - enterEase) * 135;
+          } else {
+            // Fully in Section 5
+            goldOffset = 115;
+            goldCornerOffset = 135;
+            magentaOffset = 0;
+            magentaCornerOffset = 0;
+          }
+        } else {
+          goldOffset = 0;
+          goldCornerOffset = 0;
+        }
       } else if (pExitS3 > 0) {
         // Transition from Section 3 to Section 4:
         // FIRST slide out Section 3 border, THEN slide in Section 4 border!
@@ -191,6 +242,7 @@ export default function ArchitecturalBorderFrame() {
       applyTransforms(blueContainerRef, blueTopRef, blueBottomRef, blueLeftRef, blueRightRef, blueCornerTLRef, blueCornerTRRef, blueCornerBLRef, blueCornerBRRef, blueOffset, blueCornerOffset);
       applyTransforms(emContainerRef, emTopRef, emBottomRef, emLeftRef, emRightRef, emCornerTLRef, emCornerTRRef, emCornerBLRef, emCornerBRRef, emOffset, emCornerOffset);
       applyTransforms(goldContainerRef, goldTopRef, goldBottomRef, goldLeftRef, goldRightRef, goldCornerTLRef, goldCornerTRRef, goldCornerBLRef, goldCornerBRRef, goldOffset, goldCornerOffset);
+      applyTransforms(magentaContainerRef, magentaTopRef, magentaBottomRef, magentaLeftRef, magentaRightRef, magentaCornerTLRef, magentaCornerTRRef, magentaCornerBLRef, magentaCornerBRRef, magentaOffset, magentaCornerOffset);
     };
 
     const onScroll = () => {
@@ -661,6 +713,121 @@ export default function ArchitecturalBorderFrame() {
         >
           <img
             src="/assets/borders/gold_arch_corner.webp"
+            alt=""
+            className="w-full h-full object-contain select-none scale-x-[-1] scale-y-[-1]"
+          />
+        </div>
+      </div>
+
+      {/* ============================================================== */}
+      {/* 5. SECTION 5 BORDER FRAME: ROYAL MAGENTA CONCH & SUN MEDALLION */}
+      {/* ============================================================== */}
+      <div ref={magentaContainerRef} className="absolute inset-0 pointer-events-none" style={{ display: 'none' }}>
+        {/* Top Strip */}
+        <div
+          ref={magentaTopRef}
+          className="absolute top-0 left-0 right-0 h-[22px] sm:h-[26px] md:h-[30px] will-change-transform"
+          style={{ transform: 'translate3d(0, -115%, 0)' }}
+        >
+          <div
+            className="w-full h-full"
+            style={{
+              backgroundImage: "url('/assets/borders/magenta_border_h.webp')",
+              backgroundRepeat: 'repeat-x',
+              backgroundSize: 'auto 100%',
+            }}
+          />
+        </div>
+
+        {/* Bottom Strip */}
+        <div
+          ref={magentaBottomRef}
+          className="absolute bottom-0 left-0 right-0 h-[22px] sm:h-[26px] md:h-[30px] will-change-transform"
+          style={{ transform: 'translate3d(0, 115%, 0)' }}
+        >
+          <div
+            className="w-full h-full scale-y-[-1]"
+            style={{
+              backgroundImage: "url('/assets/borders/magenta_border_h.webp')",
+              backgroundRepeat: 'repeat-x',
+              backgroundSize: 'auto 100%',
+            }}
+          />
+        </div>
+
+        {/* Left Strip */}
+        <div
+          ref={magentaLeftRef}
+          className="absolute top-0 bottom-0 left-0 w-[22px] sm:w-[26px] md:w-[30px] will-change-transform"
+          style={{ transform: 'translate3d(-115%, 0, 0)' }}
+        >
+          <div
+            className="w-full h-full"
+            style={{
+              backgroundImage: "url('/assets/borders/magenta_border_v.webp')",
+              backgroundRepeat: 'repeat-y',
+              backgroundSize: '100% auto',
+            }}
+          />
+        </div>
+
+        {/* Right Strip */}
+        <div
+          ref={magentaRightRef}
+          className="absolute top-0 bottom-0 right-0 w-[22px] sm:w-[26px] md:w-[30px] will-change-transform"
+          style={{ transform: 'translate3d(115%, 0, 0)' }}
+        >
+          <div
+            className="w-full h-full scale-x-[-1]"
+            style={{
+              backgroundImage: "url('/assets/borders/magenta_border_v.webp')",
+              backgroundRepeat: 'repeat-y',
+              backgroundSize: '100% auto',
+            }}
+          />
+        </div>
+
+        {/* 4 Corner Medallions (8-Pointed Golden Sun on Magenta) */}
+        <div
+          ref={magentaCornerTLRef}
+          className="absolute top-0 left-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-50 will-change-transform"
+          style={{ transform: 'translate3d(-135%, -135%, 0)' }}
+        >
+          <img
+            src="/assets/borders/magenta_corner.webp"
+            alt=""
+            className="w-full h-full object-contain select-none"
+          />
+        </div>
+        <div
+          ref={magentaCornerTRRef}
+          className="absolute top-0 right-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-50 will-change-transform"
+          style={{ transform: 'translate3d(135%, -135%, 0)' }}
+        >
+          <img
+            src="/assets/borders/magenta_corner.webp"
+            alt=""
+            className="w-full h-full object-contain select-none scale-x-[-1]"
+          />
+        </div>
+        <div
+          ref={magentaCornerBLRef}
+          className="absolute bottom-0 left-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-50 will-change-transform"
+          style={{ transform: 'translate3d(-135%, 135%, 0)' }}
+        >
+          <img
+            src="/assets/borders/magenta_corner.webp"
+            alt=""
+            className="w-full h-full object-contain select-none scale-y-[-1]"
+          />
+        </div>
+        <div
+          ref={magentaCornerBRRef}
+          className="absolute bottom-0 right-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-50 will-change-transform"
+          style={{ transform: 'translate3d(135%, 135%, 0)' }}
+        >
+          <img
+            src="/assets/borders/magenta_corner.webp"
             alt=""
             className="w-full h-full object-contain select-none scale-x-[-1] scale-y-[-1]"
           />
