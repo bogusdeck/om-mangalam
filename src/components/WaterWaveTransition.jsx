@@ -209,9 +209,18 @@ export default function WaterWaveTransition() {
           if (self.isActive || (self.progress > 0 && self.progress < 1)) {
             currentProgress = self.progress * 0.50;
             render(currentProgress);
+            // Hide Section 5 content during Stage 1 so it is never visible while water is rising
+            if (familyEl) {
+              familyEl.style.opacity = currentProgress >= 0.48 ? '1' : '0';
+              familyEl.style.pointerEvents = currentProgress >= 0.95 ? 'auto' : 'none';
+            }
           } else if (self.progress === 0 && (!trigger2 || trigger2.progress === 0)) {
             currentProgress = 0;
             render(0);
+            if (familyEl) {
+              familyEl.style.opacity = '0';
+              familyEl.style.pointerEvents = 'none';
+            }
           }
         },
       });
@@ -229,15 +238,33 @@ export default function WaterWaveTransition() {
           if (self.isActive || (self.progress > 0 && self.progress < 1)) {
             currentProgress = 0.50 + self.progress * 0.50;
             render(currentProgress);
+            if (familyEl) {
+              familyEl.style.opacity = '1';
+              familyEl.style.pointerEvents = currentProgress >= 0.95 ? 'auto' : 'none';
+            }
           } else if (self.progress === 1) {
             currentProgress = 1.0;
             render(1.0);
+            if (familyEl) {
+              familyEl.style.opacity = '1';
+              familyEl.style.pointerEvents = 'auto';
+            }
           } else if (self.progress === 0 && trigger1 && trigger1.progress === 1) {
             currentProgress = 0.50;
             render(0.50);
+            if (familyEl) {
+              familyEl.style.opacity = '1';
+              familyEl.style.pointerEvents = 'none';
+            }
           }
         },
       });
+      // Initial check on load: if user is above Section 5, hide Section 5 so it never shows early
+      const familyRect = familyEl.getBoundingClientRect();
+      if (familyRect.top > window.innerHeight * 0.5) {
+        familyEl.style.opacity = '0';
+        familyEl.style.pointerEvents = 'none';
+      }
     };
 
     const timer = setTimeout(initScrollTrigger, 200);
@@ -249,6 +276,11 @@ export default function WaterWaveTransition() {
       window.removeEventListener('resize', resizeCanvas);
       if (trigger1) trigger1.kill();
       if (trigger2) trigger2.kill();
+      const familyEl = document.getElementById('family');
+      if (familyEl) {
+        familyEl.style.opacity = '1';
+        familyEl.style.pointerEvents = 'auto';
+      }
     };
   }, []);
 
