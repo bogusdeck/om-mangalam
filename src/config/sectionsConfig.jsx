@@ -39,6 +39,12 @@ export const sectionsConfig = [
     enabled: true,
   },
   {
+    id: 'family',
+    name: 'The Royal Families (The People Responsible For This)',
+    Component: FamilySection,
+    enabled: true,
+  },
+  {
     id: 'baraat',
     name: 'Baraat Simulator',
     Component: BaraatSimulator,
@@ -48,12 +54,6 @@ export const sectionsConfig = [
     id: 'lovestory',
     name: 'Love Story & 90s Romance',
     Component: LoveStory,
-    enabled: true,
-  },
-  {
-    id: 'family',
-    name: 'The Royal Families',
-    Component: FamilySection,
     enabled: true,
   },
   {
