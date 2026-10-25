@@ -20,7 +20,7 @@ export default function FamilySection() {
     : familyMembers.filter(m => m.side === selectedFamily);
 
   return (
-    <section id="family" className="py-20 px-4 bg-gradient-to-b from-red-950 via-red-900 to-red-950 text-center relative overflow-hidden">
+    <section id="family" className="relative z-10 py-20 px-4 text-center overflow-hidden">
       
       <div className="max-w-6xl mx-auto">
         

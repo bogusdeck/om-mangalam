@@ -70,24 +70,6 @@ export default function WaterWaveTransition() {
         container.style.pointerEvents = 'none';
       }
 
-      // Backdrop ocean blue gradient to guarantee zero gaps
-      // Fades in during 0.10 -> 0.45, stays full to 0.55, fades out 0.55 -> 0.95
-      let bgAlpha = 0;
-      if (progress < 0.5) {
-        bgAlpha = Math.min(Math.max((progress - 0.1) / 0.35, 0), 1);
-      } else {
-        bgAlpha = Math.min(Math.max((0.95 - progress) / 0.4, 0), 1);
-      }
-
-      if (bgAlpha > 0) {
-        const grad = ctx.createLinearGradient(0, height, 0, 0);
-        grad.addColorStop(0, `rgba(4, 18, 33, ${0.98 * bgAlpha})`);
-        grad.addColorStop(0.5, `rgba(7, 28, 51, ${0.94 * bgAlpha})`);
-        grad.addColorStop(1, `rgba(10, 38, 68, ${0.90 * bgAlpha})`);
-        ctx.fillStyle = grad;
-        ctx.fillRect(0, 0, width, height);
-      }
-
       const isMobile = width < 768;
       const numRows = isMobile ? 8 : 10;
       const baseDiameter = isMobile ? 180 : 260;
