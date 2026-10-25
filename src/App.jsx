@@ -4,6 +4,7 @@ import LeftAside from './components/LeftAside';
 import MarigoldRain from './components/MarigoldRain';
 import ViewportBackground from './components/ViewportBackground';
 import ArchitecturalBorderFrame from './components/ArchitecturalBorderFrame';
+import WaterWaveTransition from './components/WaterWaveTransition';
 import { sectionsConfig } from './config/sectionsConfig';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { WEDDING_CONFIG, getCoupleInitials } from './config/weddingConfig';
@@ -24,6 +25,9 @@ function AppContent() {
 
       {/* Global Pinned Architectural Viewport Border Frame */}
       <ArchitecturalBorderFrame />
+
+      {/* Global Sacred Water Wave Scroll Transition (Section 4 -> Section 5) */}
+      <WaterWaveTransition />
 
       {/* Main Interactive Sections Journey */}
       <main className="relative z-10">
