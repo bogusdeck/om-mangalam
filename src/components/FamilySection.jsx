@@ -2,65 +2,17 @@ import React, { useState } from 'react';
 import { Shield, Sparkles, Award } from 'lucide-react';
 import { shaadiAudio } from '../utils/audio';
 import { ShaadiButton, SectionHeader } from './ui';
+import { WEDDING_CONFIG } from '../config/weddingConfig';
 
 export default function FamilySection() {
+  const familyConfig = WEDDING_CONFIG.familySection || {};
   const [selectedFamily, setSelectedFamily] = useState('all');
 
-  const familyMembers = [
-    {
-      role: "BRIDE'S PAPA",
-      name: 'Ramesh Sharma',
-      title: 'Chief Financial Officer & Card Signer',
-      quote: '“Bhai, budget limits is just a state of mind.”',
-      avatar: '👨🏻‍💼',
-      stats: 'Budget Overruns: +340%',
-      side: 'bride'
-    },
-    {
-      role: "BRIDE'S MOM",
-      name: 'Sunita Sharma',
-      title: 'Head of Operations & Emotional Blackmail',
-      quote: '“Khana achha nahi hua toh log kya kahenge?!”',
-      avatar: '👩🏻‍💼',
-      stats: 'Tears per minute: 4.2',
-      side: 'bride'
-    },
-    {
-      role: "GROOM'S MOM",
-      name: 'Anita Verma',
-      title: 'Future CEO of “Beta, Bahu Ko Bolna…”',
-      quote: '“Brad couldn’t even find his socks yesterday.”',
-      avatar: '👩🏻',
-      stats: 'Jewelry Weight: 4.8 kg',
-      side: 'groom'
-    },
-    {
-      role: "GROOM'S DAD",
-      name: 'Rajesh Verma',
-      title: 'Sponsor. Investor. Occasional DJ.',
-      quote: '“Baraat noise level must cross 120 decibels.”',
-      avatar: '👨🏻',
-      stats: 'Whisky Stock: Unlimited',
-      side: 'groom'
-    },
-    {
-      role: "OVER-ENTHUSIASTIC CHACHA",
-      name: 'Mukesh Chacha',
-      title: 'Head of Baraat Dance Choreography',
-      quote: '“Naagin dance is mandatory for everyone!”',
-      avatar: '🕺🏻',
-      stats: 'Stamina: 100% (with Old Monk)',
-      side: 'groom'
-    },
-    {
-      role: "REEL-CREATOR COUSINS",
-      name: 'Sneha & Rohan',
-      title: 'Official Instagram Reel Directors',
-      quote: '“Hold the pose, the lighting is aesthetic!”',
-      avatar: '👯‍♀️',
-      stats: 'Photos Taken: 14,890',
-      side: 'bride'
-    }
+  const familyMembers = familyConfig.members || [];
+  const filters = familyConfig.filters || [
+    { id: 'all', label: '🌟 ALL MASTERMINDS', variant: 'gold' },
+    { id: 'bride', label: "👰 BRIDE'S SIDE (SHARMA SQUAD)", variant: 'pink' },
+    { id: 'groom', label: "🕺 GROOM'S SIDE (VERMA WARRIORS)", variant: 'orange' },
   ];
 
   const filteredMembers = selectedFamily === 'all' 
@@ -74,31 +26,22 @@ export default function FamilySection() {
         
         {/* Title */}
         <SectionHeader
-          badge="★ CHARACTER CARDS & BOARD OF DIRECTORS ★"
-          title="THE PEOPLE RESPONSIBLE FOR THIS"
-          subtitle="The masterminds who funded, executed, and micro-managed everything"
+          badge={familyConfig.badge || '★ CHARACTER CARDS & BOARD OF DIRECTORS ★'}
+          title={familyConfig.heading || 'THE PEOPLE RESPONSIBLE FOR THIS'}
+          subtitle={familyConfig.subheading || 'The masterminds who funded, executed, and micro-managed everything'}
         />
 
         {/* Filter Buttons */}
         <div className="flex justify-center gap-3 mb-10 flex-wrap">
-          <ShaadiButton
-            variant={selectedFamily === 'all' ? 'gold' : 'red'}
-            onClick={() => setSelectedFamily('all')}
-          >
-            🌟 ALL MASTERMINDS
-          </ShaadiButton>
-          <ShaadiButton
-            variant={selectedFamily === 'bride' ? 'pink' : 'red'}
-            onClick={() => setSelectedFamily('bride')}
-          >
-            👰 BRIDE'S SIDE (SHARMA SQUAD)
-          </ShaadiButton>
-          <ShaadiButton
-            variant={selectedFamily === 'groom' ? 'orange' : 'red'}
-            onClick={() => setSelectedFamily('groom')}
-          >
-            🕺 GROOM'S SIDE (VERMA WARRIORS)
-          </ShaadiButton>
+          {filters.map((f) => (
+            <ShaadiButton
+              key={f.id}
+              variant={selectedFamily === f.id ? f.variant : 'red'}
+              onClick={() => setSelectedFamily(f.id)}
+            >
+              {f.label}
+            </ShaadiButton>
+          ))}
         </div>
 
         {/* Character Cards Grid */}

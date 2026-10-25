@@ -66,100 +66,9 @@ export const ART = {
 };
 
 // ============================================================================
-// WEDDING EVENTS DATA (Rendered in this exact order)
+// WEDDING EVENTS DATA (Loaded from Single Source of Truth: WEDDING_CONFIG)
 // ============================================================================
-export const TIMELINE_EVENTS = [
-  {
-    id: "haldi",
-    day: 1,
-    dayLabel: "Day 1",
-    dayDate: "17th November 2026",
-    title: "Haldi Ceremony",
-    subtitle: "Yellow Paint War",
-    date: "17th November 2026",
-    time: "10:00 AM onwards",
-    venue: "Royal Poolside Lawn",
-    blurb: "Where turmeric is applied with extreme prejudice. Nobody leaves without looking like a yellow Teletubby.",
-    dress: "Strictly Yellow (Will be ruined anyway)",
-    accent: "#d49a18",
-    emoji: "🌼",
-  },
-  {
-    id: "mehendi",
-    day: 1,
-    dayLabel: "Day 1",
-    dayDate: "17th November 2026",
-    title: "Mehendi Ki Raat",
-    subtitle: "Henna & Hand Cramps",
-    date: "17th November 2026",
-    time: "4:00 PM onwards",
-    venue: "Mughal Courtyard",
-    blurb: "Sitting still for 4 straight hours while refusing to drink water so you don't have to use the restroom.",
-    dress: "Emerald Green & Festive",
-    accent: "#134e3a",
-    emoji: "🌿",
-  },
-  {
-    id: "sangeet",
-    day: 1,
-    dayLabel: "Day 1",
-    dayDate: "17th November 2026",
-    title: "Sangeet Night",
-    subtitle: "Bollywood Dance Off",
-    date: "17th November 2026",
-    time: "7:30 PM onwards",
-    venue: "Grand Kohinoor Ballroom",
-    blurb: "Where relatives who haven't danced since 2007 suddenly become Hrithik Roshan and Prabhudeva.",
-    dress: "Bling, Glitz & High Heels",
-    accent: "#6b2d7b",
-    emoji: "🪩",
-  },
-  {
-    id: "baraat",
-    day: 2,
-    dayLabel: "Day 2",
-    dayDate: "18th November 2026",
-    title: "The Royal Baraat",
-    subtitle: "Road Blockade Operation",
-    date: "18th November 2026",
-    time: "5:00 PM onwards",
-    venue: "Palace Main Gate",
-    blurb: "Noise level: Legally questionable. Groom rides a horse while relatives dance 2 inches away from moving autos.",
-    dress: "Heavy Sherwanis & Turbans",
-    accent: "#b3141c",
-    emoji: "🎺",
-  },
-  {
-    id: "vivah",
-    day: 2,
-    dayLabel: "Day 2",
-    dayDate: "18th November 2026",
-    title: "The Shubh Vivah",
-    subtitle: "Sacred Pheras & Vows",
-    date: "18th November 2026",
-    time: "8:00 PM onwards",
-    venue: "Vedic Mandap Hall",
-    blurb: "The official 7 sacred vows around the holy hawan fire where Brad & Megan sign away single status forever.",
-    dress: "Traditional Royal Indian Wear",
-    accent: "#8a1c3f",
-    emoji: "🔥",
-  },
-  {
-    id: "reception",
-    day: 3,
-    dayLabel: "Day 3",
-    dayDate: "19th November 2026",
-    title: "Grand Reception",
-    subtitle: "Stage Standing Marathon",
-    date: "19th November 2026",
-    time: "7:00 PM onwards",
-    venue: "Imperial Leela Banquet",
-    blurb: "Eat unlimited Paneer Tikka, judge the stage decor, take 500 photos with distant relatives, and exit.",
-    dress: "Black Tie, Tuxedos & Heavy Sarees",
-    accent: "#b8862b",
-    emoji: "👑",
-  },
-];
+export const TIMELINE_EVENTS = WEDDING_CONFIG.eventsSection?.events || [];
 
 // ============================================================================
 // PROCEDURAL SVG DECORATIVE ARTWORK (Placeholders when ART config is null)
@@ -1167,10 +1076,10 @@ export default function MainEvents() {
       </div>
 
       {/* ============================================================== */}
-      {/* Auspicious Footnote (Preserved)                                */}
+      {/* Auspicious Footnote (Config-Driven)                           */}
       {/* ============================================================== */}
       <footer className="relative z-20 text-[7.5px] sm:text-[9px] md:text-[10.5px] text-amber-300/90 font-pixel tracking-widest mt-16 sm:mt-24">
-        🪔 ALL EVENTS INCLUDE 100% UNLIMITED ROYAL BANQUET HOSPITALITY 🪔
+        {eventsConfig.footnote || '🪔 ALL EVENTS INCLUDE 100% UNLIMITED ROYAL BANQUET HOSPITALITY 🪔'}
       </footer>
     </section>
   );
