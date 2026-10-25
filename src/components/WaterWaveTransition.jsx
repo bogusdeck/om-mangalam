@@ -287,7 +287,7 @@ export default function WaterWaveTransition() {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 pointer-events-none z-[45] opacity-0 overflow-hidden"
+      className="fixed inset-0 pointer-events-none z-30 opacity-0 overflow-hidden"
       style={{ willChange: 'opacity' }}
       aria-hidden="true"
     >
