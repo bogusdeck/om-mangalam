@@ -26,6 +26,8 @@ export default function ViewportBackground() {
   const section3DotsRef = useRef(null);
   const section4BgRef = useRef(null);
   const section4DotsRef = useRef(null);
+  const section5BgRef = useRef(null);
+  const section5DotsRef = useRef(null);
 
   useEffect(() => {
     let ticking = false;
@@ -73,11 +75,39 @@ export default function ViewportBackground() {
       // 3. Section 3 Deep Royal Emerald & Section 4 Royal Deep Wine Crossfade
       if (section3BgRef.current && section4BgRef.current) {
         if (heroRect.bottom <= 0) {
-          // Inside Section 4 timeline: Section 4 background and dots fully active
+          // Inside Section 4 timeline or Section 5
           section3BgRef.current.style.opacity = '0';
-          section4BgRef.current.style.opacity = '1';
           if (section3DotsRef.current) section3DotsRef.current.style.opacity = '0';
-          if (section4DotsRef.current) section4DotsRef.current.style.opacity = '0.22';
+
+          const timelineEl = document.getElementById('timeline');
+          if (timelineEl && section5BgRef.current) {
+            const tRect = timelineEl.getBoundingClientRect();
+            const scrollPastTimeline = Math.max(0, -tRect.bottom);
+            const pEnterS5 = Math.min(Math.max(scrollPastTimeline / 1000, 0), 1);
+
+            if (pEnterS5 <= 0) {
+              section4BgRef.current.style.opacity = '1';
+              section5BgRef.current.style.opacity = '0';
+              if (section4DotsRef.current) section4DotsRef.current.style.opacity = '0.22';
+              if (section5DotsRef.current) section5DotsRef.current.style.opacity = '0';
+            } else if (pEnterS5 < 1) {
+              const fadeEase = 1 - Math.pow(1 - pEnterS5, 1.8);
+              section4BgRef.current.style.opacity = Math.max(0, 1 - fadeEase).toString();
+              section5BgRef.current.style.opacity = Math.min(fadeEase, 1).toString();
+              if (section4DotsRef.current) section4DotsRef.current.style.opacity = (0.22 * (1 - fadeEase)).toString();
+              if (section5DotsRef.current) section5DotsRef.current.style.opacity = (0.22 * fadeEase).toString();
+            } else {
+              section4BgRef.current.style.opacity = '0';
+              section5BgRef.current.style.opacity = '1';
+              if (section4DotsRef.current) section4DotsRef.current.style.opacity = '0';
+              if (section5DotsRef.current) section5DotsRef.current.style.opacity = '0.22';
+            }
+          } else {
+            section4BgRef.current.style.opacity = '1';
+            if (section4DotsRef.current) section4DotsRef.current.style.opacity = '0.22';
+            if (section5BgRef.current) section5BgRef.current.style.opacity = '0';
+            if (section5DotsRef.current) section5DotsRef.current.style.opacity = '0';
+          }
         } else if (pExitS3 > 0) {
           // Smooth seamless full-viewport crossfade from Emerald to Wine
           const fadeP = 1 - Math.pow(1 - pExitS3, 1.8);
@@ -213,6 +243,28 @@ export default function ViewportBackground() {
           }}
         />
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[700px] rounded-full blur-3xl bg-red-900/15" />
+      </div>
+
+      {/* ============================================================== */}
+      {/* 5. SECTION 5 ROYAL SAGE GREEN BACKGROUND (Seamless)            */}
+      {/* ============================================================== */}
+      <div
+        ref={section5BgRef}
+        className="absolute inset-0 opacity-0 will-change-[opacity]"
+        style={{
+          backgroundColor: '#16251b',
+          backgroundImage: 'radial-gradient(circle at 50% 25%, #2a3d2e 0%, #15241a 70%, #0d1811 100%)',
+        }}
+      >
+        <div
+          ref={section5DotsRef}
+          className="absolute inset-0 opacity-0 will-change-[opacity]"
+          style={{
+            backgroundImage: 'radial-gradient(#ffd700 1.2px, transparent 1.2px)',
+            backgroundSize: '24px 24px',
+          }}
+        />
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[700px] rounded-full blur-3xl bg-emerald-600/15" />
       </div>
     </div>
   );
