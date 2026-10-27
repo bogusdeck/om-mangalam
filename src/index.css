@@ -386,3 +386,43 @@ html, body, * {
   transform-origin: bottom right;
 }
 
+/* ============================================================================
+   SECTION 3: MADHUBANI FOLK-ART COUPLE SECTION ANIMATIONS
+   ============================================================================ */
+@keyframes toranSway {
+  0% {
+    transform: rotate(-2.5deg);
+  }
+  100% {
+    transform: rotate(2.5deg);
+  }
+}
+
+@keyframes medallionSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-medallion-spin {
+  animation: medallionSpin 60s linear infinite;
+  transform-origin: center center;
+}
+
+.medallion-paused {
+  animation-play-state: paused !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toran-strand {
+    animation: none !important;
+  }
+  .animate-medallion-spin {
+    animation: none !important;
+  }
+}
+
+
