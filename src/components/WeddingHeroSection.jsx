@@ -504,7 +504,7 @@ export default function WeddingHeroSection() {
         >
           {/* 1. Left Royal Elephant (Bottom-Left Anchor) */}
         <div
-          className={`hidden lg:flex flex-col items-center absolute left-[1.8%] xl:left-[2.2%] bottom-[1.5%] xl:bottom-[4%] group cursor-pointer hover:z-50 transition-transform ${
+          className={`hidden lg:flex flex-col items-center absolute left-[5.5%] xl:left-[7.5%] 2xl:left-[9.5%] bottom-[1.5%] xl:bottom-[4%] group cursor-pointer hover:z-50 transition-transform ${
             activeCharacter === 'left_elephant' ? 'z-50' : 'z-25'
           } ${
             roaringElephant === 'left' ? 'animate-elephant-roar-left' : 'hover:scale-105'
@@ -1035,7 +1035,7 @@ export default function WeddingHeroSection() {
 
         {/* 10. Right Royal Elephant (Bottom-Right Anchor) */}
         <div
-          className={`hidden lg:flex flex-col items-center absolute right-[1.8%] xl:right-[2.2%] bottom-[1.5%] xl:bottom-[4%] group cursor-pointer hover:z-50 transition-transform ${
+          className={`hidden lg:flex flex-col items-center absolute right-[5.5%] xl:right-[7.5%] 2xl:right-[9.5%] bottom-[1.5%] xl:bottom-[4%] group cursor-pointer hover:z-50 transition-transform ${
             activeCharacter === 'right_elephant' ? 'z-50' : 'z-25'
           } ${
             roaringElephant === 'right' ? 'animate-elephant-roar-right' : 'hover:scale-105'

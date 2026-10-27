@@ -4,21 +4,19 @@ import { WEDDING_CONFIG } from '../config/weddingConfig';
 
 /**
  * ============================================================================
- * SECTION 5: THE ROYAL FAMILIES (ALL CARDS SINGLE-VIEWPORT REVAMP)
+ * SECTION 5: THE ROYAL FAMILIES (ROYAL CARD FRAME REVAMP)
  * ============================================================================
  *
- * Requirements:
- * 1. Single Viewport Fit: Fits 100% within the viewport (h-screen). No scrolling required!
- * 2. Heading Formatting:
- *    - Wide Screen (Desktop/Tablet): Strictly ONE SINGLE LINE ("THE PEOPLE RESPONSIBLE FOR THIS")
- *    - Mobile: Strictly TWO LINES ("THE PEOPLE RESPONSIBLE" / "FOR THIS")
- * 3. All Cards Displayed Together:
- *    - All 6 cards shown simultaneously in a balanced royal grid (3 columns x 2 rows on desktop,
- *      2 columns x 3 rows on mobile).
- *    - No arrow buttons (< or >) or page switching.
- *    - No filter tabs (space freed up for cards).
- * 4. Cards contain full details: role badge, avatar portrait with golden ring, name,
- *    title, quote box, and fun stat badge with interactive audio hit on click.
+ * Uses the authentic traditional Indian wedding card frame asset:
+ * /assets/cards/royal_card_frame.webp
+ *
+ * Features:
+ * - All 6 cards displayed together on a single screen (no tabs, no arrow keys).
+ * - Desktop: 3 columns x 2 rows of authentic royal portrait cards.
+ * - Mobile: 2 columns x 3 rows cleanly fitted inside the architectural border.
+ * - Circular lotus medallion houses the character avatar/portrait.
+ * - Cream scalloped placard houses role badge, name, title, quote, and stats.
+ * - Plays royal sound effect on card interaction.
  */
 
 export default function FamilySection() {
@@ -28,16 +26,16 @@ export default function FamilySection() {
   return (
     <section
       id="family"
-      className="relative z-10 w-full h-screen min-h-screen max-h-screen overflow-hidden flex flex-col justify-between pt-7 sm:pt-6 md:pt-8 pb-8 sm:pb-5 md:pb-6 px-2.5 sm:px-6 md:px-10 text-center select-none"
+      className="relative z-10 w-full h-screen min-h-screen max-h-screen overflow-hidden flex flex-col justify-between pt-6 sm:pt-6 md:pt-8 pb-6 sm:pb-5 md:pb-6 px-2.5 sm:px-6 md:px-10 text-center select-none"
     >
-      <div className="w-full max-w-6xl mx-auto flex flex-col h-full justify-between">
+      <div className="w-full max-w-5xl mx-auto flex flex-col h-full justify-between">
         
         {/* ============================================================== */}
         {/* 1. TOP HEADER & TITLE                                          */}
         {/* ============================================================== */}
         <div className="text-center pt-0.5 sm:pt-1 flex-shrink-0">
           {/* Festive Top Badge */}
-          <div className="inline-block bg-amber-400 text-red-950 font-pixel text-[8px] sm:text-xs px-2 sm:px-3 py-0.5 rounded-full mb-0.5 sm:mb-1 border-2 border-red-900 font-bold shadow-md tracking-wider">
+          <div className="inline-block bg-amber-400 text-red-950 font-pixel text-[8.5px] sm:text-xs px-2.5 sm:px-3 py-0.5 rounded-full mb-0.5 sm:mb-1 border-2 border-red-900 font-bold shadow-md tracking-wider">
             {familyConfig.badge || '★ CHARACTER CARDS & BOARD OF DIRECTORS ★'}
           </div>
 
@@ -54,53 +52,63 @@ export default function FamilySection() {
           </h2>
 
           {/* Subtitle */}
-          <p className="text-amber-200/90 font-rozha italic text-[10px] sm:text-sm md:text-base mt-0.5 max-w-2xl mx-auto px-4 leading-tight">
+          <p className="text-amber-200/90 font-rozha italic text-[10.5px] sm:text-sm md:text-base mt-0.5 max-w-2xl mx-auto px-4 leading-tight">
             {familyConfig.subheading || 'The masterminds who funded, executed, and micro-managed everything'}
           </p>
         </div>
 
         {/* ============================================================== */}
-        {/* 2. ALL CARDS DISPLAYED TOGETHER (NO TABS, NO ARROWS)          */}
+        {/* 2. ALL 6 ROYAL CARDS IN AUTHENTIC FRAME (NO TABS, NO ARROWS)   */}
         {/* ============================================================== */}
         <div className="w-full flex-1 flex items-center justify-center min-h-0 my-auto py-1 sm:py-2 md:py-3">
-          <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-1 sm:gap-2.5 md:gap-4 lg:gap-5 justify-center items-stretch h-full max-h-[460px] sm:max-h-[540px] md:max-h-[580px]">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-2 sm:gap-3 md:gap-4 lg:gap-5 justify-center items-center h-full max-h-[530px] sm:max-h-[560px] md:max-h-[600px] w-full max-w-sm sm:max-w-2xl md:max-w-5xl mx-auto">
             {familyMembers.map((member) => (
               <article
                 key={member.id || member.name}
                 onClick={() => shaadiAudio.playDramaticHit()}
-                className="indian-card-frame velvet-bg rounded-lg sm:rounded-2xl p-1 sm:p-2 md:p-3 lg:p-3.5 text-center shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 cursor-pointer relative group flex flex-col justify-between border border-amber-500/40"
+                className="relative aspect-[1792/2400] h-full max-h-[240px] sm:max-h-[265px] md:max-h-[285px] mx-auto rounded-lg sm:rounded-xl shadow-xl hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 cursor-pointer group select-none"
               >
-                {/* Thin Inner Gold Border */}
-                <div className="absolute inset-[2px] sm:inset-[2.5px] rounded-[8px] sm:rounded-[14px] border border-amber-400/25 pointer-events-none" />
+                {/* Authentic Royal Frame Graphic */}
+                <img
+                  src="/assets/cards/royal_card_frame.webp"
+                  alt="Royal Wedding Card"
+                  className="absolute inset-0 w-full h-full object-fill pointer-events-none drop-shadow-md rounded-lg sm:rounded-xl"
+                  loading="eager"
+                />
 
-                {/* Top Role Badge */}
-                <div className="bg-amber-400 text-red-950 font-yatra text-[7.5px] sm:text-[10px] md:text-xs py-0.2 px-1 sm:px-2 rounded border border-red-900/40 inline-block font-bold mx-auto mb-0.5 shadow-sm truncate max-w-[95%]">
-                  {member.role}
+                {/* Circular Medallion Avatar / Portrait */}
+                <div className="absolute top-[35.5%] left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none">
+                  <span className="text-2xl sm:text-3xl md:text-4xl lg:text-[42px] filter drop-shadow group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
+                    {member.avatar}
+                  </span>
                 </div>
 
-                {/* Avatar Portrait with Golden Ring */}
-                <div className="w-7 h-7 sm:w-10 sm:h-10 md:w-13 md:h-13 lg:w-15 lg:h-15 mx-auto rounded-full border-2 sm:border-3 border-amber-400 bg-gradient-to-tr from-amber-600 to-red-800 flex items-center justify-center text-lg sm:text-2xl md:text-3xl shadow-inner mb-0.5 group-hover:rotate-6 transition-transform flex-shrink-0">
-                  {member.avatar}
-                </div>
+                {/* Scalloped Placard Content */}
+                <div className="absolute top-[58%] bottom-[5.5%] left-[8.5%] right-[8.5%] flex flex-col justify-between items-center text-center px-1 sm:px-1.5 py-0.5 sm:py-1 pointer-events-none">
+                  {/* Role Badge */}
+                  <div className="bg-red-950 text-amber-300 font-yatra text-[7px] sm:text-[9px] md:text-[10px] py-0.2 sm:py-0.5 px-1.5 sm:px-2 rounded-full border border-amber-500/50 shadow-sm font-bold tracking-wide truncate max-w-[96%]">
+                    {member.role}
+                  </div>
 
-                {/* Name & Title */}
-                <div className="mb-0.5">
-                  <h3 className="text-[11px] sm:text-sm md:text-base lg:text-lg font-yatra text-amber-300 leading-tight truncate">
-                    {member.name}
-                  </h3>
-                  <p className="text-amber-200/85 font-rozha text-[8px] sm:text-[10px] md:text-xs italic truncate">
-                    {member.title}
-                  </p>
-                </div>
+                  {/* Name & Title */}
+                  <div className="w-full">
+                    <h3 className="font-yatra text-red-950 text-[10px] sm:text-xs md:text-sm leading-tight font-bold truncate">
+                      {member.name}
+                    </h3>
+                    <p className="font-rozha text-red-900/90 text-[7px] sm:text-[8.5px] md:text-[9.5px] italic truncate">
+                      {member.title}
+                    </p>
+                  </div>
 
-                {/* Quote Box */}
-                <div className="bg-red-950/70 p-0.5 sm:p-1.5 md:p-2 rounded sm:rounded-lg border border-amber-500/20 text-amber-100 text-[8px] sm:text-[10px] md:text-xs font-poppins leading-tight mb-0.5 line-clamp-2">
-                  {member.quote}
-                </div>
+                  {/* Quote Box */}
+                  <div className="w-full bg-red-950/10 rounded border border-red-900/15 px-1 py-0.5 text-red-950 text-[6.5px] sm:text-[8px] md:text-[9px] font-poppins leading-tight line-clamp-2 italic">
+                    {member.quote}
+                  </div>
 
-                {/* Stat Badge Footer */}
-                <div className="bg-amber-400/15 text-amber-300 font-pixel text-[7px] sm:text-[9px] md:text-[10px] py-0.2 px-1 sm:px-1.5 rounded border border-amber-400/30 truncate">
-                  ⚡ {member.stats}
+                  {/* Stats Badge */}
+                  <div className="bg-amber-500/25 text-red-950 font-pixel text-[6px] sm:text-[7.5px] md:text-[8.5px] font-bold py-0.2 sm:py-0.5 px-1 sm:px-1.5 rounded border border-amber-800/40 truncate max-w-[96%]">
+                    ⚡ {member.stats}
+                  </div>
                 </div>
               </article>
             ))}
