@@ -10,16 +10,19 @@ import { WEDDING_CONFIG } from '../config/weddingConfig';
  * Uses the authentic traditional Indian wedding card frame asset:
  * /assets/cards/royal_card_frame.webp
  *
+ * Layout Structure:
+ * 1. Circular Lotus Medallion (top half): houses character portrait avatar.
+ * 2. Introductory Role Badge: positioned outside the box, right between the
+ *    circular medallion and the cream rectangle section.
+ * 3. Cream Scalloped Placard: exclusively dedicated to Name, Title, and Quote
+ *    for maximum breathing room and zero text clipping.
+ * 4. Funny Tag Pill: anchored at the bottom of the card frame.
+ *
  * Requirements Met:
- * 1. Single Viewport Fit: Fits 100% within the viewport (h-screen). No scrolling required!
- * 2. Increased Card Size: Cards expanded to prominently showcase artwork and eliminate empty space.
- * 3. All Cards Displayed Together: All 6 cards in a balanced royal grid (3x2 on desktop, 2x3 on mobile).
- * 4. Zero Text Overflow & Zero Truncation:
- *    - All placard contents (Role badge, Name, Title, Quote, Stats) fit strictly within
- *      the cream placard safe zone (64% to 91%).
- *    - Full role titles fit cleanly on royal badge with truncate safety.
- *    - Titles, quotes, and stats are completely legible and never spill onto borders.
- * 5. Plays royal sound effect on card interaction.
+ * - Fits 100% in a single viewport (h-screen) with zero vertical scroll.
+ * - All 6 cards displayed together in a balanced royal grid (3x2 on desktop, 2x3 on mobile).
+ * - Zero text overflow, zero truncation, complete legibility.
+ * - Interactive royal audio hit on click.
  */
 
 export default function FamilySection() {
@@ -61,7 +64,7 @@ export default function FamilySection() {
         </div>
 
         {/* ============================================================== */}
-        {/* 2. ALL 6 ROYAL CARDS (INCREASED SIZE & ZERO TEXT SPILL)       */}
+        {/* 2. ALL 6 ROYAL CARDS (REVAMPED HIERARCHY)                      */}
         {/* ============================================================== */}
         <div className="w-full flex-1 flex items-center justify-center min-h-0 my-auto py-1 sm:py-2">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-4 md:gap-6 lg:gap-8 justify-center items-center h-full max-h-[570px] sm:max-h-[630px] md:max-h-[710px] w-full max-w-sm sm:max-w-2xl md:max-w-5xl lg:max-w-6xl mx-auto">
@@ -86,33 +89,32 @@ export default function FamilySection() {
                   </span>
                 </div>
 
-                {/* Scalloped Placard Content: strictly within safe flat cream zone (64% to 91%) */}
-                <div className="absolute top-[64%] bottom-[9%] left-[9.5%] right-[9.5%] flex flex-col justify-between items-center text-center px-1 sm:px-2 py-0.5 sm:py-1 pointer-events-none">
-                  
-                  {/* Role Badge (Gold bordered pill inside top of cream placard) */}
-                  <div className="w-auto max-w-[94%] bg-gradient-to-r from-red-950 via-red-900 to-red-950 text-amber-300 font-yatra text-[6.5px] sm:text-[8px] md:text-[9.5px] lg:text-[10.5px] py-0.2 sm:py-0.5 px-2 rounded-full border border-amber-400/90 shadow-sm font-bold tracking-wide text-center truncate">
-                    {member.role}
-                  </div>
+                {/* 1. Introductory Role Badge: Positioned outside the box, between the circle & rectangle */}
+                <div className="absolute top-[57.5%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-auto max-w-[88%] bg-amber-400 text-red-950 font-yatra text-[6.5px] sm:text-[8px] md:text-[9.5px] lg:text-[10.5px] py-0.5 px-2 sm:px-2.5 rounded border border-red-950/60 shadow-md font-bold tracking-wider z-10 whitespace-nowrap truncate pointer-events-none">
+                  {member.role}
+                </div>
 
+                {/* 2. Scalloped Placard Content: ONLY Name, Title, and Quote */}
+                <div className="absolute top-[64%] bottom-[9.5%] left-[9.5%] right-[9.5%] flex flex-col justify-between items-center text-center px-1 sm:px-2 py-0.5 sm:py-1 pointer-events-none">
                   {/* Name & Title */}
                   <div className="w-full">
-                    <h3 className="font-yatra text-red-950 text-[10px] sm:text-[12px] md:text-[15px] lg:text-[16.5px] font-bold leading-none whitespace-nowrap truncate">
+                    <h3 className="font-yatra text-red-950 text-[10.5px] sm:text-[12px] md:text-[14px] lg:text-[16px] font-bold leading-none whitespace-nowrap">
                       {member.name}
                     </h3>
-                    <p className="font-rozha text-red-900/90 text-[7px] sm:text-[8px] md:text-[9.5px] lg:text-[10.5px] italic leading-tight mt-0.5 line-clamp-1">
+                    <p className="font-rozha text-red-900/90 text-[7.5px] sm:text-[9px] md:text-[10.5px] lg:text-xs italic leading-tight mt-0.5 line-clamp-1">
                       {member.title}
                     </p>
                   </div>
 
                   {/* Quote Box */}
-                  <div className="w-full bg-red-950/10 rounded border border-red-900/20 px-1 py-0.5 text-red-950 text-[6.5px] sm:text-[7.5px] md:text-[9px] lg:text-[10px] font-poppins leading-tight italic line-clamp-2">
+                  <div className="w-full bg-red-950/10 rounded-md border border-red-900/15 p-1 sm:p-1.5 text-red-950 text-[7px] sm:text-[8px] md:text-[9.5px] lg:text-[11px] font-poppins leading-tight italic my-auto line-clamp-2">
                     {member.quote}
                   </div>
+                </div>
 
-                  {/* Stats Badge */}
-                  <div className="w-auto max-w-[95%] bg-amber-500/25 text-red-950 font-pixel text-[6px] sm:text-[7px] md:text-[8.5px] lg:text-[9.5px] font-bold py-0.2 sm:py-0.5 px-1.5 rounded border border-amber-800/40 text-center tracking-wide truncate">
-                    ⚡ {member.stats}
-                  </div>
+                {/* 3. Funny Tag Pill: Anchored at the bottom of the card */}
+                <div className="absolute bottom-[2%] left-1/2 -translate-x-1/2 w-auto max-w-[90%] bg-amber-400 text-red-950 font-pixel text-[6px] sm:text-[7.5px] md:text-[9px] lg:text-[10px] font-bold py-0.5 px-2 rounded border border-red-950/50 shadow-sm text-center tracking-wide z-10 whitespace-nowrap pointer-events-none">
+                  ⚡ {member.stats}
                 </div>
               </article>
             ))}
