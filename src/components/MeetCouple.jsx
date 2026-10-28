@@ -44,24 +44,34 @@ if (typeof window !== 'undefined') {
 // DROP-IN ASSET CONFIG (Phase 1 placeholders -> Phase 2 assets)
 // ---------------------------------------------------------------------------
 export const ART = {
-  archFrame: null,        // e.g. "/assets/s3/arch-frame.png"
-  ribbonPlate: null,      // "/assets/s3/ribbon-plate.png"
-  centreMedallion: null,  // "/assets/s3/centre-medallion.png"
-  bgTile: null,           // "/assets/s3/bg-tile.png"
-  toranStrand: null,      // existing marigold strand image, if available
+  archFrame: '/assets/s3/arch-frame.png',
+  ribbonPlate: '/assets/s3/ribbon-plate.png',
+  centreMedallion: '/assets/s3/centre-medallion.png',
+  bgTile: null,
+  toranStrand: null,
   portraitBride: null,    // bride photo URL (null displays initials monogram)
   portraitGroom: null,    // groom photo URL (null displays initials monogram)
   petals: {
-    lotus: [],            // array of lotus petal URLs e.g. ["/assets/s3/petals/lotus-1.png"]
-    marigold: [],         // array of marigold petal URLs e.g. ["/assets/s3/petals/marigold-1.png"]
+    lotus: [
+      '/assets/s3/petals/lotus-1.png',
+      '/assets/s3/petals/lotus-2.png',
+      '/assets/s3/petals/lotus-3.png',
+      '/assets/s3/petals/lotus-4.png',
+    ],
+    marigold: [
+      '/assets/s3/petals/marigold-1.png',
+      '/assets/s3/petals/marigold-2.png',
+      '/assets/s3/petals/marigold-3.png',
+      '/assets/s3/petals/marigold-4.png',
+    ],
   },
   icons: {
-    lotus: null,          // Superpower icon URL
-    fish: null,           // Weakness icon URL
-    sun: null,            // Verdict icon URL
-    conch: null,          // Groom button icon URL
-    diya: null,           // Optional diya icon URL
-    feather: null,        // Optional peacock feather URL
+    lotus: '/assets/s3/icons/lotus.png',
+    fish: '/assets/s3/icons/fish.png',
+    sun: '/assets/s3/icons/sun.png',
+    conch: '/assets/s3/icons/conch.png',
+    diya: '/assets/s3/icons/diya.png',
+    feather: '/assets/s3/icons/feather.png',
   },
 };
 
@@ -370,7 +380,6 @@ export default function MeetCouple({
 
   const [meganLikes, setMeganLikes] = useState(bride.initialLikes ?? 999);
   const [bradLikes, setBradLikes] = useState(groom.initialLikes ?? 404);
-  const [isMedallionVisible, setIsMedallionVisible] = useState(true);
 
   // References for standalone and orchestration
   const sectionRef = useRef(null);
@@ -392,21 +401,6 @@ export default function MeetCouple({
 
   // Active Petals Counter for Spam Prevention (Cap <= 60)
   const activePetalsRef = useRef([]);
-
-  // -------------------------------------------------------------------------
-  // INTERSECTION OBSERVER FOR MEDALLION ROTATION PERFORMANCE
-  // -------------------------------------------------------------------------
-  useEffect(() => {
-    if (!medallionRef.current) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsMedallionVisible(entry.isIntersecting);
-      },
-      { threshold: 0.1 }
-    );
-    observer.observe(medallionRef.current);
-    return () => observer.disconnect();
-  }, []);
 
   // -------------------------------------------------------------------------
   // GSAP SCROLL REVEAL ORCHESTRATION (Plays once on scroll)
@@ -634,20 +628,9 @@ export default function MeetCouple({
       >
         {/* 1. THE ARCH FRAME (3:4 aspect ratio with window inside) */}
         <div className="relative w-full aspect-[3/4] select-none">
-          {/* Background Arch Frame (ART config image or placeholder) */}
-          {ART.archFrame ? (
-            <img 
-              src={ART.archFrame} 
-              alt="" 
-              className="absolute inset-0 w-full h-full object-contain pointer-events-none select-none"
-            />
-          ) : (
-            <ArchFramePlaceholder />
-          )}
-
           {/* Window Container (12% sides, 9% top, 11% bottom) */}
           <div 
-            className="absolute left-[12%] right-[12%] top-[9%] bottom-[11%] flex items-center justify-center overflow-hidden"
+            className="absolute left-[12%] right-[12%] top-[9%] bottom-[11%] flex items-center justify-center overflow-hidden z-0"
             style={{ clipPath: 'url(#madhubani-arch-clip)' }}
           >
             {photoUrl ? (
@@ -667,16 +650,31 @@ export default function MeetCouple({
               </div>
             )}
           </div>
+
+          {/* Arch Frame (Overlays on top with transparent cutout window) */}
+          {ART.archFrame ? (
+            <img 
+              src={ART.archFrame} 
+              alt="" 
+              className="absolute inset-0 w-full h-full object-contain pointer-events-none select-none z-10"
+            />
+          ) : (
+            <ArchFramePlaceholder className="z-10" />
+          )}
         </div>
 
         {/* 2. THE RIBBON PLATE (Overlaps bottom of arch by ~18-20%, live text) */}
         <div
           ref={plateRef}
-          className="relative z-20 -mt-[18%] sm:-mt-[20%] w-[92%] mx-auto will-change-transform"
+          className="relative z-20 -mt-[18%] sm:-mt-[20%] w-[94%] mx-auto will-change-transform"
         >
           {ART.ribbonPlate ? (
-            <div className="relative w-full py-3 px-4 flex flex-col items-center justify-center text-center">
-              <img src={ART.ribbonPlate} alt="" className="absolute inset-0 w-full h-full object-contain pointer-events-none" />
+            <div className="relative w-full py-2.5 sm:py-3.5 px-6 flex flex-col items-center justify-center text-center min-h-[58px] sm:min-h-[68px]">
+              <img 
+                src={ART.ribbonPlate} 
+                alt="" 
+                className="absolute inset-0 w-full h-full object-fill pointer-events-none select-none" 
+              />
               <span className="relative z-10 block font-poppins font-bold text-[9px] sm:text-[10px] tracking-widest uppercase text-[#b3141c]">
                 {roleTag}
               </span>
@@ -826,12 +824,12 @@ export default function MeetCouple({
             <div className="relative w-44 h-44 sm:w-52 sm:h-52 select-none flex items-center justify-center">
               <img 
                 src={ART.centreMedallion} 
-                alt="" 
-                className={`w-full h-full object-contain ${isMedallionVisible ? 'animate-medallion-spin' : 'medallion-paused'}`}
+                alt="Sacred Wedding Sun Medallion" 
+                className="w-full h-full object-contain"
               />
             </div>
           ) : (
-            <CentreMedallionPlaceholder rotating={isMedallionVisible} />
+            <CentreMedallionPlaceholder rotating={false} />
           )}
         </div>
 

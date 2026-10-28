@@ -101,13 +101,13 @@ export default function FamilySection() {
                     <h3 className="font-yatra text-red-950 text-[10.5px] sm:text-[12px] md:text-[14px] lg:text-[16px] font-bold leading-none whitespace-nowrap">
                       {member.name}
                     </h3>
-                    <p className="font-rozha text-red-900/90 text-[7.5px] sm:text-[9px] md:text-[10.5px] lg:text-xs italic leading-tight mt-0.5 line-clamp-1">
+                    <p className="font-rozha text-red-900/90 text-[7px] sm:text-[8px] md:text-[9.5px] lg:text-[10.5px] italic leading-tight mt-0.5 px-0.5">
                       {member.title}
                     </p>
                   </div>
 
                   {/* Quote Box */}
-                  <div className="w-full bg-red-950/10 rounded-md border border-red-900/15 p-1 sm:p-1.5 text-red-950 text-[7px] sm:text-[8px] md:text-[9.5px] lg:text-[11px] font-poppins leading-tight italic my-auto line-clamp-2">
+                  <div className="w-full bg-red-950/10 rounded border border-red-900/15 py-0.5 px-1 text-red-950 text-[6.5px] sm:text-[7.5px] md:text-[8.5px] lg:text-[9.5px] font-poppins leading-tight italic my-auto line-clamp-2">
                     {member.quote}
                   </div>
                 </div>
