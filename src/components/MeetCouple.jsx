@@ -44,9 +44,9 @@ if (typeof window !== 'undefined') {
 // DROP-IN ASSET CONFIG (Phase 1 placeholders -> Phase 2 assets)
 // ---------------------------------------------------------------------------
 export const ART = {
-  archFrame: '/assets/s3/arch-frame.png',
-  ribbonPlate: '/assets/s3/ribbon-plate.png',
-  centreMedallion: '/assets/s3/centre-medallion.png',
+  archFrame: '/assets/s3/arch-frame.webp',
+  ribbonPlate: '/assets/s3/ribbon-plate.webp',
+  centreMedallion: '/assets/s3/centre-medallion.webp',
   bgTile: null,
   toranStrand: null,
   portraitBride: null,    // bride photo URL (null displays initials monogram)
@@ -622,7 +622,7 @@ export default function MeetCouple({
     return (
       <div
         ref={cardRef}
-        className={`w-full max-w-[340px] sm:max-w-[370px] lg:max-w-[390px] flex flex-col items-center will-change-transform ${
+        className={`relative z-20 w-full max-w-[240px] sm:max-w-[270px] md:max-w-[290px] lg:max-w-[310px] flex flex-col items-center will-change-transform ${
           isBride ? 'hover:-translate-y-1.5 hover:-rotate-2' : 'hover:-translate-y-1.5 hover:rotate-2'
         } transition-transform duration-300 ease-out`}
       >
@@ -642,8 +642,8 @@ export default function MeetCouple({
             ) : (
               /* Flat Monogram Initials in Cream/Gold Circle */
               <div className="w-full h-full bg-[#f7e8c4] flex flex-col items-center justify-center">
-                <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-[#fff8e7] border-[3px] border-[#1b1210] flex items-center justify-center">
-                  <span className={`font-shrikhand text-3xl sm:text-4xl ${isBride ? 'text-[#b3141c]' : 'text-[#b8862b]'}`}>
+                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-[#fff8e7] border-[3px] border-[#1b1210] flex items-center justify-center">
+                  <span className={`font-shrikhand text-2xl sm:text-3xl ${isBride ? 'text-[#b3141c]' : 'text-[#b8862b]'}`}>
                     {initialText}
                   </span>
                 </div>
@@ -669,27 +669,27 @@ export default function MeetCouple({
           className="relative z-20 -mt-[18%] sm:-mt-[20%] w-[94%] mx-auto will-change-transform"
         >
           {ART.ribbonPlate ? (
-            <div className="relative w-full py-2.5 sm:py-3.5 px-6 flex flex-col items-center justify-center text-center min-h-[58px] sm:min-h-[68px]">
+            <div className="relative w-full py-1.5 sm:py-2 px-4 flex flex-col items-center justify-center text-center min-h-[46px] sm:min-h-[52px]">
               <img 
                 src={ART.ribbonPlate} 
                 alt="" 
                 className="absolute inset-0 w-full h-full object-fill pointer-events-none select-none" 
               />
-              <span className="relative z-10 block font-poppins font-bold text-[9px] sm:text-[10px] tracking-widest uppercase text-[#b3141c]">
+              <span className="relative z-10 block font-poppins font-bold text-[8.5px] sm:text-[9.5px] tracking-widest uppercase text-[#b3141c]">
                 {roleTag}
               </span>
-              <h3 className="relative z-10 font-shrikhand text-lg sm:text-xl md:text-2xl text-[#2b1418] leading-tight mt-0.5">
+              <h3 className="relative z-10 font-shrikhand text-base sm:text-lg md:text-xl text-[#2b1418] leading-tight mt-0.5">
                 {fullName}
               </h3>
             </div>
           ) : (
-            <div className="relative bg-[#f7e8c4] border-[3px] border-[#1b1210] py-2 px-3 sm:px-4 text-center">
+            <div className="relative bg-[#f7e8c4] border-[2.5px] border-[#1b1210] py-1.5 px-3 text-center">
               {/* Gold Inner Accent Line */}
-              <div className="absolute inset-[2.5px] border border-[#b8862b] pointer-events-none" />
-              <span className="block font-poppins font-bold text-[9px] sm:text-[10px] tracking-widest uppercase text-[#b3141c]">
+              <div className="absolute inset-[2px] border border-[#b8862b] pointer-events-none" />
+              <span className="block font-poppins font-bold text-[8.5px] sm:text-[9.5px] tracking-widest uppercase text-[#b3141c]">
                 {roleTag}
               </span>
-              <h3 className="font-shrikhand text-lg sm:text-xl md:text-2xl text-[#2b1418] leading-tight mt-0.5">
+              <h3 className="font-shrikhand text-base sm:text-lg md:text-xl text-[#2b1418] leading-tight mt-0.5">
                 {fullName}
               </h3>
             </div>
@@ -697,20 +697,20 @@ export default function MeetCouple({
         </div>
 
         {/* 3. THE QUOTE (Italic, display/voice font, flat gold line beneath) */}
-        <div className="w-full text-center mt-2.5 px-3">
-          <p className="font-shrikhand italic text-xs sm:text-sm text-[#fff8e7] leading-snug">
+        <div className="w-full text-center mt-1 px-2">
+          <p className="font-shrikhand italic text-[11px] sm:text-xs text-[#fff8e7] leading-tight">
             {quote}
           </p>
-          <div className="w-16 h-[2px] bg-[#b8862b] mx-auto mt-1.5" />
+          <div className="w-12 h-[1.5px] bg-[#b8862b] mx-auto mt-1" />
         </div>
 
-        {/* 4. THE STAT LIST (Cream scroll panel, 3px ink border, thin gold line inside) */}
-        <div className="relative w-full bg-[#fff8e7] border-[3px] border-[#1b1210] p-3 sm:p-4 mt-2.5 text-left">
+        {/* 4. THE STAT LIST (Cream scroll panel, 2.5px ink border, thin gold line inside) */}
+        <div className="relative w-full bg-[#fff8e7] border-2 sm:border-[2.5px] border-[#1b1210] p-2 sm:p-2.5 mt-1.5 text-left">
           {/* Inner Thin Gold Accent Border */}
-          <div className="absolute inset-[3px] border border-[#b8862b] pointer-events-none" />
+          <div className="absolute inset-[2.5px] border border-[#b8862b] pointer-events-none" />
 
           {/* Row 1: Superpower */}
-          <div className="flex items-start gap-2.5 text-xs sm:text-[13px] text-[#2b1418]">
+          <div className="flex items-start gap-2 text-[10.5px] sm:text-xs text-[#2b1418] leading-tight">
             <StatIcon type="lotus" />
             <div>
               <strong className="font-bold text-[#1b1210]">Superpower:</strong>{' '}
@@ -718,10 +718,10 @@ export default function MeetCouple({
             </div>
           </div>
 
-          <div className="h-[1px] bg-[#b8862b]/35 my-2" />
+          <div className="h-[1px] bg-[#b8862b]/35 my-1 sm:my-1.5" />
 
           {/* Row 2: Weakness */}
-          <div className="flex items-start gap-2.5 text-xs sm:text-[13px] text-[#2b1418]">
+          <div className="flex items-start gap-2 text-[10.5px] sm:text-xs text-[#2b1418] leading-tight">
             <StatIcon type="fish" />
             <div>
               <strong className="font-bold text-[#1b1210]">Weakness:</strong>{' '}
@@ -729,10 +729,10 @@ export default function MeetCouple({
             </div>
           </div>
 
-          <div className="h-[1px] bg-[#b8862b]/35 my-2" />
+          <div className="h-[1px] bg-[#b8862b]/35 my-1 sm:my-1.5" />
 
           {/* Row 3: Verdict */}
-          <div className="flex items-start gap-2.5 text-xs sm:text-[13px] text-[#2b1418]">
+          <div className="flex items-start gap-2 text-[10.5px] sm:text-xs text-[#2b1418] leading-tight">
             <StatIcon type="sun" />
             <div>
               <strong className="font-bold text-[#1b1210]">Verdict:</strong>{' '}
@@ -741,11 +741,11 @@ export default function MeetCouple({
           </div>
         </div>
 
-        {/* 5. THE BUTTON (Solid red for Bride, solid gold for Groom, 3px ink border) */}
+        {/* 5. THE BUTTON (Solid red for Bride, solid gold for Groom, 2.5px ink border) */}
         <button
           type="button"
           onClick={(e) => triggerPetalBurst(e, isBride ? 'megan' : 'brad')}
-          className={`w-full mt-3 py-2.5 px-4 flex items-center justify-center gap-2 border-[3px] border-[#1b1210] font-poppins font-bold text-xs sm:text-sm tracking-wide cursor-pointer transition-transform active:translate-y-0.5 focus-visible:outline-2 focus-visible:outline-[#b8862b] focus-visible:outline-offset-2 ${
+          className={`w-full mt-1.5 sm:mt-2 py-1.5 sm:py-2 px-3 flex items-center justify-center gap-1.5 border-2 sm:border-[2.5px] border-[#1b1210] font-poppins font-bold text-xs sm:text-[13px] tracking-wide cursor-pointer transition-transform active:translate-y-0.5 focus-visible:outline-2 focus-visible:outline-[#b8862b] focus-visible:outline-offset-2 ${
             isBride ? 'bg-[#b3141c] text-[#fff8e7]' : 'bg-[#b8862b] text-[#1b1210]'
           }`}
         >
@@ -767,13 +767,13 @@ export default function MeetCouple({
       {/* SECTION HEADING & SUBTITLE */}
       <div 
         ref={effectiveTitleRef}
-        className="text-center max-w-3xl mx-auto mb-4 sm:mb-6 md:mb-8 will-change-transform"
+        className="text-center max-w-3xl mx-auto mb-2 sm:mb-3 md:mb-4 will-change-transform"
       >
-        <h2 className="font-shrikhand text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#b8862b] tracking-wider uppercase leading-tight">
+        <h2 className="font-shrikhand text-xl sm:text-2xl md:text-3xl lg:text-4xl text-[#b8862b] tracking-wider uppercase leading-tight">
           {meetCouple.heading || 'MEET THE TWO PEOPLE WHO SAID YES'}
         </h2>
         {meetCouple.subheading && (
-          <p className="font-shrikhand italic text-xs sm:text-sm md:text-base text-[#f7e8c4] mt-1 tracking-wide">
+          <p className="font-shrikhand italic text-[11px] sm:text-xs md:text-sm text-[#f7e8c4] mt-0.5 tracking-wide">
             {meetCouple.subheading}
           </p>
         )}
@@ -782,9 +782,9 @@ export default function MeetCouple({
       {/* 3-COLUMN DESKTOP / 1-COLUMN MOBILE LAYOUT WITH GATHBANDHAN CORD */}
       <div className="relative w-full flex flex-col min-[900px]:flex-row items-center justify-center gap-6 sm:gap-8 min-[900px]:gap-4 lg:gap-8">
         
-        {/* DESKTOP GATHBANDHAN GOLD CORD (SVG Path across 3 columns) */}
+        {/* DESKTOP GATHBANDHAN GOLD CORD (SVG Path across 3 columns - BEHIND CARDS) */}
         <svg 
-          className="hidden min-[900px]:block absolute inset-0 w-full h-full pointer-events-none z-15 select-none"
+          className="hidden min-[900px]:block absolute inset-0 w-full h-full pointer-events-none z-0 select-none"
           viewBox="0 0 1000 500" 
           preserveAspectRatio="none"
           fill="none" 
@@ -804,7 +804,7 @@ export default function MeetCouple({
 
         {/* MOBILE TOP CORD (Between Bride and Medallion) */}
         <svg 
-          className="block min-[900px]:hidden w-8 h-10 -my-3 pointer-events-none z-15"
+          className="block min-[900px]:hidden w-8 h-10 -my-3 pointer-events-none z-0"
           viewBox="0 0 40 50" 
           fill="none" 
           xmlns="http://www.w3.org/2000/svg"
@@ -819,9 +819,9 @@ export default function MeetCouple({
         </svg>
 
         {/* CENTRE COLUMN: THE SACRED SUN MEDALLION & KNOT */}
-        <div ref={medallionRef} className="relative z-20 flex-shrink-0 my-2 min-[900px]:my-0">
+        <div ref={medallionRef} className="relative z-10 flex-shrink-0 my-2 min-[900px]:my-0">
           {ART.centreMedallion ? (
-            <div className="relative w-44 h-44 sm:w-52 sm:h-52 select-none flex items-center justify-center">
+            <div className="relative w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 select-none flex items-center justify-center">
               <img 
                 src={ART.centreMedallion} 
                 alt="Sacred Wedding Sun Medallion" 
@@ -835,7 +835,7 @@ export default function MeetCouple({
 
         {/* MOBILE BOTTOM CORD (Between Medallion and Groom) */}
         <svg 
-          className="block min-[900px]:hidden w-8 h-10 -my-3 pointer-events-none z-15"
+          className="block min-[900px]:hidden w-8 h-10 -my-3 pointer-events-none z-0"
           viewBox="0 0 40 50" 
           fill="none" 
           xmlns="http://www.w3.org/2000/svg"
@@ -868,7 +868,7 @@ export default function MeetCouple({
 
       {embedded ? (
         <div 
-          className="relative w-full h-full flex flex-col justify-center items-center py-6 sm:py-10 px-3 sm:px-6 pointer-events-auto select-auto overflow-y-auto"
+          className="relative w-full h-full flex flex-col justify-center items-center pt-4 sm:pt-6 pb-3 sm:pb-5 px-2 sm:px-4 pointer-events-auto select-auto overflow-y-auto"
           style={{
             '--red': '#b3141c',
             '--gold': '#b8862b',
