@@ -55,7 +55,6 @@ export default function FamilySection() {
   const cardsRef = useRef([]);
   const deckMatRef = useRef(null);
   const dealHintRef = useRef(null);
-  const gatherHintRef = useRef(null);
 
   useEffect(() => {
     const sectionEl = sectionRef.current;
@@ -285,15 +284,6 @@ export default function FamilySection() {
           );
         });
 
-        // 6. Gathered hint appears once all cards are together
-        if (gatherHintRef.current) {
-          masterTl.to(
-            gatherHintRef.current,
-            { opacity: 1, scale: 1, duration: 0.04, ease: 'power2.out' },
-            0.89
-          );
-        }
-
         // Buffer hold at the end so assembled deck is admired before unpinning towards Section 6
         masterTl.to({}, { duration: 0.11 }, 0.89);
       }, sectionRef);
@@ -427,18 +417,6 @@ export default function FamilySection() {
             <div className="bg-red-950/85 backdrop-blur border border-amber-400/60 text-amber-300 font-pixel text-[8px] sm:text-[9.5px] px-3 py-1 rounded-full shadow-lg flex items-center gap-1.5 animate-pulse">
               <span>🎴</span>
               <span>SCROLL DOWN TO DEAL CARDS</span>
-              <span>↓</span>
-            </div>
-          </div>
-
-          {/* Gathered On Scroll Prompt Indicator (Section 6 Transition) */}
-          <div
-            ref={gatherHintRef}
-            className="absolute bottom-1 left-1/2 -translate-x-1/2 pointer-events-none z-30 transition-all duration-300 whitespace-nowrap opacity-0"
-          >
-            <div className="bg-red-950/90 backdrop-blur border border-amber-400/60 text-amber-300 font-pixel text-[8px] sm:text-[9.5px] px-3.5 py-1 rounded-full shadow-lg flex items-center gap-1.5 animate-pulse">
-              <span>🪔</span>
-              <span>ROYAL SQUAD ASSEMBLED · TO THE BARAAT!</span>
               <span>↓</span>
             </div>
           </div>
