@@ -18,6 +18,9 @@ function AppContent() {
     }
   }, []);
 
+  const curtainsSection = sectionsConfig.find((s) => s.id === 'curtains');
+  const mainSections = sectionsConfig.filter((s) => s.enabled && s.id !== 'curtains');
+
   return (
     <div className="relative min-h-screen text-amber-100 font-poppins overflow-x-clip">
       {/* Global Viewport Pinned Background Crossfade (Zero seams, zero horizontal splits) */}
@@ -31,12 +34,13 @@ function AppContent() {
 
       {/* Main Interactive Sections Journey */}
       <main className="relative z-10">
-        {sectionsConfig
-          .filter((section) => section.enabled)
-          .map(({ id, Component }) => (
-            <Component key={id} />
-          ))}
+        {mainSections.map(({ id, Component }) => (
+          <Component key={id} />
+        ))}
       </main>
+
+      {/* Opening Curtains Overlay (Layered above Architectural Border Frame) */}
+      {curtainsSection?.enabled && <curtainsSection.Component />}
     </div>
   );
 }

@@ -72,7 +72,6 @@ export default function BaraatSimulator() {
         
         {/* Header */}
         <SectionHeader
-          badge="🚨 INTERACTIVE BARAAT SIMULATOR 🚨"
           title="THE BARAAT IS COMING!"
           subtitle="Control the noise, speed, and money throwing of Brad’s grand entry"
         />

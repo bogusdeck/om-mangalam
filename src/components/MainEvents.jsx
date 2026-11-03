@@ -786,13 +786,6 @@ export default function MainEvents() {
         ref={headerRef}
         className="max-w-4xl mx-auto flex flex-col items-center justify-center text-center z-20 mb-14 sm:mb-20 will-change-transform"
       >
-        {eventsConfig.badge && (
-          <div className="bg-[#360814]/90 text-amber-300 font-pixel text-[7px] sm:text-[9px] md:text-[10px] px-3.5 sm:px-4 py-1 rounded-full border border-amber-400/50 shadow-md mb-2 tracking-widest inline-flex items-center gap-1.5">
-            <span>✨</span>
-            <span>{eventsConfig.badge}</span>
-            <span>✨</span>
-          </div>
-        )}
         <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-yatra gold-gradient-text tracking-wide drop-shadow-md leading-tight font-bold">
           {eventsConfig.heading || 'WEDDING EVENTS & ITINERARY'}
         </h2>
@@ -992,83 +985,83 @@ export default function MainEvents() {
               key={evt.id}
               ref={(el) => (cardRefs.current[idx] = el)}
               onClick={(e) => handleEventClick(evt, e)}
-              className={`event group relative p-4 sm:p-5 md:p-6 text-left cursor-pointer transition-all duration-300 rounded-[14px] shadow-xl ${
+              className={`event group relative text-left cursor-pointer transition-all duration-300 select-none ${
                 isEven
                   ? 'md:col-start-2 md:justify-self-start'
                   : 'md:col-start-1 md:justify-self-end'
               } ${
                 vineData.isMobile
-                  ? 'ml-[64px] w-[calc(100%-74px)]'
-                  : 'w-full md:max-w-[460px]'
+                  ? 'ml-[56px] sm:ml-[64px] w-[calc(100%-66px)] sm:w-[calc(100%-74px)] max-w-[420px]'
+                  : 'w-full md:max-w-[470px]'
               }`}
               style={{
-                backgroundColor: '#fffdf5', // Clean cream fill
-                border: '3.5px solid #1b1210', // 3px+ crisp black ink outline
-                boxShadow: isSelected
-                  ? '0 0 0 3px #d49a18, 0 14px 32px rgba(0,0,0,0.75)'
-                  : '0 8px 24px rgba(0,0,0,0.5)',
+                filter: isSelected
+                  ? 'drop-shadow(0 0 16px rgba(212, 154, 24, 0.9)) drop-shadow(0 14px 28px rgba(0,0,0,0.75))'
+                  : 'drop-shadow(0 10px 24px rgba(0,0,0,0.6))',
                 transform: 'none', // Default CSS visible state for accessibility & no-JS fallback
                 opacity: 1,
               }}
             >
-              {/* Thin Inner Gold Border */}
-              <div className="absolute inset-[3px] rounded-[10px] border border-[#b8862b]/60 pointer-events-none" />
-
-              {/* Top Accent Band (Color derived per event) */}
-              <div
-                className="absolute top-0 left-0 right-0 h-2 rounded-t-[10px]"
-                style={{ backgroundColor: evt.accent }}
+              {/* Authentic Traditional Madhubani Lotus Card Frame */}
+              <img
+                src="/assets/cards/event_card_frame.webp"
+                alt=""
+                className="absolute inset-0 w-full h-full object-fill pointer-events-none select-none rounded-[20px]"
+                loading="eager"
               />
 
-              {/* Small Header Particulars: Day / Date / Time / Venue Badges */}
-              <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-2.5 pt-1 text-[9px] sm:text-[10.5px] font-poppins">
-                <span
-                  className="px-2 py-0.5 rounded-full font-bold text-white text-[8px] sm:text-[9.5px]"
-                  style={{ backgroundColor: evt.accent }}
-                >
-                  {evt.dayLabel}
-                </span>
+              {/* Inner Safe Content Container strictly inside cream parchment field */}
+              <div className="relative z-10 w-full h-full flex flex-col justify-between pt-[14%] pb-[13%] px-[11.5%] sm:px-[12%] text-left">
+                {/* Small Header Particulars: Day / Date / Time / Venue Badges */}
+                <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-1.5 text-[8px] sm:text-[9.5px] md:text-[10px] font-poppins">
+                  <span
+                    className="px-2.5 py-0.5 rounded-full font-bold text-white text-[7.5px] sm:text-[8.5px] shadow-sm flex-shrink-0"
+                    style={{ backgroundColor: evt.accent }}
+                  >
+                    {evt.dayLabel}
+                  </span>
 
-                <div className="bg-[#f7e8c4]/80 text-[#1b1210] border border-[#b8862b]/40 rounded-md px-2 py-0.5 flex items-center gap-1 font-medium">
-                  <Calendar className="w-3 h-3 text-[#b3141c] flex-shrink-0" />
-                  <span>{evt.date}</span>
+                  <div className="bg-[#fff8e7]/90 text-[#1b1210] border border-[#b8862b]/35 rounded px-2 py-0.5 flex items-center gap-1 font-medium shadow-2xs">
+                    <Calendar className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#b3141c] flex-shrink-0" />
+                    <span>{evt.date}</span>
+                  </div>
+
+                  <div className="bg-[#fff8e7]/90 text-[#1b1210] border border-[#b8862b]/35 rounded px-2 py-0.5 flex items-center gap-1 font-medium shadow-2xs">
+                    <Clock className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#b8862b] flex-shrink-0" />
+                    <span>{evt.time}</span>
+                  </div>
+
+                  <div className="bg-[#fff8e7]/90 text-[#1b1210] border border-[#b8862b]/35 rounded px-2 py-0.5 flex items-center gap-1 font-medium shadow-2xs truncate max-w-[130px] sm:max-w-[170px]">
+                    <MapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#b3141c] flex-shrink-0" />
+                    <span className="truncate">{evt.venue}</span>
+                  </div>
                 </div>
 
-                <div className="bg-[#f7e8c4]/80 text-[#1b1210] border border-[#b8862b]/40 rounded-md px-2 py-0.5 flex items-center gap-1 font-medium">
-                  <Clock className="w-3 h-3 text-[#b8862b] flex-shrink-0" />
-                  <span>{evt.time}</span>
+                {/* Event Title + Subtitle */}
+                <div className="mt-2.5 sm:mt-3 mb-1 sm:mb-1.5">
+                  <div className="flex items-center justify-between gap-1.5">
+                    <h3 className="font-yatra text-lg sm:text-xl md:text-2xl font-bold text-[#1b1210] leading-tight tracking-wide">
+                      {evt.title}
+                    </h3>
+                    <span className="text-xl sm:text-2xl flex-shrink-0">{evt.emoji}</span>
+                  </div>
+                  <div className="font-pixel text-[8px] sm:text-[9px] text-[#b3141c] font-bold uppercase tracking-wider mt-1">
+                    {evt.subtitle}
+                  </div>
                 </div>
 
-                <div className="w-full bg-[#f7e8c4]/80 text-[#1b1210] border border-[#b8862b]/40 rounded-md px-2 py-0.5 flex items-center gap-1 font-medium truncate">
-                  <MapPin className="w-3 h-3 text-[#b3141c] flex-shrink-0" />
-                  <span className="truncate">{evt.venue}</span>
-                </div>
-              </div>
+                {/* Blurb Description */}
+                <p className="font-poppins text-[10.5px] sm:text-xs md:text-[12.5px] text-[#2a1e1b] leading-relaxed my-auto bg-[#fff8e7]/75 p-2 sm:p-2.5 rounded-lg border border-[#b8862b]/25 shadow-2xs">
+                  {evt.blurb}
+                </p>
 
-              {/* Event Title + Subtitle */}
-              <div className="mb-2">
-                <div className="flex items-center justify-between gap-2">
-                  <h3 className="font-yatra text-lg sm:text-xl md:text-2xl font-bold text-[#1b1210] leading-tight tracking-wide">
-                    {evt.title}
-                  </h3>
-                  <span className="text-xl sm:text-2xl flex-shrink-0">{evt.emoji}</span>
+                {/* Dress Code Pill Footer */}
+                <div className="flex items-center justify-between bg-[#1b1210] text-[#f7e8c4] rounded-full px-3 sm:px-3.5 py-1 text-[8px] sm:text-[9.5px] font-semibold border border-[#b8862b] shadow-sm mt-2 sm:mt-2.5">
+                  <span className="truncate">👗 {evt.dress}</span>
+                  <span className="text-amber-300 ml-1.5 flex-shrink-0 text-[7.5px] sm:text-[9px] group-hover:scale-105 transition-transform">
+                    ✦ Celebrate
+                  </span>
                 </div>
-                <div className="font-pixel text-[8.5px] sm:text-[10px] text-[#b3141c] font-bold uppercase tracking-wider mt-0.5">
-                  {evt.subtitle}
-                </div>
-              </div>
-
-              {/* Blurb Description */}
-              <p className="font-poppins text-xs sm:text-sm text-[#2a1e1b] leading-relaxed mb-3 bg-[#fdf6e7] p-2 sm:p-2.5 rounded-lg border border-[#e6d0a1]">
-                {evt.blurb}
-              </p>
-
-              {/* Dress Code Pill Footer */}
-              <div className="flex items-center justify-between bg-[#1b1210] text-[#f7e8c4] rounded-full px-3 py-1 text-[8.5px] sm:text-[10px] font-semibold border border-[#b8862b]">
-                <span className="truncate">👗 {evt.dress}</span>
-                <span className="text-amber-300 ml-1.5 flex-shrink-0 text-[8px] sm:text-[9.5px] group-hover:scale-105 transition-transform">
-                  ✦ Celebrate
-                </span>
               </div>
             </article>
           );

@@ -78,6 +78,17 @@ export default function ArchitecturalBorderFrame() {
   const magentaCornerBLRef = useRef(null);
   const magentaCornerBRRef = useRef(null);
 
+  // Section 6: Red & Gold Madhubani Refs (Same as Section 1)
+  const s6RedContainerRef = useRef(null);
+  const s6RedTopRef = useRef(null);
+  const s6RedBottomRef = useRef(null);
+  const s6RedLeftRef = useRef(null);
+  const s6RedRightRef = useRef(null);
+  const s6RedCornerTLRef = useRef(null);
+  const s6RedCornerTRRef = useRef(null);
+  const s6RedCornerBLRef = useRef(null);
+  const s6RedCornerBRRef = useRef(null);
+
   useEffect(() => {
     let ticking = false;
 
@@ -128,6 +139,9 @@ export default function ArchitecturalBorderFrame() {
       let magentaOffset = 115;
       let magentaCornerOffset = 135;
 
+      let s6RedOffset = 115;
+      let s6RedCornerOffset = 135;
+
       const timelineEl = document.getElementById('timeline');
 
       if (heroRect.bottom <= 0) {
@@ -159,11 +173,44 @@ export default function ArchitecturalBorderFrame() {
             magentaOffset = (1 - enterEase) * 115;
             magentaCornerOffset = (1 - enterEase) * 135;
           } else {
-            // Fully in Section 5
+            // Fully in timeline/subsequent sections OR transitioning to Section 6 at bottom
             goldOffset = 115;
             goldCornerOffset = 135;
-            magentaOffset = 0;
-            magentaCornerOffset = 0;
+
+            const s6El = document.getElementById('baraat') || document.getElementById('section6');
+            if (s6El) {
+              const s6Rect = s6El.getBoundingClientRect();
+              const pEnterS6 = Math.min(Math.max((window.innerHeight - s6Rect.top) / window.innerHeight, 0), 1);
+
+              if (pEnterS6 <= 0) {
+                // Above Section 6: Magenta borders active
+                magentaOffset = 0;
+                magentaCornerOffset = 0;
+                s6RedOffset = 115;
+                s6RedCornerOffset = 135;
+              } else if (pEnterS6 <= 0.48) {
+                // Phase 1 (0.00 -> 0.48): Previous borders slide OUT beyond screen edges
+                const pExitMag = pEnterS6 / 0.48;
+                const exitEase = Math.pow(pExitMag, 1.8);
+                magentaOffset = exitEase * 115;
+                magentaCornerOffset = exitEase * 135;
+                s6RedOffset = 115;
+                s6RedCornerOffset = 135;
+              } else {
+                // Phase 2 (0.48 -> 1.00): Previous borders are fully off-screen
+                magentaOffset = 115;
+                magentaCornerOffset = 135;
+
+                // Section 6 Red Madhubani borders slide IN from beyond screen edges into place
+                const pInS6 = Math.min((pEnterS6 - 0.48) / 0.52, 1);
+                const enterEase = 1 - Math.pow(1 - pInS6, 2.2);
+                s6RedOffset = (1 - enterEase) * 115;
+                s6RedCornerOffset = (1 - enterEase) * 135;
+              }
+            } else {
+              magentaOffset = 0;
+              magentaCornerOffset = 0;
+            }
           }
         } else {
           goldOffset = 0;
@@ -243,6 +290,7 @@ export default function ArchitecturalBorderFrame() {
       applyTransforms(emContainerRef, emTopRef, emBottomRef, emLeftRef, emRightRef, emCornerTLRef, emCornerTRRef, emCornerBLRef, emCornerBRRef, emOffset, emCornerOffset);
       applyTransforms(goldContainerRef, goldTopRef, goldBottomRef, goldLeftRef, goldRightRef, goldCornerTLRef, goldCornerTRRef, goldCornerBLRef, goldCornerBRRef, goldOffset, goldCornerOffset);
       applyTransforms(magentaContainerRef, magentaTopRef, magentaBottomRef, magentaLeftRef, magentaRightRef, magentaCornerTLRef, magentaCornerTRRef, magentaCornerBLRef, magentaCornerBRRef, magentaOffset, magentaCornerOffset);
+      applyTransforms(s6RedContainerRef, s6RedTopRef, s6RedBottomRef, s6RedLeftRef, s6RedRightRef, s6RedCornerTLRef, s6RedCornerTRRef, s6RedCornerBLRef, s6RedCornerBRRef, s6RedOffset, s6RedCornerOffset);
     };
 
     const onScroll = () => {
@@ -828,6 +876,121 @@ export default function ArchitecturalBorderFrame() {
         >
           <img
             src="/assets/borders/magenta_corner.webp"
+            alt=""
+            className="w-full h-full object-contain select-none scale-x-[-1] scale-y-[-1]"
+          />
+        </div>
+      </div>
+
+      {/* ============================================================== */}
+      {/* 6. SECTION 6 BORDER FRAME: ROYAL PEACOCK & SUN (BARAAT)        */}
+      {/* ============================================================== */}
+      <div ref={s6RedContainerRef} className="absolute inset-0 pointer-events-none" style={{ display: 'none' }}>
+        {/* Top Strip */}
+        <div
+          ref={s6RedTopRef}
+          className="absolute top-0 left-0 right-0 h-[22px] sm:h-[26px] md:h-[30px] will-change-transform"
+          style={{ transform: 'translate3d(0, -115%, 0)' }}
+        >
+          <div
+            className="w-full h-full"
+            style={{
+              backgroundImage: "url('/assets/borders/s6_peacock_border_h.webp')",
+              backgroundRepeat: 'repeat-x',
+              backgroundSize: 'auto 100%',
+            }}
+          />
+        </div>
+
+        {/* Bottom Strip */}
+        <div
+          ref={s6RedBottomRef}
+          className="absolute bottom-0 left-0 right-0 h-[22px] sm:h-[26px] md:h-[30px] will-change-transform"
+          style={{ transform: 'translate3d(0, 115%, 0)' }}
+        >
+          <div
+            className="w-full h-full scale-y-[-1]"
+            style={{
+              backgroundImage: "url('/assets/borders/s6_peacock_border_h.webp')",
+              backgroundRepeat: 'repeat-x',
+              backgroundSize: 'auto 100%',
+            }}
+          />
+        </div>
+
+        {/* Left Strip */}
+        <div
+          ref={s6RedLeftRef}
+          className="absolute top-0 bottom-0 left-0 w-[22px] sm:w-[26px] md:w-[30px] will-change-transform"
+          style={{ transform: 'translate3d(-115%, 0, 0)' }}
+        >
+          <div
+            className="w-full h-full"
+            style={{
+              backgroundImage: "url('/assets/borders/s6_peacock_border_v.webp')",
+              backgroundRepeat: 'repeat-y',
+              backgroundSize: '100% auto',
+            }}
+          />
+        </div>
+
+        {/* Right Strip */}
+        <div
+          ref={s6RedRightRef}
+          className="absolute top-0 bottom-0 right-0 w-[22px] sm:w-[26px] md:w-[30px] will-change-transform"
+          style={{ transform: 'translate3d(115%, 0, 0)' }}
+        >
+          <div
+            className="w-full h-full scale-x-[-1]"
+            style={{
+              backgroundImage: "url('/assets/borders/s6_peacock_border_v.webp')",
+              backgroundRepeat: 'repeat-y',
+              backgroundSize: '100% auto',
+            }}
+          />
+        </div>
+
+        {/* 4 Corner 8-Pointed Sun Medallions */}
+        <div
+          ref={s6RedCornerTLRef}
+          className="absolute top-0 left-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-50 will-change-transform"
+          style={{ transform: 'translate3d(-135%, -135%, 0)' }}
+        >
+          <img
+            src="/assets/borders/s6_peacock_corner.webp"
+            alt=""
+            className="w-full h-full object-contain select-none"
+          />
+        </div>
+        <div
+          ref={s6RedCornerTRRef}
+          className="absolute top-0 right-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-50 will-change-transform"
+          style={{ transform: 'translate3d(135%, -135%, 0)' }}
+        >
+          <img
+            src="/assets/borders/s6_peacock_corner.webp"
+            alt=""
+            className="w-full h-full object-contain select-none scale-x-[-1]"
+          />
+        </div>
+        <div
+          ref={s6RedCornerBLRef}
+          className="absolute bottom-0 left-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-50 will-change-transform"
+          style={{ transform: 'translate3d(-135%, 135%, 0)' }}
+        >
+          <img
+            src="/assets/borders/s6_peacock_corner.webp"
+            alt=""
+            className="w-full h-full object-contain select-none scale-y-[-1]"
+          />
+        </div>
+        <div
+          ref={s6RedCornerBRRef}
+          className="absolute bottom-0 right-0 w-[24px] sm:w-[28px] md:w-[34px] h-[24px] sm:h-[28px] md:h-[34px] z-50 will-change-transform"
+          style={{ transform: 'translate3d(135%, 135%, 0)' }}
+        >
+          <img
+            src="/assets/borders/s6_peacock_corner.webp"
             alt=""
             className="w-full h-full object-contain select-none scale-x-[-1] scale-y-[-1]"
           />

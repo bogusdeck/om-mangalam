@@ -185,8 +185,8 @@ export default function OpeningCurtain({
     <>
       {/* Fullscreen Curtain Overlay */}
       <div
-        className={`fixed inset-0 z-50 overflow-hidden transition-opacity duration-1000 ${
-          isFullyDismissed ? 'pointer-events-none' : 'pointer-events-auto'
+        className={`fixed inset-0 z-[60] overflow-hidden transition-opacity duration-1000 ${
+          isFullyDismissed ? 'opacity-0 pointer-events-none' : 'opacity-100 pointer-events-auto'
         }`}
       >
         {/* TOP ORNATE MADHUBANI BANNER (Pelmet / Toran) */}

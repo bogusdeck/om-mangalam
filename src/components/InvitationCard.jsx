@@ -53,16 +53,6 @@ export default function InvitationCard({ embedded = false, coverRef = null, onCa
           >
             {/* Top Invocation Header */}
             <div className="flex flex-col items-center justify-center leading-tight">
-              <div className="flex items-center justify-center gap-1 sm:gap-2">
-                <span className="text-[#854d0e] font-pixel text-[5.5px] sm:text-[7.5px] md:text-[9.5px] tracking-wider uppercase">
-                  ★ {WEDDING_CONFIG.weddingYear} {openedFarman.headerTagLeft || 'OFFICIAL FARMAN'} ★
-                </span>
-                <span className="text-[9px] sm:text-xs">🪔</span>
-                <span className="text-[#854d0e] font-pixel text-[5.5px] sm:text-[7.5px] md:text-[9.5px] tracking-wider uppercase">
-                  ★ {openedFarman.headerTagRight || 'SHUBH VIVAH'} ★
-                </span>
-              </div>
-
               <h2 className="text-sm sm:text-xl md:text-2xl lg:text-3xl font-yatra text-[#780016] tracking-wider drop-shadow-[0_1px_1px_rgba(255,255,255,0.9)] font-bold my-0.5">
                 {openedFarman.shubhVivahHeading || '|| शुभ विवाह ||'}
               </h2>

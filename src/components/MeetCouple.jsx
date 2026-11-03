@@ -305,21 +305,23 @@ function StatIcon({ type = 'lotus' }) {
 }
 
 /** Top Marigold Toran Garland with Staggered Sway Animations */
-function MarigoldToran({ strandCount = 9 }) {
-  const delays = ['0s', '0.4s', '0.8s', '0.2s', '0.6s', '1.0s', '0.3s', '0.7s', '0.5s'];
-  const durations = ['3.2s', '3.8s', '4.1s', '2.9s', '3.5s', '4.0s', '3.3s', '3.7s', '3.1s'];
+function MarigoldToran({ strandCount = 11 }) {
+  const delays = ['0s', '0.4s', '0.8s', '0.2s', '0.6s', '1.0s', '0.3s', '0.7s', '0.5s', '0.9s', '0.1s'];
+  const durations = ['3.2s', '3.8s', '4.1s', '2.9s', '3.5s', '4.0s', '3.3s', '3.7s', '3.1s', '3.6s', '3.9s'];
 
   return (
-    <div className="absolute top-0 left-0 right-0 z-30 pointer-events-none flex flex-col items-center">
-      {/* Top Auspicious Gold Cord */}
-      <div className="w-full h-2 bg-[#b8862b] border-y border-[#1b1210]" />
+    <div className="absolute top-[22px] sm:top-[26px] md:top-[30px] left-0 right-0 z-30 pointer-events-none flex flex-col items-center">
+      {/* Delicate Auspicious Gold Cord anchored directly beneath architectural border */}
+      <div className="w-full h-[2px] bg-gradient-to-r from-transparent via-[#b8862b] to-transparent opacity-90" />
 
       {/* Hanging Garland Strands */}
-      <div className="w-full max-w-5xl px-4 flex justify-between">
+      <div className="w-full max-w-5xl px-6 sm:px-12 flex justify-between">
         {[...Array(strandCount)].map((_, i) => {
           const delay = delays[i % delays.length];
           const duration = durations[i % durations.length];
-          const isLong = i % 2 === 0;
+          // Keep center strands shorter to frame the heading cleanly
+          const isCenter = i >= 3 && i <= 7;
+          const isLong = !isCenter && i % 2 === 0;
 
           return (
             <div
@@ -331,32 +333,36 @@ function MarigoldToran({ strandCount = 9 }) {
               }}
             >
               {/* String */}
-              <div className="w-[1.5px] h-3 bg-[#b8862b]" />
+              <div className={`w-[1.5px] ${isCenter ? 'h-1 sm:h-1.5' : 'h-2 sm:h-2.5'} bg-[#b8862b]`} />
 
               {/* Marigold Blossom 1 (Gold) */}
-              <div className="w-4 h-4 rounded-full bg-[#b8862b] border-[1.5px] border-[#1b1210] flex items-center justify-center">
+              <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-[#b8862b] border-[1.5px] border-[#1b1210] flex items-center justify-center shadow-sm">
                 <div className="w-1.5 h-1.5 rounded-full bg-[#b3141c]" />
               </div>
 
-              {/* Mango Leaf */}
-              <div className="w-2.5 h-3 bg-[#0e3b2b] border border-[#1b1210] rotate-45 -my-0.5" />
+              {!isCenter && (
+                <>
+                  {/* Mango Leaf */}
+                  <div className="w-2 h-2.5 bg-[#0e3b2b] border border-[#1b1210] rotate-45 -my-0.5" />
 
-              {/* Marigold Blossom 2 (Red) */}
-              <div className="w-3.5 h-3.5 rounded-full bg-[#b3141c] border-[1.5px] border-[#1b1210] flex items-center justify-center">
-                <div className="w-1 h-1 rounded-full bg-[#fff8e7]" />
-              </div>
+                  {/* Marigold Blossom 2 (Red) */}
+                  <div className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full bg-[#b3141c] border-[1.5px] border-[#1b1210] flex items-center justify-center shadow-sm">
+                    <div className="w-1 h-1 rounded-full bg-[#fff8e7]" />
+                  </div>
+                </>
+              )}
 
               {isLong && (
                 <>
-                  <div className="w-2.5 h-3 bg-[#0e3b2b] border border-[#1b1210] -rotate-45 -my-0.5" />
-                  <div className="w-3.5 h-3.5 rounded-full bg-[#b8862b] border-[1.5px] border-[#1b1210] flex items-center justify-center">
+                  <div className="w-2 h-2.5 bg-[#0e3b2b] border border-[#1b1210] -rotate-45 -my-0.5" />
+                  <div className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full bg-[#b8862b] border-[1.5px] border-[#1b1210] flex items-center justify-center shadow-sm">
                     <div className="w-1 h-1 rounded-full bg-[#b3141c]" />
                   </div>
                 </>
               )}
 
               {/* Brass Bell Finial */}
-              <div className="w-2 h-2.5 bg-[#b8862b] border border-[#1b1210] rounded-b-sm mt-0.5" />
+              <div className="w-2 h-2 bg-[#b8862b] border border-[#1b1210] rounded-b-sm mt-0.5" />
             </div>
           );
         })}
@@ -626,11 +632,11 @@ export default function MeetCouple({
           isBride ? 'hover:-translate-y-1.5 hover:-rotate-2' : 'hover:-translate-y-1.5 hover:rotate-2'
         } transition-transform duration-300 ease-out`}
       >
-        {/* 1. THE ARCH FRAME (3:4 aspect ratio with window inside) */}
-        <div className="relative w-full aspect-[3/4] select-none">
-          {/* Window Container (12% sides, 9% top, 11% bottom) */}
+        {/* 1. THE ARCH FRAME (1077:1502 aspect ratio with window inside) */}
+        <div className="relative w-full aspect-[1077/1502] select-none">
+          {/* Window Container strictly inside the arch opening */}
           <div 
-            className="absolute left-[12%] right-[12%] top-[9%] bottom-[11%] flex items-center justify-center overflow-hidden z-0"
+            className="absolute left-[18%] right-[18%] top-[16%] bottom-[13%] flex items-center justify-center overflow-hidden z-0"
             style={{ clipPath: 'url(#madhubani-arch-clip)' }}
           >
             {photoUrl ? (
@@ -663,22 +669,22 @@ export default function MeetCouple({
           )}
         </div>
 
-        {/* 2. THE RIBBON PLATE (Overlaps bottom of arch by ~18-20%, live text) */}
+        {/* 2. THE RIBBON PLATE (Positioned right below arch, keeping twin fish motifs fully visible) */}
         <div
           ref={plateRef}
-          className="relative z-20 -mt-[18%] sm:-mt-[20%] w-[94%] mx-auto will-change-transform"
+          className="relative z-20 -mt-1 sm:-mt-1.5 w-[94%] mx-auto will-change-transform"
         >
           {ART.ribbonPlate ? (
-            <div className="relative w-full py-1.5 sm:py-2 px-4 flex flex-col items-center justify-center text-center min-h-[46px] sm:min-h-[52px]">
+            <div className="relative w-full aspect-[1024/205] flex flex-col items-center justify-center text-center px-6 sm:px-8 pt-1 sm:pt-1.5 pb-2 sm:pb-2.5">
               <img 
                 src={ART.ribbonPlate} 
                 alt="" 
                 className="absolute inset-0 w-full h-full object-fill pointer-events-none select-none" 
               />
-              <span className="relative z-10 block font-poppins font-bold text-[8.5px] sm:text-[9.5px] tracking-widest uppercase text-[#b3141c]">
+              <span className="relative z-10 block font-poppins font-bold text-[8px] sm:text-[8.5px] md:text-[9px] tracking-widest uppercase text-[#b3141c] leading-none">
                 {roleTag}
               </span>
-              <h3 className="relative z-10 font-shrikhand text-base sm:text-lg md:text-xl text-[#2b1418] leading-tight mt-0.5">
+              <h3 className="relative z-10 font-shrikhand text-sm sm:text-base md:text-[17px] text-[#2b1418] leading-tight mt-0.5">
                 {fullName}
               </h3>
             </div>
@@ -686,10 +692,10 @@ export default function MeetCouple({
             <div className="relative bg-[#f7e8c4] border-[2.5px] border-[#1b1210] py-1.5 px-3 text-center">
               {/* Gold Inner Accent Line */}
               <div className="absolute inset-[2px] border border-[#b8862b] pointer-events-none" />
-              <span className="block font-poppins font-bold text-[8.5px] sm:text-[9.5px] tracking-widest uppercase text-[#b3141c]">
+              <span className="block font-poppins font-bold text-[8px] sm:text-[8.5px] md:text-[9px] tracking-widest uppercase text-[#b3141c] leading-none">
                 {roleTag}
               </span>
-              <h3 className="font-shrikhand text-base sm:text-lg md:text-xl text-[#2b1418] leading-tight mt-0.5">
+              <h3 className="font-shrikhand text-sm sm:text-base md:text-[17px] text-[#2b1418] leading-tight mt-0.5">
                 {fullName}
               </h3>
             </div>
@@ -697,11 +703,11 @@ export default function MeetCouple({
         </div>
 
         {/* 3. THE QUOTE (Italic, display/voice font, flat gold line beneath) */}
-        <div className="w-full text-center mt-1 px-2">
-          <p className="font-shrikhand italic text-[11px] sm:text-xs text-[#fff8e7] leading-tight">
+        <div className="w-full text-center mt-2 sm:mt-2.5 px-2">
+          <p className="font-shrikhand italic text-[9.5px] sm:text-[10.5px] text-[#fff8e7] leading-snug tracking-wide">
             {quote}
           </p>
-          <div className="w-12 h-[1.5px] bg-[#b8862b] mx-auto mt-1" />
+          <div className="w-12 h-[1.5px] bg-[#b8862b] mx-auto mt-1.5" />
         </div>
 
         {/* 4. THE STAT LIST (Cream scroll panel, 2.5px ink border, thin gold line inside) */}
@@ -767,7 +773,7 @@ export default function MeetCouple({
       {/* SECTION HEADING & SUBTITLE */}
       <div 
         ref={effectiveTitleRef}
-        className="text-center max-w-3xl mx-auto mb-2 sm:mb-3 md:mb-4 will-change-transform"
+        className="text-center max-w-3xl mx-auto mb-2 sm:mb-3 md:mb-4 mt-8 sm:mt-10 md:mt-12 will-change-transform"
       >
         <h2 className="font-shrikhand text-xl sm:text-2xl md:text-3xl lg:text-4xl text-[#b8862b] tracking-wider uppercase leading-tight">
           {meetCouple.heading || 'MEET THE TWO PEOPLE WHO SAID YES'}
@@ -879,7 +885,7 @@ export default function MeetCouple({
           }}
         >
           {/* Hanging Marigold Toran */}
-          <div ref={toranRef} className="w-full">
+          <div ref={toranRef} className="absolute top-0 left-0 right-0 z-30 pointer-events-none">
             <MarigoldToran />
           </div>
 
@@ -912,7 +918,7 @@ export default function MeetCouple({
           }}
         >
           {/* Hanging Marigold Toran */}
-          <div ref={toranRef} className="w-full">
+          <div ref={toranRef} className="absolute top-0 left-0 right-0 z-30 pointer-events-none">
             <MarigoldToran />
           </div>
 

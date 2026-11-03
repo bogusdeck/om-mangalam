@@ -225,13 +225,11 @@ export default function WaterWaveTransition() {
         },
       });
 
-      // Stage 2: Section 5 Pinned Reveal
+      // Stage 2: Section 5 Reveal (Synchronized with Section 5 pinned card deal)
       trigger2 = ScrollTrigger.create({
         trigger: familyEl,
         start: 'top top',
-        end: '+=1400',
-        pin: familyEl,
-        pinSpacing: true,
+        end: '+=600',
         scrub: 0.4,
         onUpdate: (self) => {
           // Drive progress 0.50 -> 1.00

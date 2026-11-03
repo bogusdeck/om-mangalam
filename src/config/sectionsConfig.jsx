@@ -4,6 +4,7 @@ import InvitationCard from '../components/InvitationCard';
 import MeetCouple from '../components/MeetCouple';
 import LoveStory from '../components/LoveStory';
 import FamilySection from '../components/FamilySection';
+import Section6 from '../components/Section6';
 import MainEvents from '../components/MainEvents';
 import BaraatSimulator from '../components/BaraatSimulator';
 import PhotoAlbum from '../components/PhotoAlbum';
@@ -20,12 +21,12 @@ import FinalCelebration from '../components/FinalCelebration';
  * Toggle any section on/off with `enabled: true / false` or change the order here!
  */
 export const sectionsConfig = [
-  // {
-  //   id: 'curtains',
-  //   name: 'Opening Curtains',
-  //   Component: OpeningCurtain,
-  //   enabled: true,
-  // },
+  {
+    id: 'curtains',
+    name: 'Opening Curtains',
+    Component: OpeningCurtain,
+    enabled: true,
+  },
   {
     id: 'hero',
     name: 'Vedic Mandap Hero & Invitation Zoom Journey',
@@ -44,52 +45,58 @@ export const sectionsConfig = [
     Component: FamilySection,
     enabled: true,
   },
-  // {
-  //   id: 'baraat',
-  //   name: 'Baraat Simulator',
-  //   Component: BaraatSimulator,
-  //   enabled: false,
-  // },
-  // {
-  //   id: 'lovestory',
-  //   name: 'Love Story & 90s Romance',
-  //   Component: LoveStory,
-  //   enabled: false,
-  // },
-  // {
-  //   id: 'photos',
-  //   name: 'Photo Album',
-  //   Component: PhotoAlbum,
-  //   enabled: false,
-  // },
-  // {
-  //   id: 'venue',
-  //   name: 'Venue & Directions',
-  //   Component: VenueSection,
-  //   enabled: false,
-  // },
-  // {
-  //   id: 'food',
-  //   name: 'Food & Menu',
-  //   Component: FoodSection,
-  //   enabled: false,
-  // },
-  // {
-  //   id: 'rsvp',
-  //   name: 'RSVP Form',
-  //   Component: RsvpSection,
-  //   enabled: false,
-  // },
-  // {
-  //   id: 'guestbook',
-  //   name: 'Guestbook & Blessings',
-  //   Component: GuestbookSection,
-  //   enabled: false,
-  // },
-  // {
-  //   id: 'celebration',
-  //   name: 'Final Celebration & Fireworks',
-  //   Component: FinalCelebration,
-  //   enabled: false,
-  // },
+  {
+    id: 'baraat',
+    name: 'Baraat Simulator',
+    Component: BaraatSimulator,
+    enabled: true,
+  },
+  {
+    id: 'lovestory',
+    name: 'Love Story & 90s Romance',
+    Component: LoveStory,
+    enabled: true,
+  },
+  {
+    id: 'photos',
+    name: 'Photo Album',
+    Component: PhotoAlbum,
+    enabled: true,
+  },
+  {
+    id: 'venue',
+    name: 'Venue & Directions',
+    Component: VenueSection,
+    enabled: true,
+  },
+  {
+    id: 'food',
+    name: 'Food & Menu',
+    Component: FoodSection,
+    enabled: true,
+  },
+  {
+    id: 'rsvp',
+    name: 'RSVP Form',
+    Component: RsvpSection,
+    enabled: true,
+  },
+  {
+    id: 'guestbook',
+    name: 'Guestbook & Blessings',
+    Component: GuestbookSection,
+    enabled: true,
+  },
+  {
+    id: 'celebration',
+    name: 'Final Celebration & Fireworks',
+    Component: FinalCelebration,
+    enabled: true,
+  },
+  {
+    id: 'section6',
+    name: 'Section 6 - Celebration of Love',
+    Component: Section6,
+    enabled: true,
+  },
 ];

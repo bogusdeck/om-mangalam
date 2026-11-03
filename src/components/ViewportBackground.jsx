@@ -28,6 +28,8 @@ export default function ViewportBackground() {
   const section4DotsRef = useRef(null);
   const section5BgRef = useRef(null);
   const section5DotsRef = useRef(null);
+  const section6BgRef = useRef(null);
+  const section6DotsRef = useRef(null);
 
   useEffect(() => {
     let ticking = false;
@@ -98,15 +100,44 @@ export default function ViewportBackground() {
               if (section5DotsRef.current) section5DotsRef.current.style.opacity = (0.22 * fadeEase).toString();
             } else {
               section4BgRef.current.style.opacity = '0';
-              section5BgRef.current.style.opacity = '1';
               if (section4DotsRef.current) section4DotsRef.current.style.opacity = '0';
-              if (section5DotsRef.current) section5DotsRef.current.style.opacity = '0.22';
+
+              // Background transition into Section 6 at the bottom
+              const s6El = document.getElementById('section6');
+              if (s6El && section6BgRef.current) {
+                const s6Rect = s6El.getBoundingClientRect();
+                const pEnterS6 = Math.min(Math.max((window.innerHeight - s6Rect.top) / window.innerHeight, 0), 1);
+                if (pEnterS6 <= 0) {
+                  section5BgRef.current.style.opacity = '1';
+                  if (section5DotsRef.current) section5DotsRef.current.style.opacity = '0.22';
+                  section6BgRef.current.style.opacity = '0';
+                  if (section6DotsRef.current) section6DotsRef.current.style.opacity = '0';
+                } else if (pEnterS6 < 1) {
+                  const s6FadeEase = 1 - Math.pow(1 - pEnterS6, 1.8);
+                  section5BgRef.current.style.opacity = Math.max(0, 1 - s6FadeEase).toString();
+                  section6BgRef.current.style.opacity = Math.min(s6FadeEase, 1).toString();
+                  if (section5DotsRef.current) section5DotsRef.current.style.opacity = (0.22 * (1 - s6FadeEase)).toString();
+                  if (section6DotsRef.current) section6DotsRef.current.style.opacity = (0.22 * s6FadeEase).toString();
+                } else {
+                  section5BgRef.current.style.opacity = '0';
+                  if (section5DotsRef.current) section5DotsRef.current.style.opacity = '0';
+                  section6BgRef.current.style.opacity = '1';
+                  if (section6DotsRef.current) section6DotsRef.current.style.opacity = '0.22';
+                }
+              } else {
+                section5BgRef.current.style.opacity = '1';
+                if (section5DotsRef.current) section5DotsRef.current.style.opacity = '0.22';
+                if (section6BgRef.current) section6BgRef.current.style.opacity = '0';
+                if (section6DotsRef.current) section6DotsRef.current.style.opacity = '0';
+              }
             }
           } else {
             section4BgRef.current.style.opacity = '1';
             if (section4DotsRef.current) section4DotsRef.current.style.opacity = '0.22';
             if (section5BgRef.current) section5BgRef.current.style.opacity = '0';
             if (section5DotsRef.current) section5DotsRef.current.style.opacity = '0';
+            if (section6BgRef.current) section6BgRef.current.style.opacity = '0';
+            if (section6DotsRef.current) section6DotsRef.current.style.opacity = '0';
           }
         } else if (pExitS3 > 0) {
           // Smooth seamless full-viewport crossfade from Emerald to Wine
@@ -265,6 +296,28 @@ export default function ViewportBackground() {
           }}
         />
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[700px] rounded-full blur-3xl bg-emerald-600/15" />
+      </div>
+
+      {/* ============================================================== */}
+      {/* 6. SECTION 6 ROYAL RED & GOLD BACKGROUND (Seamless)            */}
+      {/* ============================================================== */}
+      <div
+        ref={section6BgRef}
+        className="absolute inset-0 opacity-0 will-change-[opacity]"
+        style={{
+          backgroundColor: '#2a030b',
+          backgroundImage: 'radial-gradient(circle at 50% 25%, #420612 0%, #200207 70%, #120104 100%)',
+        }}
+      >
+        <div
+          ref={section6DotsRef}
+          className="absolute inset-0 opacity-0 will-change-[opacity]"
+          style={{
+            backgroundImage: 'radial-gradient(#ffd700 1.2px, transparent 1.2px)',
+            backgroundSize: '24px 24px',
+          }}
+        />
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[700px] rounded-full blur-3xl bg-red-600/15" />
       </div>
     </div>
   );
